@@ -108,6 +108,8 @@ pre{background:#F0EDE6;border-radius:10px;padding:12px;font-size:12px;overflow-x
     <div class="tabs no-print">
       <button class="tab actif" data-tab="admin">⚙ Administration</button>
       <button class="tab" data-tab="dash">📊 Tableau de bord</button>
+      <button class="tab" data-tab="prog">📈 Progression élèves</button>
+      <button class="tab" data-tab="prog">📈 Progression</button>
       <button class="tab" data-tab="banque">📚 Banque de questions</button>
     </div>
 
@@ -125,6 +127,9 @@ pre{background:#F0EDE6;border-radius:10px;padding:12px;font-size:12px;overflow-x
       </div>
       <div id="zoneAdmin"></div>
     </div>
+
+    <!-- ONGLET PROGRESSION -->
+    <div class="tab-content" id="tab-prog"><div id="zoneProg"><div class="centre" style="padding:60px"><span class="spin"></span></div></div></div>
 
     <!-- ONGLET BANQUE -->
     <div class="tab-content" id="tab-banque">
@@ -192,6 +197,7 @@ function showMain() {
     document.getElementById('tab-'+t.dataset.tab).classList.add('actif');
     if(t.dataset.tab==='dash') loadDash();
       if(t.dataset.tab==='banque') loadBanque();
+      if(t.dataset.tab==='prog') loadProg();
   });
   renderAdmin(); loadDash();
 }
@@ -296,15 +302,24 @@ async function loadDash() {
   const eleveIds=(eleves||[]).map(e=>e.id);
   if(!eleveIds.length){z.innerHTML='<div class="carte centre"><p class="muted">Aucun élève actif. <a href="#" onclick="document.querySelector(\'[data-tab=admin]\').click()">Créez des comptes →</a></p></div>';return;}
   const [
-    {data:seances},{data:reponses},{data:srs},{data:notions},{data:chapitres_actifs}
+    {data:seances},{data:reponses},{data:srs},{data:notions},{data:chapitres_actifs},{data:progressions}
   ]=await Promise.all([
     sb.from('seances').select('*').in('eleve_id',eleveIds),
     sb.from('reponses').select('item_id,correct,response_key,eleve_id').in('eleve_id',eleveIds),
     sb.from('srs_notions').select('*').in('eleve_id',eleveIds),
     sb.from('notions').select('*').order('chapter_id'),
-    sb.from('classe_chapitres').select('*').eq('classe_id',classeId).eq('active',true)
+    sb.from('classe_chapitres').select('*').eq('classe_id',classeId).eq('active',true),
+    sb.from('progression').select('*').in('eleve_id',eleveIds)
   ]);
   const chapActifs=new Set((chapitres_actifs||[]).map(c=>c.chapter_id));
+  // Index progression par élève et chapitre
+  const progIndex={};
+  (progressions||[]).forEach(p=>{
+    if(!progIndex[p.eleve_id]) progIndex[p.eleve_id]={};
+    progIndex[p.eleve_id][p.chapter_id]=p;
+  });
+  const BADGE_LABELS={debutant:'Niv.1',confirme:'Niv.2',expert:'⭐'};
+  const BADGE_COLORS={debutant:'var(--errC)/var(--err)',confirme:'var(--warnC)/#A8761B',expert:'var(--okC)/var(--ok)'};
   const notionsMap={}; (notions||[]).forEach(n=>notionsMap[n.notion_id]=n);
   const semaine=new Date(Date.now()-7*86400000).toISOString();
   const today=new Date().toISOString().slice(0,10);
@@ -708,3 +723,99 @@ checkSession();
 </script>
 </body>
 </html>
+
+<script>
+// ── PROGRESSION ÉLÈVES ────────────────────────────────────────
+async function loadProg() {
+  const z=document.getElementById('zoneProg');
+  if(!z||!classeId){return;}
+  z.innerHTML='<div class="centre" style="padding:40px"><span class="spin"></span></div>';
+  
+  const [{data:eleves},{data:progs},{data:chapActifsData}]=await Promise.all([
+    sb.from('eleves').select('*').eq('classe_id',classeId).eq('actif',true).order('identifiant'),
+    sb.from('progression').select('*').in('eleve_id',(await sb.from('eleves').select('id').eq('classe_id',classeId)).data?.map(e=>e.id)||[]),
+    sb.from('classe_chapitres').select('chapter_id').eq('classe_id',classeId).eq('active',true)
+  ]);
+  
+  const chapIds=[...new Set((chapActifsData||[]).map(c=>c.chapter_id))].sort((a,b)=>a-b);
+  const progIdx={};
+  (progs||[]).forEach(p=>{
+    if(!progIdx[p.eleve_id])progIdx[p.eleve_id]={};
+    progIdx[p.eleve_id][p.chapter_id]=p;
+  });
+  
+  const BCOL={null:'#F0EDE6/var(--gris)',debutant:'#FAECE7/var(--coral)',confirme:'#FAEEDA/var(--amber)',expert:'#EAF3DE/var(--green)'};
+  const BLAB={null:'—',debutant:'Niv.1',confirme:'Niv.2',expert:'⭐'};
+  
+  // Stats globales
+  const totalEleves=(eleves||[]).length;
+  const chapMoyen=totalEleves>0?Math.round(chapIds.reduce((acc,ch)=>{
+    const experts=(progs||[]).filter(p=>p.chapter_id===ch&&p.badge==='expert').length;
+    return acc+experts;
+  },0)/Math.max(totalEleves,1)*100)/100:0;
+  
+  z.innerHTML=`
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+    <div class="kpi"><div class="kpi-val">${totalEleves}</div><div class="kpi-lab">Élèves</div></div>
+    <div class="kpi"><div class="kpi-val">${chapIds.length}</div><div class="kpi-lab">Chapitres ouverts</div></div>
+  </div>
+
+  <div class="carte">
+    <div class="carte-titre">Niveaux QCM par élève et chapitre</div>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <table style="min-width:${100+chapIds.length*52}px">
+        <tr>
+          <th style="min-width:100px">Élève</th>
+          ${chapIds.map(ch=>`<th style="text-align:center;width:50px;font-size:11px">Ch.${ch}</th>`).join('')}
+          <th style="text-align:center">Cartes</th>
+        </tr>
+        ${(eleves||[]).map(e=>{
+          const ep=progIdx[e.id]||{};
+          const cartesTot=chapIds.reduce((a,ch)=>a+(ep[ch]?.cartes_total??0),0);
+          const cartesMait=chapIds.reduce((a,ch)=>a+(ep[ch]?.cartes_maitrisees??0),0);
+          const pctCartes=cartesTot>0?Math.round(100*cartesMait/cartesTot):0;
+          return `<tr>
+            <td style="font-weight:500;font-size:13px;white-space:nowrap">${esc(e.identifiant)}</td>
+            ${chapIds.map(ch=>{
+              const p=ep[ch];
+              const badge=p?.badge??null;
+              const [bg,col]=(BCOL[badge]||BCOL[null]).split('/');
+              return `<td style="text-align:center;padding:4px">
+                <div style="width:38px;height:28px;border-radius:6px;background:${bg};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:${col};margin:0 auto">${BLAB[badge]}</div>
+              </td>`;
+            }).join('')}
+            <td style="text-align:center">
+              <div style="font-size:12px;font-weight:600;color:${pctCartes>=80?'var(--ok)':pctCartes>=50?'var(--warn)':'var(--err)'}">${pctCartes}%</div>
+              <div style="font-size:10px;color:var(--gris)">${cartesMait}/${cartesTot}</div>
+            </td>
+          </tr>`;
+        }).join('')}
+      </table>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:12px;border-radius:3px;background:#EAF3DE"></div><span class="petit muted">Expert ⭐</span></div>
+      <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:12px;border-radius:3px;background:#FAEEDA"></div><span class="petit muted">Niveau 2</span></div>
+      <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:12px;border-radius:3px;background:#FAECE7"></div><span class="petit muted">Niveau 1</span></div>
+      <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:12px;border-radius:3px;background:#F0EDE6"></div><span class="petit muted">Non commencé</span></div>
+    </div>
+  </div>
+
+  <div class="carte">
+    <div class="carte-titre">Chapitres les plus difficiles</div>
+    ${chapIds.map(ch=>{
+      const nbExpert=(progs||[]).filter(p=>p.chapter_id===ch&&p.badge==='expert').length;
+      const nbConfirme=(progs||[]).filter(p=>p.chapter_id===ch&&p.badge==='confirme').length;
+      const pct=totalEleves>0?Math.round(100*nbExpert/totalEleves):0;
+      return `<div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span class="petit" style="font-weight:500">Ch.${ch}</span>
+          <span class="petit muted">${nbExpert}/${totalEleves} experts · ${nbConfirme} niveau 2</span>
+        </div>
+        <div style="height:6px;border-radius:99px;background:var(--ligne);overflow:hidden">
+          <div style="width:${pct}%;height:100%;background:var(--ok);border-radius:99px"></div>
+        </div>
+      </div>`;
+    }).sort((a,b)=>a.localeCompare(b)).join('')}
+  </div>`;
+}
+</script>
