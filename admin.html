@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espace professeur — Révisions Spé PC</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="config.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Public+Sans:wght@400;500;600;700&display=swap');
+:root{--encre:#1C2433;--papier:#F5F3EE;--blanc:#fff;--ligne:#E4E0D6;
+  --accent:#1F6F8B;--accentC:#E5EFF2;--ok:#2E8B57;--okC:#E4F3EA;
+  --err:#C0392B;--errC:#FAE8E5;--warn:#E8B72E;--warnC:#FBF1DC;--gris:#8A8578}
+*{box-sizing:border-box;font-family:'Public Sans',system-ui,sans-serif;margin:0;padding:0}
+body{background:var(--papier);color:var(--encre);min-height:100vh}
+.display{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.01em}
+.app{max-width:1000px;margin:0 auto;padding:20px}
+/* Tabs */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--ligne);margin-bottom:24px}
+.tab{padding:10px 24px;font-weight:600;font-size:15px;cursor:pointer;border:none;background:none;
+  color:var(--gris);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s}
+.tab.actif{color:var(--encre);border-bottom-color:var(--encre)}
+.tab-content{display:none}.tab-content.actif{display:block}
+/* Communs */
+.carte{background:var(--blanc);border:1px solid var(--ligne);border-radius:16px;padding:20px;margin-bottom:16px}
+.carte-titre{font-size:12px;font-weight:600;color:var(--gris);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px}
+button{cursor:pointer;border:none;font-size:14px;font-family:inherit}
+.btn{min-height:42px;border-radius:999px;font-weight:600;padding:0 18px;display:inline-flex;align-items:center;gap:6px}
+.btn-encre{background:var(--encre);color:#fff}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-blanc{background:var(--blanc);border:1px solid var(--ligne);color:var(--encre)}
+.btn:disabled{opacity:.4}
+input,select{min-height:42px;border-radius:12px;border:1px solid var(--ligne);
+  background:var(--blanc);padding:0 14px;font-size:15px;outline:none;color:var(--encre);font-family:inherit}
+.label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--gris);display:block;margin-bottom:4px}
+.ligne{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;padding:8px 10px;border-bottom:2px solid var(--ligne);
+  font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--gris)}
+td{padding:9px 10px;border-bottom:1px solid var(--ligne)}
+tr:last-child td{border-bottom:none}
+/* Admin */
+.toggle{display:inline-flex;border:1px solid var(--ligne);border-radius:999px;
+  padding:7px 14px;background:var(--blanc);font-size:13px;font-weight:500;margin:3px;cursor:pointer}
+.toggle.actif{background:var(--encre);color:#fff;border-color:var(--encre)}
+pre{background:#F0EDE6;border-radius:10px;padding:12px;font-size:12px;overflow-x:auto}
+/* Dashboard */
+.grille-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.kpi{background:var(--blanc);border:1px solid var(--ligne);border-radius:14px;padding:14px}
+.kpi-val{font-size:28px;font-weight:700;letter-spacing:-.02em}
+.kpi-lab{font-size:12px;color:var(--gris);margin-top:2px}
+.grille2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:640px){.grille2{grid-template-columns:1fr}}
+.badge{display:inline-flex;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px}
+.badge-ok{background:var(--okC);color:var(--ok)}
+.badge-warn{background:var(--warnC);color:#A8761B}
+.badge-err{background:var(--errC);color:var(--err)}
+.cell{width:26px;height:26px;border-radius:5px;display:inline-flex;align-items:center;
+  justify-content:center;font-size:10px;font-weight:600}
+.heatmap{overflow-x:auto}
+.heatmap table{min-width:400px}
+.classe-sel{background:var(--blanc);border:1px solid var(--ligne);border-radius:10px;
+  padding:0 12px;min-height:38px;font-size:14px;outline:none;color:var(--encre);font-family:inherit}
+.spin{display:inline-block;width:18px;height:18px;border:2px solid var(--ligne);
+  border-top-color:var(--accent);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.err-txt{color:var(--err);font-size:13px}
+.muted{color:var(--gris)}.petit{font-size:13px}
+.centre{text-align:center}
+@media print{.no-print{display:none}.carte{border:none}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <!-- LOGIN -->
+  <div id="loginZone" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:14px">
+    <div class="display" style="font-size:26px">Espace professeur</div>
+    <p class="muted petit">Révisions Spé PC</p>
+    <input id="em" type="email" placeholder="votre@email.fr" style="width:280px">
+    <input id="pw" type="password" placeholder="Mot de passe" style="width:280px">
+    <div id="lerr" class="err-txt"></div>
+    <button class="btn btn-encre" id="loginBtn" style="width:280px;justify-content:center">Se connecter</button>
+    <button class="btn btn-blanc" id="signupBtn" style="width:280px;justify-content:center">Créer mon compte prof</button>
+  </div>
+
+  <!-- PROMOTION -->
+  <div id="promoZone" style="display:none;max-width:600px;margin:40px auto">
+    <div class="carte">
+      <h2 class="display" style="font-size:20px;margin-bottom:12px">Une dernière étape</h2>
+      <p id="promoTxt"></p>
+      <pre id="promoSql" style="margin:12px 0"></pre>
+      <p class="petit muted" style="margin-bottom:12px">« admin » pour vous — vos collègues seront ajoutés avec le rôle « prof ».</p>
+      <button class="btn btn-encre" onclick="location.reload()">C'est fait, recharger</button>
+    </div>
+  </div>
+
+  <!-- INTERFACE PRINCIPALE -->
+  <div id="mainZone" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px" class="no-print">
+      <div class="display" style="font-size:20px">Espace professeur</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <select class="classe-sel" id="selClasse"></select>
+        <button class="btn btn-blanc" id="btnDeco">Déconnexion</button>
+      </div>
+    </div>
+
+    <div class="tabs no-print">
+      <button class="tab actif" data-tab="admin">⚙ Administration</button>
+      <button class="tab" data-tab="dash">📊 Tableau de bord</button>
+      <button class="tab" data-tab="banque">📚 Banque de questions</button>
+    </div>
+
+    <!-- ONGLET ADMIN -->
+    <div class="tab-content actif" id="tab-admin">
+      <div class="carte no-print">
+        <div class="carte-titre">Créer une classe</div>
+        <div class="ligne">
+          <div><span class="label">Nom</span><input id="cNom" placeholder="TG1 Spé PC"></div>
+          <div><span class="label">Année</span><input id="cAn" value="2026-2027" style="width:110px"></div>
+          <div><span class="label">QCM/séance</span><input id="cQ" type="number" value="15" min="5" max="60" style="width:80px"></div>
+          <div><span class="label">Cartes/séance</span><input id="cC" type="number" value="10" min="5" max="60" style="width:80px"></div>
+          <button class="btn btn-accent" id="cAdd">Créer</button>
+        </div>
+      </div>
+      <div id="zoneAdmin"></div>
+    </div>
+
+    <!-- ONGLET BANQUE -->
+    <div class="tab-content" id="tab-banque">
+      <div id="zoneBanque"></div>
+    </div>
+      <div id="zoneDash"><div class="centre" style="padding:60px"><span class="spin"></span></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const sbEl = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY,
+  {auth:{persistSession:false,autoRefreshToken:false,storageKey:'sb-el-tmp'}});
+const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+let prof=null, classes=[], chapitres=[], classeId=null;
+
+// ── Auth ─────────────────────────────────────────────────────
+document.getElementById('loginBtn').onclick = () => doLogin(false);
+document.getElementById('signupBtn').onclick = () => doLogin(true);
+async function doLogin(signup) {
+  const em=document.getElementById('em').value.trim(), pw=document.getElementById('pw').value;
+  const fn = signup ? sb.auth.signUp.bind(sb.auth) : sb.auth.signInWithPassword.bind(sb.auth);
+  const {error} = await fn({email:em,password:pw});
+  if(error){document.getElementById('lerr').textContent=error.message;return;}
+  await checkSession();
+}
+async function checkSession() {
+  const {data:{session}} = await sb.auth.getSession();
+  if(!session){document.getElementById('loginZone').style.display='flex';return;}
+  const {data:p} = await sb.from('profs').select('*').eq('id',session.user.id).maybeSingle();
+  if(!p){showPromo(session.user.email);return;}
+  prof=p; await charger(); showMain();
+}
+function showPromo(email) {
+  document.getElementById('loginZone').style.display='none';
+  document.getElementById('promoZone').style.display='block';
+  document.getElementById('promoTxt').innerHTML=`Votre compte <b>${esc(email)}</b> est créé mais pas encore enregistré comme professeur. Exécutez dans Supabase SQL Editor :`;
+  document.getElementById('promoSql').textContent=`insert into profs (id, nom, role)\nselect id, 'Votre nom', 'admin' from auth.users\nwhere email = '${email}'\non conflict (id) do update set role = 'admin';`;
+}
+async function charger() {
+  const [{data:cls},{data:items}] = await Promise.all([
+    sb.from('classes').select('*').eq('prof_id',prof.id).order('nom'),
+    sb.from('items').select('chapter_id,chapter_title').limit(3000)
+  ]);
+  classes=cls||[];
+  const seen={};
+  (items||[]).forEach(r=>seen[r.chapter_id]=r.chapter_title);
+  chapitres=Object.entries(seen).map(([id,nom])=>({id:+id,nom})).sort((a,b)=>a.id-b.id);
+}
+function showMain() {
+  document.getElementById('loginZone').style.display='none';
+  document.getElementById('mainZone').style.display='block';
+  const sel=document.getElementById('selClasse');
+  sel.innerHTML=classes.map(c=>`<option value="${c.id}">${esc(c.nom)}</option>`).join('');
+  classeId=classes[0]?.id;
+  sel.onchange=e=>{classeId=e.target.value;renderAdmin();loadDash();};
+  document.getElementById('btnDeco').onclick=async()=>{await sb.auth.signOut();location.reload();};
+  document.getElementById('cAdd').onclick=creerClasse;
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('actif'));
+    document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('actif'));
+    t.classList.add('actif');
+    document.getElementById('tab-'+t.dataset.tab).classList.add('actif');
+    if(t.dataset.tab==='dash') loadDash();
+      if(t.dataset.tab==='banque') loadBanque();
+  });
+  renderAdmin(); loadDash();
+}
+async function creerClasse() {
+  const nom=document.getElementById('cNom').value.trim(); if(!nom) return;
+  await sb.from('classes').insert({prof_id:prof.id,nom,
+    annee_scolaire:document.getElementById('cAn').value.trim(),
+    session_size_qcm:+document.getElementById('cQ').value,
+    session_size_cards:+document.getElementById('cC').value});
+  await charger(); showMain();
+}
+
+// ── ADMIN ─────────────────────────────────────────────────────
+async function renderAdmin() {
+  const z=document.getElementById('zoneAdmin');
+  if(!classeId){z.innerHTML='<p class="muted petit" style="padding:20px">Créez d\'abord une classe ci-dessus.</p>';return;}
+  const cl=classes.find(c=>c.id===classeId);
+  const [{data:eleves},{data:cc}]=await Promise.all([
+    sb.from('eleves').select('*').eq('classe_id',classeId).order('identifiant'),
+    sb.from('classe_chapitres').select('*').eq('classe_id',classeId)
+  ]);
+  const actifs=new Set((cc||[]).filter(x=>x.active).map(x=>x.chapter_id));
+  z.innerHTML=`
+  <div class="carte no-print">
+    <div class="carte-titre">Réglages — ${esc(cl.nom)}</div>
+    <div class="ligne">
+      <div><span class="label">QCM/séance</span><input id="rQ" type="number" value="${cl.session_size_qcm}" min="5" max="60" style="width:80px"></div>
+      <div><span class="label">Cartes/séance</span><input id="rC" type="number" value="${cl.session_size_cards}" min="5" max="60" style="width:80px"></div>
+      <button class="btn btn-encre" id="rSave">Enregistrer</button>
+    </div>
+  </div>
+  <div class="carte no-print">
+    <div class="carte-titre">Chapitres ouverts aux élèves</div>
+    <p class="petit muted" style="margin-bottom:10px">Activez chaque chapitre quand vous le terminez en classe.</p>
+    <div>${chapitres.map(ch=>`<button class="toggle ${actifs.has(ch.id)?'actif':''}" data-ch="${ch.id}">Ch.${ch.id} — ${esc(ch.nom)}</button>`).join('')}</div>
+  </div>
+  <div class="carte">
+    <div class="carte-titre no-print">Comptes élèves (${(eleves||[]).length})</div>
+    <div class="ligne no-print" style="margin-bottom:12px">
+      <div><span class="label">Préfixe</span><input id="ePre" value="PC26-A" style="width:110px"></div>
+      <div><span class="label">Nombre</span><input id="eN" type="number" value="35" min="1" max="60" style="width:80px"></div>
+      <button class="btn btn-accent" id="eGen">Générer les comptes</button>
+      <button class="btn btn-blanc" onclick="window.print()">Imprimer</button>
+    </div>
+    <div id="eMsg" class="petit" style="margin-bottom:8px"></div>
+    <div id="eListe">${tableEleves(eleves||[])}</div>
+  </div>`;
+  document.getElementById('rSave').onclick=async()=>{
+    await sb.from('classes').update({session_size_qcm:+document.getElementById('rQ').value,
+      session_size_cards:+document.getElementById('rC').value}).eq('id',classeId);
+    await charger(); alert('Enregistré.');
+  };
+  document.querySelectorAll('[data-ch]').forEach(b=>b.onclick=async()=>{
+    const ch=+b.dataset.ch, on=!b.classList.contains('actif');
+    await sb.from('classe_chapitres').upsert({classe_id:classeId,chapter_id:ch,active:on,
+      activated_at:on?new Date().toISOString():null});
+    b.classList.toggle('actif');
+  });
+  document.getElementById('eGen').onclick=()=>genEleves();
+}
+
+function tableEleves(eleves,pins) {
+  if(!eleves.length) return '<p class="muted petit">Aucun élève — générez des comptes ci-dessus.</p>';
+  return `<table><tr><th>Identifiant</th><th>Code</th><th>Statut</th></tr>
+  ${eleves.map(e=>`<tr><td><b>${esc(e.identifiant)}</b></td>
+    <td>${pins&&pins[e.identifiant]?'<b>'+pins[e.identifiant]+'</b>':'••••••'}</td>
+    <td class="${e.user_id?'':'err-txt'}">${e.user_id?'✓ actif':'à créer'}</td></tr>`).join('')}
+  </table>${pins?'<p class="petit err-txt" style="margin-top:8px"><b>Codes visibles une seule fois — imprimez maintenant.</b></p>':''}`;
+}
+
+async function genEleves() {
+  const pre=document.getElementById('ePre').value.trim().toUpperCase();
+  const n=+document.getElementById('eN').value;
+  const msg=document.getElementById('eMsg'); if(!pre||!n) return;
+  document.getElementById('eGen').disabled=true;
+  const pins={},crees=[];
+  for(let k=1;k<=n;k++) {
+    const ident=`${pre}-${String(k).padStart(2,'0')}`;
+    const pin=String(Math.floor(100000+Math.random()*900000));
+    msg.textContent=`Création de ${ident}… (${k}/${n})`;
+    const {data:au,error:e1}=await sbEl.auth.signUp({email:ident.toLowerCase()+EMAIL_DOMAIN,password:pin});
+    if(e1){msg.innerHTML=`<span class="err-txt">Arrêt : ${esc(e1.message)}</span>`;break;}
+    const {data:el,error:e2}=await sb.from('eleves').insert({classe_id:classeId,identifiant:ident,user_id:au.user.id}).select().single();
+    if(e2){msg.innerHTML=`<span class="err-txt">${ident} : ${esc(e2.message)}</span>`;break;}
+    pins[ident]=pin; crees.push(el); await sbEl.auth.signOut();
+  }
+  document.getElementById('eGen').disabled=false;
+  if(crees.length){
+    msg.innerHTML=`<span style="color:var(--ok)">${crees.length} compte(s) créé(s).</span>`;
+    const {data:tous}=await sb.from('eleves').select('*').eq('classe_id',classeId).order('identifiant');
+    document.getElementById('eListe').innerHTML=tableEleves(tous||[],pins);
+  }
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────
+let chartInst=null;
+async function loadDash() {
+  const z=document.getElementById('zoneDash');
+  if(!classeId){z.innerHTML='<p class="muted petit centre" style="padding:40px">Sélectionnez une classe.</p>';return;}
+  z.innerHTML='<div class="centre" style="padding:60px"><span class="spin"></span><p class="muted petit" style="margin-top:10px">Chargement…</p></div>';
+  const {data:eleves}=await sb.from('eleves').select('*').eq('classe_id',classeId).eq('actif',true);
+  const eleveIds=(eleves||[]).map(e=>e.id);
+  if(!eleveIds.length){z.innerHTML='<div class="carte centre"><p class="muted">Aucun élève actif. <a href="#" onclick="document.querySelector(\'[data-tab=admin]\').click()">Créez des comptes →</a></p></div>';return;}
+  const [
+    {data:seances},{data:reponses},{data:srs},{data:notions},{data:chapitres_actifs}
+  ]=await Promise.all([
+    sb.from('seances').select('*').in('eleve_id',eleveIds),
+    sb.from('reponses').select('item_id,correct,response_key,eleve_id').in('eleve_id',eleveIds),
+    sb.from('srs_notions').select('*').in('eleve_id',eleveIds),
+    sb.from('notions').select('*').order('chapter_id'),
+    sb.from('classe_chapitres').select('*').eq('classe_id',classeId).eq('active',true)
+  ]);
+  const chapActifs=new Set((chapitres_actifs||[]).map(c=>c.chapter_id));
+  const notionsMap={}; (notions||[]).forEach(n=>notionsMap[n.notion_id]=n);
+  const semaine=new Date(Date.now()-7*86400000).toISOString();
+  const today=new Date().toISOString().slice(0,10);
+  const actifsSemaine=new Set((seances||[]).filter(s=>s.started_at>=semaine).map(s=>s.eleve_id)).size;
+  const seancesJour=(seances||[]).filter(s=>s.started_at?.slice(0,10)===today).length;
+  const totalRep=(reponses||[]).length;
+  const bonnes=(reponses||[]).filter(r=>r.correct).length;
+  const taux=totalRep?Math.round(100*bonnes/totalRep):0;
+
+  // Notions fragiles
+  const boxN={};
+  (srs||[]).forEach(r=>{
+    if(!boxN[r.notion_id]) boxN[r.notion_id]={box1:0,tot:0};
+    boxN[r.notion_id].tot++;
+    if(r.box<=1) boxN[r.notion_id].box1++;
+  });
+  const fragiles=Object.entries(boxN).filter(([,v])=>v.box1>=2)
+    .map(([nid,v])=>({nom:notionsMap[nid]?.nom||nid,ch:notionsMap[nid]?.chapter_id||0,
+      box1:v.box1,tot:v.tot,pct:Math.round(100*v.box1/v.tot)}))
+    .sort((a,b)=>b.pct-a.pct).slice(0,10);
+
+  // Assiduité
+  const assid={}; eleveIds.forEach(id=>assid[id]=0);
+  (seances||[]).filter(s=>s.started_at>=semaine).forEach(s=>{if(assid[s.eleve_id]!==undefined)assid[s.eleve_id]++;});
+
+  // Questions difficiles avec distracteurs
+  const byItem={};
+  (reponses||[]).forEach(r=>{
+    if(!byItem[r.item_id]) byItem[r.item_id]={ok:0,tot:0,dist:{}};
+    byItem[r.item_id].tot++;
+    if(r.correct) byItem[r.item_id].ok++;
+    else if(r.response_key!=='NSP'){
+      byItem[r.item_id].dist[r.response_key]=(byItem[r.item_id].dist[r.response_key]||0)+1;
+    }
+  });
+  const itemIds=Object.entries(byItem).filter(([,v])=>v.tot>=3)
+    .sort((a,b)=>(a[1].ok/a[1].tot)-(b[1].ok/b[1].tot)).slice(0,6).map(([id])=>id);
+  let itemsDetail=[];
+  if(itemIds.length){
+    const {data:ids}=await sb.from('v_items_eleve').select('id,stem,options,notion_ids,chapter_title').in('id',itemIds);
+    itemsDetail=ids||[];
+  }
+  const notionsMap2={}; (notions||[]).forEach(n=>notionsMap2[n.notion_id]=n.nom);
+  const itemsEnrichis=itemIds.map(id=>{
+    const stat=byItem[id];
+    const det=itemsDetail.find(d=>d.id===id)||{};
+    const taux=Math.round(100*stat.ok/stat.tot);
+    const distMaj=Object.entries(stat.dist).sort((a,b)=>b[1]-a[1])[0];
+    let distTxt=null;
+    if(distMaj&&det.options){
+      const opts=typeof det.options==='string'?JSON.parse(det.options):det.options;
+      const opt=opts?.find(o=>o.key===distMaj[0]);
+      if(opt) distTxt={key:distMaj[0],texte:opt.text.replace(/<[^>]+>/g,''),pct:Math.round(100*distMaj[1]/stat.tot)};
+    }
+    const nids=det.notion_ids||[];
+    const nomN=nids.length?(notionsMap2[nids[0]]||nids[0].split('__')[1]?.replace(/_/g,' ')||id):id;
+    return {id,taux,n:stat.tot,nomN,distTxt,chap:det.chapter_title||''};
+  });
+
+  // Heatmap
+  const maitrise={};
+  eleveIds.forEach(id=>maitrise[id]={});
+  (srs||[]).forEach(r=>{
+    const n=notionsMap[r.notion_id]; if(!n) return;
+    const ch=n.chapter_id;
+    if(!maitrise[r.eleve_id]) return;
+    if(!maitrise[r.eleve_id][ch]) maitrise[r.eleve_id][ch]={ok:0,tot:0};
+    maitrise[r.eleve_id][ch].tot++;
+    if(r.box>=3) maitrise[r.eleve_id][ch].ok++;
+  });
+
+  z.innerHTML=`
+  <!-- KPIs -->
+  <div class="grille-kpi">
+    <div class="kpi"><div class="kpi-val">${(eleves||[]).length}</div><div class="kpi-lab">Élèves actifs</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--accent)">${actifsSemaine}</div><div class="kpi-lab">Connectés cette semaine</div></div>
+    <div class="kpi"><div class="kpi-val">${seancesJour}</div><div class="kpi-lab">Séances aujourd'hui</div></div>
+    <div class="kpi"><div class="kpi-val">${totalRep.toLocaleString('fr')}</div><div class="kpi-lab">Réponses au total</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:${taux>=70?'var(--ok)':taux>=50?'var(--warn)':'var(--err)'}">${taux}%</div><div class="kpi-lab">Taux de réussite</div></div>
+    <div class="kpi"><div class="kpi-val">${chapActifs.size}</div><div class="kpi-lab">Chapitres ouverts</div></div>
+  </div>
+
+  <div class="grille2">
+    <!-- Notions fragiles -->
+    <div class="carte">
+      <div class="carte-titre">🔴 Notions à retravailler en classe</div>
+      ${fragiles.length===0
+        ? '<p class="muted petit centre" style="padding:20px">Pas encore assez de données.</p>'
+        : `<table><tr><th>Notion</th><th>Ch.</th><th>Élèves en difficulté</th></tr>
+          ${fragiles.map(n=>`<tr>
+            <td style="font-weight:500">${esc(n.nom)}</td>
+            <td class="muted">${n.ch}</td>
+            <td><span class="badge ${n.pct>=70?'badge-err':n.pct>=40?'badge-warn':'badge-ok'}">${n.box1}/${n.tot} · ${n.pct}%</span></td>
+          </tr>`).join('')}</table>`}
+    </div>
+
+    <!-- Assiduité -->
+    <div class="carte">
+      <div class="carte-titre">📅 Assiduité — 7 jours</div>
+      <table><tr><th>Élève</th><th>Séances</th><th>Statut</th></tr>
+      ${(eleves||[]).sort((a,b)=>(assid[b.id]||0)-(assid[a.id]||0)).map(e=>{
+        const n=assid[e.id]||0;
+        const badge=n>=5?'badge-ok':n>=2?'badge-warn':'badge-err';
+        const lab=n>=5?'Régulier':n>=2?'Irrégulier':n===0?'Absent':'Rare';
+        return `<tr><td style="font-weight:500">${esc(e.identifiant)}</td><td>${n}</td>
+          <td><span class="badge ${badge}">${lab}</span></td></tr>`;
+      }).join('')}</table>
+    </div>
+  </div>
+
+  <div class="grille2">
+    <!-- Questions difficiles -->
+    <div class="carte">
+      <div class="carte-titre">⚠️ Questions les plus ratées</div>
+      ${itemsEnrichis.length===0
+        ? '<p class="muted petit centre" style="padding:20px">Pas encore assez de données.</p>'
+        : itemsEnrichis.map(it=>`
+        <div style="border:1px solid var(--ligne);border-radius:10px;padding:10px 12px;margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+            <div>
+              <div style="font-weight:600;font-size:14px">${esc(it.nomN)}</div>
+              <div class="muted petit">${esc(it.chap)} · ${it.n} réponses</div>
+            </div>
+            <span style="font-weight:700;font-size:15px;color:${it.taux<40?'var(--err)':it.taux<70?'var(--warn)':'var(--ok)'};flex-shrink:0">${it.taux}%</span>
+          </div>
+          <div style="height:4px;border-radius:99px;background:var(--ligne);overflow:hidden;margin:6px 0">
+            <div style="width:${it.taux}%;height:100%;background:${it.taux<40?'var(--err)':it.taux<70?'var(--warn)':'var(--ok)'}"></div>
+          </div>
+          ${it.distTxt?`<div class="petit" style="background:var(--errC);border-radius:6px;padding:5px 8px;color:var(--err)">
+            <b>${it.distTxt.pct}% ont choisi :</b> ${esc(it.distTxt.texte.slice(0,70))}${it.distTxt.texte.length>70?'…':''}
+          </div>`:''}
+        </div>`).join('')}
+    </div>
+
+    <!-- Heatmap -->
+    <div class="carte">
+      <div class="carte-titre">🗺️ Maîtrise par chapitre</div>
+      <div class="heatmap">
+        <table>
+          <tr><th>Élève</th>${[...chapActifs].sort((a,b)=>a-b).map(ch=>`<th style="text-align:center">${ch}</th>`).join('')}</tr>
+          ${(eleves||[]).map(e=>`<tr>
+            <td style="font-weight:500;white-space:nowrap;font-size:13px">${esc(e.identifiant)}</td>
+            ${[...chapActifs].sort((a,b)=>a-b).map(ch=>{
+              const m=maitrise[e.id]?.[ch];
+              if(!m) return `<td><div class="cell" style="background:#F0EDE6;color:#C9C4B8">—</div></td>`;
+              const p=Math.round(100*m.ok/m.tot);
+              const bg=p>=70?'#C8EDD9':p>=40?'#FBF1DC':'#FADBD7';
+              const col=p>=70?'var(--ok)':p>=40?'#A8761B':'var(--err)';
+              return `<td><div class="cell" style="background:${bg};color:${col}" title="${p}%">${p}</div></td>`;
+            }).join('')}
+          </tr>`).join('')}
+        </table>
+      </div>
+      <p class="muted petit" style="margin-top:8px">% notions maîtrisées (boîte 3+)</p>
+    </div>
+  </div>
+
+  <!-- Graphique -->
+  <div class="carte">
+    <div class="carte-titre">📈 Activité de la classe — 30 jours</div>
+    <canvas id="chartAct" height="70"></canvas>
+  </div>`;
+
+  // Graphique
+  if(chartInst){chartInst.destroy();chartInst=null;}
+  const jours=[];
+  for(let i=29;i>=0;i--){jours.push(new Date(Date.now()-i*86400000).toISOString().slice(0,10));}
+  const pj={};jours.forEach(j=>pj[j]=0);
+  (seances||[]).forEach(s=>{const j=s.started_at?.slice(0,10);if(j&&pj[j]!==undefined)pj[j]++;});
+  chartInst=new Chart(document.getElementById('chartAct'),{
+    type:'bar',
+    data:{labels:jours.map(j=>j.slice(5)),
+      datasets:[{label:'Séances',data:jours.map(j=>pj[j]),
+        backgroundColor:'#1F6F8B33',borderColor:'#1F6F8B',borderWidth:1,borderRadius:3}]},
+    options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}
+  });
+}
+
+// ── BANQUE DE QUESTIONS ───────────────────────────────────────
+let banqueItems=[], banqueFiltreChap=0, banqueFiltreType='tous', banqueSearch='';
+let editItem=null;
+
+async function loadBanque() {
+  const z=document.getElementById('zoneBanque');
+  z.innerHTML='<div class="centre" style="padding:40px"><span class="spin"></span></div>';
+  const {data:items}=await sb.from('items')
+    .select('id,type,chapter_id,chapter_title,stem,answer,options,difficulty,notion_ids,image_url,status')
+    .eq('status','active').order('chapter_id').limit(2000);
+  banqueItems=items||[];
+  renderBanque();
+}
+
+function renderBanque() {
+  const z=document.getElementById('zoneBanque');
+  const filtered=banqueItems.filter(it=>
+    (banqueFiltreChap===0||it.chapter_id===banqueFiltreChap)&&
+    (banqueFiltreType==='tous'||it.type===banqueFiltreType)&&
+    (!banqueSearch||it.stem.toLowerCase().includes(banqueSearch.toLowerCase()))
+  );
+  const chapsDispo=[...new Set(banqueItems.map(i=>i.chapter_id))].sort((a,b)=>a-b);
+  z.innerHTML=`
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px">
+    <button class="btn btn-accent" id="btnAjoutQcm">+ QCM</button>
+    <button class="btn btn-encre" id="btnAjoutCard">+ Flashcard</button>
+  </div>
+  <div id="formItem" style="display:none" class="carte">
+    <div id="formTitre" class="carte-titre"></div>
+    <input type="hidden" id="fId"><input type="hidden" id="fType">
+    <div style="margin-bottom:10px"><span class="label">Chapitre</span>
+      <select id="fChap" style="width:100%">${chapitres.map(c=>`<option value="${c.id}">Ch.${c.id} — ${esc(c.nom)}</option>`).join('')}</select></div>
+    <div style="margin-bottom:10px"><span class="label">Difficulté</span>
+      <select id="fDiff" style="width:160px">
+        <option value="1">1 — Facile</option><option value="2" selected>2 — Intermédiaire</option><option value="3">3 — Difficile</option>
+      </select></div>
+    <div style="margin-bottom:10px"><span class="label">Question / Recto</span>
+      <textarea id="fStem" rows="3" style="width:100%;border:1px solid var(--ligne);border-radius:10px;padding:10px;font-size:14px;font-family:inherit;resize:vertical"></textarea></div>
+    <div id="fOptsZone" style="margin-bottom:10px"><span class="label">Options (cochez la bonne réponse)</span>
+      ${['A','B','C','D'].map(k=>`<div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="radio" name="fAns" value="${k}" id="fAns${k}">
+        <label for="fAns${k}" style="font-weight:600;width:20px">${k}.</label>
+        <input id="fOpt${k}" placeholder="Option ${k}" style="flex:1;min-height:36px;font-size:14px">
+      </div>`).join('')}</div>
+    <div id="fVersoZone" style="display:none;margin-bottom:10px"><span class="label">Réponse / Verso</span>
+      <textarea id="fVerso" rows="3" style="width:100%;border:1px solid var(--ligne);border-radius:10px;padding:10px;font-size:14px;font-family:inherit;resize:vertical"></textarea></div>
+    <div style="margin-bottom:14px"><span class="label">Image (optionnelle)</span>
+      <div id="fImgZone" style="border:2px dashed var(--ligne);border-radius:10px;padding:16px;text-align:center;cursor:pointer;margin-top:6px" onclick="document.getElementById('fImgInput').click()">
+        <div id="fImgPreview" style="display:none"><img id="fImgImg" style="max-height:140px;border-radius:8px;margin-bottom:6px"><br></div>
+        <span id="fImgLabel" class="muted petit">📷 Cliquez pour ajouter une photo ou un schéma</span>
+        <input type="file" id="fImgInput" accept="image/*" style="display:none">
+      </div>
+      <div id="fImgUrl" style="display:none;margin-top:6px">
+        <span class="petit muted">Image actuelle : </span>
+        <a id="fImgLink" href="#" target="_blank" class="petit">voir</a>
+        <button onclick="supprimerImage()" style="background:none;color:var(--err);font-size:12px;margin-left:8px">Supprimer</button>
+      </div></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-encre" id="fSave">Enregistrer</button>
+      <button class="btn btn-blanc" id="fCancel">Annuler</button>
+      <button class="btn" id="fArchive" style="display:none;background:var(--errC);color:var(--err)">Archiver</button>
+    </div>
+    <div id="fMsg" class="petit" style="margin-top:8px"></div>
+  </div>
+  <div class="carte" style="padding:14px;margin-bottom:12px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <input id="searchInput" placeholder="🔍 Rechercher dans les énoncés…" value="${esc(banqueSearch)}" style="flex:1;min-width:180px;min-height:36px;font-size:14px">
+      <select id="filtreType" style="min-height:36px;font-size:14px">
+        <option value="tous" ${banqueFiltreType==='tous'?'selected':''}>Tous types</option>
+        <option value="qcm" ${banqueFiltreType==='qcm'?'selected':''}>QCM</option>
+        <option value="flashcard" ${banqueFiltreType==='flashcard'?'selected':''}>Flashcards</option>
+      </select>
+      <select id="filtreChap" style="min-height:36px;font-size:14px">
+        <option value="0">Tous les chapitres</option>
+        ${chapsDispo.map(ch=>{const t=banqueItems.find(i=>i.chapter_id===ch)?.chapter_title||'';
+          return `<option value="${ch}" ${banqueFiltreChap===ch?'selected':''}>Ch.${ch} — ${esc(t.slice(0,28))}</option>`;}).join('')}
+      </select>
+    </div>
+    <div class="muted petit" style="margin-top:6px">${filtered.length} élément${filtered.length>1?'s':''} · ${banqueItems.length} au total</div>
+  </div>
+  <div id="listeBanque">
+    ${filtered.slice(0,60).map(it=>`
+    <div style="border:1px solid var(--ligne);border-radius:12px;padding:11px 14px;margin-bottom:8px;background:var(--blanc)">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <div style="min-width:0;flex:1">
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:3px">
+            <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:${it.type==='qcm'?'var(--okC)':'var(--accentC)'};color:${it.type==='qcm'?'var(--ok)':'var(--accent)'}">${it.type==='qcm'?'QCM':'Flashcard'}</span>
+            <span class="muted petit">Ch.${it.chapter_id} · ${'●'.repeat(it.difficulty)}${'○'.repeat(3-it.difficulty)}</span>
+            ${it.image_url?'<span style="font-size:11px">🖼️</span>':''}
+          </div>
+          <div style="font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(it.stem.replace(/<[^>]+>/g,'').slice(0,85))}${it.stem.length>85?'…':''}</div>
+        </div>
+        <button class="btn btn-blanc" data-edit="${esc(it.id)}" style="min-height:32px;font-size:12px;flex-shrink:0">Modifier</button>
+      </div>
+    </div>`).join('')}
+    ${filtered.length>60?`<p class="muted petit centre" style="padding:12px">Limité à 60 — affinez les filtres.</p>`:''}
+  </div>`;
+
+  document.getElementById('searchInput').oninput=e=>{banqueSearch=e.target.value;renderBanque();};
+  document.getElementById('filtreType').onchange=e=>{banqueFiltreType=e.target.value;renderBanque();};
+  document.getElementById('filtreChap').onchange=e=>{banqueFiltreChap=+e.target.value;renderBanque();};
+  document.getElementById('btnAjoutQcm').onclick=()=>ouvrirFormulaire('qcm',null);
+  document.getElementById('btnAjoutCard').onclick=()=>ouvrirFormulaire('flashcard',null);
+  document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{
+    const it=banqueItems.find(i=>i.id===b.dataset.edit);if(it)ouvrirFormulaire(it.type,it);});
+  document.getElementById('fImgInput').onchange=e=>previewImage(e.target.files[0]);
+  document.getElementById('fSave').onclick=sauvegarder;
+  document.getElementById('fCancel').onclick=fermerFormulaire;
+  document.getElementById('fArchive').onclick=archiver;
+}
+
+function ouvrirFormulaire(type,item) {
+  editItem=item;
+  document.getElementById('formItem').style.display='block';
+  document.getElementById('formItem').scrollIntoView({behavior:'smooth'});
+  document.getElementById('fId').value=item?.id||'';
+  document.getElementById('fType').value=type;
+  document.getElementById('formTitre').textContent=item?(type==='qcm'?'Modifier le QCM':'Modifier la flashcard'):(type==='qcm'?'Nouveau QCM':'Nouvelle flashcard');
+  document.getElementById('fStem').value=item?.stem||'';
+  document.getElementById('fDiff').value=item?.difficulty||2;
+  if(item) document.getElementById('fChap').value=item.chapter_id;
+  const isQcm=type==='qcm';
+  document.getElementById('fOptsZone').style.display=isQcm?'':'none';
+  document.getElementById('fVersoZone').style.display=isQcm?'none':'';
+  if(isQcm&&item?.options){
+    const opts=typeof item.options==='string'?JSON.parse(item.options):item.options;
+    opts.forEach(o=>{const el=document.getElementById('fOpt'+o.key);if(el)el.value=o.text;});
+    if(item.answer){const r=document.getElementById('fAns'+item.answer);if(r)r.checked=true;}
+  } else {['A','B','C','D'].forEach(k=>{const el=document.getElementById('fOpt'+k);if(el)el.value='';});
+    document.querySelectorAll('input[name="fAns"]').forEach(r=>r.checked=false);}
+  if(!isQcm&&item?.answer) document.getElementById('fVerso').value=item.answer;
+  else document.getElementById('fVerso').value='';
+  const imgUrl=item?.image_url;
+  document.getElementById('fImgPreview').style.display='none';
+  document.getElementById('fImgUrl').style.display=imgUrl?'block':'none';
+  if(imgUrl){document.getElementById('fImgLink').href=imgUrl;document.getElementById('fImgLabel').textContent='📷 Changer la photo';}
+  else document.getElementById('fImgLabel').textContent='📷 Cliquez pour ajouter une photo ou un schéma';
+  document.getElementById('fArchive').style.display=item?'':'none';
+  document.getElementById('fMsg').textContent='';
+  window._newImgFile=null; window._removeImg=false;
+}
+
+function fermerFormulaire(){document.getElementById('formItem').style.display='none';editItem=null;}
+
+function previewImage(file){
+  if(!file)return; window._newImgFile=file;
+  const reader=new FileReader();
+  reader.onload=e=>{document.getElementById('fImgImg').src=e.target.result;
+    document.getElementById('fImgPreview').style.display='block';
+    document.getElementById('fImgLabel').textContent='📷 Changer la photo';};
+  reader.readAsDataURL(file);
+}
+
+function supprimerImage(){
+  window._removeImg=true;window._newImgFile=null;
+  document.getElementById('fImgUrl').style.display='none';
+  document.getElementById('fImgPreview').style.display='none';
+  document.getElementById('fImgLabel').textContent='📷 Cliquez pour ajouter une photo ou un schéma';
+}
+
+async function uploadImage(file,itemId){
+  const canvas=document.createElement('canvas');
+  const img=new Image();
+  await new Promise(res=>{img.onload=res;img.src=URL.createObjectURL(file);});
+  const max=900;let w=img.width,h=img.height;
+  if(w>max){h=Math.round(h*max/w);w=max;}if(h>max){w=Math.round(w*max/h);h=max;}
+  canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);
+  const blob=await new Promise(res=>canvas.toBlob(res,'image/jpeg',0.82));
+  const path=`items/${itemId}.jpg`;
+  const {error}=await sb.storage.from('images').upload(path,blob,{upsert:true,contentType:'image/jpeg'});
+  if(error)throw error;
+  return sb.storage.from('images').getPublicUrl(path).data.publicUrl;
+}
+
+async function sauvegarder(){
+  const msg=document.getElementById('fMsg');
+  const type=document.getElementById('fType').value;
+  const stem=document.getElementById('fStem').value.trim();
+  const chap=+document.getElementById('fChap').value;
+  const diff=+document.getElementById('fDiff').value;
+  if(!stem){msg.textContent="L'énoncé est obligatoire.";return;}
+  let answer='',options=null;
+  if(type==='qcm'){
+    const ans=document.querySelector('input[name="fAns"]:checked');
+    if(!ans){msg.textContent="Cochez la bonne réponse.";return;}
+    answer=ans.value;
+    options=['A','B','C','D'].map(k=>({key:k,text:document.getElementById('fOpt'+k).value.trim()}));
+    if(options.some(o=>!o.text)){msg.textContent="Remplissez toutes les options.";return;}
+  } else {
+    answer=document.getElementById('fVerso').value.trim();
+    if(!answer){msg.textContent="Le verso est obligatoire.";return;}
+  }
+  msg.innerHTML='<span class="spin" style="width:14px;height:14px;border-width:2px"></span> Enregistrement…';
+  document.getElementById('fSave').disabled=true;
+  const existId=document.getElementById('fId').value;
+  const newId=existId||`${type==='qcm'?'qcm':'fc'}-custom-${Date.now()}`;
+  let imageUrl=editItem?.image_url||null;
+  if(window._removeImg)imageUrl=null;
+  if(window._newImgFile){try{imageUrl=await uploadImage(window._newImgFile,newId);}
+    catch(e){msg.textContent="Erreur image : "+e.message;document.getElementById('fSave').disabled=false;return;}}
+  const chapObj=chapitres.find(c=>c.id===chap);
+  const {error}=await sb.from('items').upsert({
+    id:newId,type,chapter_id:chap,chapter_title:chapObj?.nom||'',
+    stem,answer,options,difficulty:diff,
+    notion_ids:editItem?.notion_ids||[],
+    image_url:imageUrl,status:'active',shared:true,source:'ajout-manuel-prof'
+  },{onConflict:'id'});
+  if(error){msg.textContent="Erreur : "+error.message;document.getElementById('fSave').disabled=false;return;}
+  msg.innerHTML='<span style="color:var(--ok)">✓ Enregistré !</span>';
+  document.getElementById('fSave').disabled=false;
+  await loadBanque();setTimeout(fermerFormulaire,1200);
+}
+
+async function archiver(){
+  if(!editItem)return;
+  if(!confirm(`Archiver ? La question disparaîtra pour les élèves (l'historique est conservé).`))return;
+  await sb.from('items').update({status:'archived'}).eq('id',editItem.id);
+  fermerFormulaire();await loadBanque();
+}
+
+checkSession();
+
+</script>
+</body>
+</html>
