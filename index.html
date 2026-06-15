@@ -174,8 +174,9 @@ async function charger(){
   const {data:chs}=await sb.from('v_items_eleve').select('chapter_id,chapter_title').in('chapter_id',S.chapActifs.length?S.chapActifs:[-1]).limit(2000);
   const seen={};(chs||[]).forEach(r=>seen[r.chapter_id]=r.chapter_title);
   S.chapitres=Object.entries(seen).map(([id,nom])=>({id:+id,nom})).sort((a,b)=>a.id-b.id);
-  S.chapCourant = el.dernier_chapitre && S.chapActifs.includes(el.dernier_chapitre)
-    ? el.dernier_chapitre : (S.chapActifs[0]??null);
+  const dernier = el.dernier_chapitre;
+  S.chapCourant = (dernier !== null && dernier !== undefined && S.chapActifs.includes(dernier))
+    ? dernier : (S.chapActifs[0] ?? null);
   return true;
 }
 
@@ -225,7 +226,7 @@ function statsGlobal(){
 // ═══════════ ACCUEIL ═══════════
 function accueil(){
   S.ongletActif='accueil';
-  if(!S.chapCourant){
+  if(S.chapCourant === null || S.chapCourant === undefined){
     APP.innerHTML=`<div class="ecran-pad centre" style="padding-top:30vh"><p class="muted">Aucun chapitre n'est encore ouvert par ton professeur.</p><button class="btn btn-blanc" style="margin-top:20px;width:200px;margin-left:auto;margin-right:auto" onclick="(async()=>{await sb.auth.signOut();location.reload();})()">Se déconnecter</button></div>`;
     return;
   }
