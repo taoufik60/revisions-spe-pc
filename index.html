@@ -10,601 +10,660 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap');
-:root{
-  --encre:#1C2433;--papier:#F5F3EE;--blanc:#fff;--ligne:#E4E0D6;
-  --teal:#0F6E56;--tealC:#E1F5EE;--teal2:#1D9E75;
-  --coral:#993C1D;--coralC:#FAECE7;--coral2:#D85A30;
-  --amber:#854F0B;--amberC:#FAEEDA;--amber2:#EF9F27;
-  --green:#3B6D11;--greenC:#EAF3DE;--green2:#639922;
-  --accent:#1F6F8B;--accentC:#E5EFF2;
-  --ok:#2E8B57;--okC:#E4F3EA;
-  --err:#C0392B;--errC:#FAE8E5;
-  --gris:#8A8578;
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ===== THÈMES ===== */
+:root, [data-theme="ocean"]{
+  --grad-haut:#0A2E6E; --grad-bas:#1B4FA8;
+  --primaire:#1B4FA8; --primaire2:#2E6BD4; --primaireC:#E5EDFA;
+  --accent:#13A89E; --accent2:#16C4B8; --accentC:#DEF5F3;
+  --txt-primaire:#0A2E6E;
 }
-*{box-sizing:border-box;font-family:'Public Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--papier);color:var(--encre)}
-.display{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.01em}
-.app{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-.ecran{padding:20px;flex:1;display:flex;flex-direction:column}
+[data-theme="emeraude"]{
+  --grad-haut:#0B4D3C; --grad-bas:#0F6E56;
+  --primaire:#0F6E56; --primaire2:#1D9E75; --primaireC:#E1F5EE;
+  --accent:#C77D2E; --accent2:#E8A04E; --accentC:#FAEEDA;
+  --txt-primaire:#0B4D3C;
+}
+[data-theme="violet"]{
+  --grad-haut:#2D2160; --grad-bas:#4A3A9E;
+  --primaire:#4A3A9E; --primaire2:#6B54C7; --primaireC:#ECE8FA;
+  --accent:#C44D8A; --accent2:#E06BA8; --accentC:#FAE5F0;
+  --txt-primaire:#2D2160;
+}
+
+:root{
+  --papier:#F4F6FA;--blanc:#fff;--ligne:#E5E7EC;--encre:#1A2230;
+  --coral:#C0392B;--coralC:#FDEBE8;--coral2:#E2574C;
+  --amber:#9A6206;--amberC:#FCEFD4;--amber2:#EFA42A;
+  --green:#2E7D32;--greenC:#E6F4E7;--green2:#52A45A;
+  --ok:#2E8B57;--okC:#E4F3EA;--err:#C0392B;--errC:#FAE8E5;
+  --gris:#7C8597;
+}
+*{box-sizing:border-box;font-family:'Public Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+body{background:var(--papier);color:var(--encre)}
+.display{font-family:'Fraunces',Georgia,serif;font-weight:700;letter-spacing:-.01em}
+.app{max-width:440px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative;padding-bottom:76px}
 button{cursor:pointer;border:none;font-size:16px;font-family:inherit}
-.btn{display:block;width:100%;min-height:52px;border-radius:999px;font-weight:600;transition:transform .1s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn:active{transform:scale(.97)}
-.btn-teal{background:var(--teal);color:#fff}
+.scroll{flex:1;overflow-y:auto}
+
+/* En-tête dégradé */
+.hero{background:linear-gradient(160deg,var(--grad-haut),var(--grad-bas));padding:28px 20px 56px;color:#fff;position:relative;overflow:hidden}
+.hero-deco{position:absolute;top:-20px;right:-20px;width:180px;height:180px;opacity:.13;pointer-events:none}
+.hero h1{font-size:34px;line-height:1;margin:0}
+.hero .sub{font-size:14px;opacity:.85;margin-top:6px}
+.avatar{position:absolute;top:24px;right:20px;width:44px;height:44px;border-radius:50%;border:2px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);cursor:pointer}
+
+/* Sélecteur chapitre */
+.chap-select{margin:-38px 16px 0;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:16px;padding:14px 18px;color:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(0,0,0,.14);position:relative;z-index:5;cursor:pointer}
+.chap-select .ic{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.chap-select .lab{font-size:13px;opacity:.85}
+.chap-select .val{font-size:17px;font-weight:700}
+
+/* Cartes espaces */
+.zone{margin:14px 16px;background:var(--blanc);border-radius:20px;padding:20px;box-shadow:0 2px 10px rgba(20,30,50,.05)}
+.zone-head{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.zone-ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.zone-titre{font-size:19px;font-weight:800;color:var(--txt-primaire);letter-spacing:-.01em}
+.zone-sub{font-size:13px;color:var(--gris);margin:2px 0 16px;padding-left:52px}
+.btn{display:flex;width:100%;min-height:54px;border-radius:14px;font-weight:700;align-items:center;justify-content:center;gap:10px;transition:transform .1s;font-size:16px}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.4}
+.btn-plein{background:linear-gradient(135deg,var(--primaire),var(--primaire2));color:#fff;box-shadow:0 4px 14px rgba(27,79,168,.25)}
+.btn-accent{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.btn-ligne{background:var(--blanc);border:1.5px solid var(--primaireC);color:var(--primaire);margin-top:10px}
 .btn-encre{background:var(--encre);color:#fff}
-.btn-accent{background:var(--accent);color:#fff}
-.btn-blanc{background:var(--blanc);color:var(--encre);border:1px solid var(--ligne)}
-.btn-coral{background:var(--coralC);color:var(--coral)}
-.btn:disabled{opacity:.3}
+.btn-blanc{background:var(--blanc);border:1px solid var(--ligne);color:var(--encre)}
+
+/* Préparer bac */
+.bac-row{margin:14px 16px;background:var(--blanc);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(20,30,50,.05);cursor:pointer}
+.bac-ic{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+
+/* Progression résumé */
+.prog-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.prog-row:last-child{margin-bottom:0}
+.prog-lab{font-size:14px;font-weight:600;width:80px;flex-shrink:0}
+.prog-bar{flex:1;height:9px;border-radius:99px;background:var(--ligne);overflow:hidden}
+.prog-bar>div{height:100%;border-radius:99px}
+.prog-pct{font-size:15px;font-weight:700;width:44px;text-align:right}
+.dot{display:inline-flex;align-items:center;gap:4px;font-size:12px}
+.dot b{font-size:15px}
+
+/* Nav bas */
+.navbas{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;background:var(--blanc);border-top:1px solid var(--ligne);display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:50}
+.navbas button{flex:1;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--gris);font-size:11px;font-weight:600}
+.navbas button.actif{color:var(--primaire)}
+.navbas button svg{width:22px;height:22px}
+
+/* Composants séance */
+.ecran-pad{padding:20px}
 input,select{min-height:52px;border-radius:14px;border:1px solid var(--ligne);background:var(--blanc);color:var(--encre);padding:0 16px;font-size:16px;outline:none;font-family:inherit}
-.carte{background:var(--blanc);border:1px solid var(--ligne);border-radius:18px;padding:18px;margin-bottom:12px}
-.label-s{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--gris)}
-.pilule{display:inline-flex;align-items:center;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--accentC);color:var(--accent)}
-.option{display:block;width:100%;text-align:left;background:var(--blanc);border:1px solid var(--ligne);border-radius:14px;padding:14px 16px;min-height:52px;font-size:15px;color:var(--encre);margin-top:10px;transition:transform .1s;font-family:inherit}
+.option{display:block;width:100%;text-align:left;background:var(--blanc);border:1px solid var(--ligne);border-radius:14px;padding:14px 16px;min-height:52px;font-size:15px;color:var(--encre);margin-top:10px;transition:transform .1s}
 .option:active{transform:scale(.98)}
 .option.bonne{background:var(--okC);border-color:var(--ok)}
 .option.fausse{background:var(--errC);border-color:var(--err)}
 .option:disabled{cursor:default}
 .progress{height:7px;border-radius:99px;background:var(--ligne);overflow:hidden;flex:1}
-.progress>div{height:100%;border-radius:99px;background:var(--teal);transition:width .4s}
-.home-btn{width:44px;height:44px;border-radius:999px;border:1px solid var(--ligne);background:var(--blanc);color:var(--encre);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+.progress>div{height:100%;border-radius:99px;background:var(--primaire);transition:width .4s}
+.home-btn{width:44px;height:44px;border-radius:999px;border:1px solid var(--ligne);background:var(--blanc);color:var(--encre);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .flip-carte{flex:1;min-height:240px;border-radius:18px;border:1px solid var(--ligne);background:var(--blanc);padding:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer}
 .flip-carte.verso{background:var(--encre);color:#fff;border-color:var(--encre)}
 .sticky-bas{position:sticky;bottom:0;padding:12px 0 8px;background:linear-gradient(transparent,var(--papier) 30%);margin-top:auto}
-.spin{display:inline-block;width:22px;height:22px;border:3px solid var(--ligne);border-top-color:var(--teal);border-radius:50%;animation:sp 1s linear infinite}
+.spin{display:inline-block;width:22px;height:22px;border:3px solid var(--ligne);border-top-color:var(--primaire);border-radius:50%;animation:sp 1s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
+.pilule{display:inline-flex;align-items:center;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--primaireC);color:var(--primaire)}
 .niveau-badge{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px}
-.nv0{background:#F0EDE6;color:var(--gris)}
-.nv1{background:var(--coralC);color:var(--coral)}
-.nv2{background:var(--amberC);color:var(--amber)}
-.nv3{background:var(--greenC);color:var(--green)}
-.barre-ch{height:5px;border-radius:99px;background:var(--ligne);overflow:hidden;flex:1}
-.err-txt{color:var(--err);font-size:14px}
-.muted{color:var(--gris)}.petit{font-size:13px}.centre{text-align:center}
+.nv0{background:#EFF1F5;color:var(--gris)}.nv1{background:var(--coralC);color:var(--coral)}
+.nv2{background:var(--amberC);color:var(--amber)}.nv3{background:var(--greenC);color:var(--green)}
+.modal-fond{position:fixed;inset:0;background:rgba(10,20,40,.5);z-index:100;display:flex;align-items:flex-end;justify-content:center}
+.modal{background:var(--papier);width:100%;max-width:440px;border-radius:24px 24px 0 0;max-height:85vh;overflow-y:auto;padding:20px}
+.check-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--blanc);border:1px solid var(--ligne);border-radius:12px;margin-bottom:8px;cursor:pointer}
+.check-row.coche{border-color:var(--primaire);background:var(--primaireC)}
+.check-box{width:24px;height:24px;border-radius:7px;border:2px solid var(--ligne);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.check-row.coche .check-box{background:var(--primaire);border-color:var(--primaire);color:#fff}
+.err-txt{color:var(--err);font-size:14px}.muted{color:var(--gris)}.petit{font-size:13px}.centre{text-align:center}
 </style>
 </head>
 <body>
-<div class="app"><div id="ecran" style="padding:20px;flex:1;display:flex;flex-direction:column"><div class="centre" style="padding-top:40vh"><span class="spin"></span></div></div></div>
+<div class="app" id="app"><div class="centre" style="padding-top:40vh"><span class="spin"></span></div></div>
 <script>
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const E = document.getElementById('ecran');
+const APP = document.getElementById('app');
 const esc = s => (s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const htmlCarte = s => (s??'').replace(/<(?!\/?(strong|em|b|i|br|sub|sup)\b)[^>]*>/gi,'');
-const melange = a => {a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
-const rendreMaths = () => {if(window.renderMathInElement)try{renderMathInElement(E,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false});}catch(e){}};
-const maison = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>`;
-const brancherMaison = () => document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>ecranAccueil());
+const htmlC = s => (s??'').replace(/<(?!\/?(strong|em|b|i|br|sub|sup)\b)[^>]*>/gi,'');
+const melange = a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const maths = el => {if(window.renderMathInElement)try{renderMathInElement(el||APP,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false});}catch(e){}};
+const today = ()=>new Date().toISOString().slice(0,10);
 
-const NIVEAUX = {
-  0:{label:'Nouveau',cl:'nv0'},
-  1:{label:'Niveau 1',cl:'nv1'},
-  2:{label:'Niveau 2',cl:'nv2'},
-  3:{label:'Expert ⭐',cl:'nv3'}
+const ICN={
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>',
+  chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 3-3 3 3 5-5"/></svg>',
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
 };
-const badgeTxt = n => `<span class="niveau-badge ${NIVEAUX[n].cl}">${NIVEAUX[n].label}</span>`;
+const NIVEAUX={0:{l:'Nouveau',c:'nv0'},1:{l:'Niveau 1',c:'nv1'},2:{l:'Niveau 2',c:'nv2'},3:{l:'Expert ⭐',c:'nv3'}};
+const badge=n=>`<span class="niveau-badge ${NIVEAUX[n].c}">${NIVEAUX[n].l}</span>`;
 
-// Intervalles Anki simplifiés (jours)
-const ANKI_INTERVALLES = [0,1,3,7,15,30]; // box 0=now,1=1j,2=3j,3=7j,4=15j,5=30j
+let S={eleve:null,classe:null,chapitres:[],chapActifs:[],srs:{},notions:[],progression:{},
+  chapCourant:null,theme:'ocean',ongletActif:'accueil',
+  fileQcm:[],fileCartes:[],resQcm:[],resCartes:[],ankiFile:[],ankiIdx:0,ankiRepasse:[],
+  mode:'',bacChaps:[]};
 
-let S = {
-  eleve:null, classe:null, chapitres:[], chapActifs:[],
-  srs:{}, notions:[], progression:{},
-  jourFaite:false, mode:'jour', typeLibre:'qcm', chapLibre:0,
-  fileQcm:[], fileCartes:[], resQcm:[], resCartes:[],
-  ankiFile:[], ankiIdx:0, ankiRepasse:[]
-};
-
-async function init() {
-  const {data:{session}} = await sb.auth.getSession();
-  if(!session) return ecranLogin();
-  const ok = await chargerContexte();
-  ok ? ecranAccueil() : ecranLogin('Compte introuvable.');
+async function init(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session)return login();
+  (await charger())?accueil():login('Compte introuvable.');
 }
 
-async function chargerContexte() {
-  const {data:el} = await sb.from('eleves').select('*').eq('user_id',(await sb.auth.getUser()).data.user.id).maybeSingle();
+async function charger(){
+  const {data:el}=await sb.from('eleves').select('*').eq('user_id',(await sb.auth.getUser()).data.user.id).maybeSingle();
   if(!el){await sb.auth.signOut();return false;}
-  S.eleve=el;
-  const [{data:cl},{data:cc},{data:srs},{data:nts},{data:sj},{data:prog}] = await Promise.all([
+  S.eleve=el; S.theme=el.theme||'ocean';
+  document.documentElement.setAttribute('data-theme',S.theme);
+  const [{data:cl},{data:cc},{data:srs},{data:nts},{data:prog}]=await Promise.all([
     sb.from('classes').select('*').eq('id',el.classe_id).maybeSingle(),
     sb.from('classe_chapitres').select('*').eq('classe_id',el.classe_id).eq('active',true),
     sb.from('srs_notions').select('*'),
     sb.from('notions').select('*'),
-    sb.from('seances').select('id').eq('type','jour').gte('started_at',new Date().toISOString().slice(0,10)),
     sb.from('progression').select('*').eq('eleve_id',el.id)
   ]);
   S.classe=cl||{session_size_qcm:15,session_size_cards:10,nom:''};
-  S.chapActifs=(cc||[]).map(c=>c.chapter_id);
+  S.chapActifs=(cc||[]).map(c=>c.chapter_id).sort((a,b)=>a-b);
   S.srs={};(srs||[]).forEach(r=>S.srs[r.notion_id]=r);
   S.notions=(nts||[]).filter(n=>S.chapActifs.includes(n.chapter_id));
-  S.jourFaite=(sj||[]).length>0;
   S.progression={};(prog||[]).forEach(p=>S.progression[p.chapter_id]=p);
-  const {data:chs} = await sb.from('v_items_eleve').select('chapter_id,chapter_title').in('chapter_id',S.chapActifs.length?S.chapActifs:[-1]).limit(2000);
+  const {data:chs}=await sb.from('v_items_eleve').select('chapter_id,chapter_title').in('chapter_id',S.chapActifs.length?S.chapActifs:[-1]).limit(2000);
   const seen={};(chs||[]).forEach(r=>seen[r.chapter_id]=r.chapter_title);
   S.chapitres=Object.entries(seen).map(([id,nom])=>({id:+id,nom})).sort((a,b)=>a.id-b.id);
+  S.chapCourant = el.dernier_chapitre && S.chapActifs.includes(el.dernier_chapitre)
+    ? el.dernier_chapitre : (S.chapActifs[0]??null);
   return true;
 }
 
-function statsNiveaux() {
-  const c={fragile:0,encours:0,acquise:0};
-  S.notions.forEach(n=>{const r=S.srs[n.notion_id];const b=r?.box??0;
-    if(b<=1)c.fragile++;else if(b<=3)c.encours++;else c.acquise++;});
-  return c;
-}
-
-// ── ÉCRAN LOGIN ──
-function ecranLogin(msg) {
-  E.innerHTML=`
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center">
-    <div style="width:56px;height:56px;border-radius:16px;background:var(--encre);display:flex;align-items:center;justify-content:center;margin-bottom:18px"><span style="color:#fff;font-size:24px">⌬</span></div>
-    <h1 class="display" style="font-size:28px;margin:0">Révisions Spé PC</h1>
-    <p class="muted" style="font-size:14px;margin:6px 0 28px">Quelques minutes par jour, au bon moment.</p>
+// ═══════════ LOGIN ═══════════
+function login(msg){
+  APP.innerHTML=`<div class="ecran-pad" style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:100vh">
+    <div style="width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,var(--grad-haut),var(--grad-bas));display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:28px">⚗️</div>
+    <h1 class="display" style="font-size:28px">Révisions Spé PC</h1>
+    <p class="muted petit" style="margin:6px 0 28px">À force de forger on devient forgeron.</p>
     <div style="width:100%;max-width:300px">
-      <div class="label-s">Identifiant</div>
-      <input id="ident" placeholder="PC26-A-07" autocapitalize="characters" autocorrect="off" spellcheck="false" style="width:100%;margin:4px 0 12px;font-size:16px">
-      <div class="label-s">Code</div>
-      <input id="pin" placeholder="••••••" inputmode="numeric" type="password" maxlength="6" style="width:100%;margin:4px 0 12px;letter-spacing:.3em;font-size:16px">
-      <div id="err" class="err-txt">${esc(msg||'')}</div>
-      <button class="btn btn-encre" id="go" style="margin-top:8px">Se connecter</button>
-      <p class="petit muted centre" style="margin-top:10px">Utilise ton identifiant et ton code à 6 chiffres.</p>
-    </div>
-  </div>`;
-  const go = async () => {
-    const ident=document.getElementById('ident').value.trim().toUpperCase();
+      <input id="ident" placeholder="Identifiant (PC26-A-07)" autocapitalize="characters" autocorrect="off" spellcheck="false" style="width:100%;margin-bottom:12px">
+      <input id="pin" placeholder="Code à 6 chiffres" inputmode="numeric" type="password" maxlength="6" style="width:100%;margin-bottom:12px;letter-spacing:.3em">
+      <div id="err" class="err-txt" style="margin-bottom:8px">${esc(msg||'')}</div>
+      <button class="btn btn-encre" id="go">Se connecter</button>
+    </div></div>`;
+  const go=async()=>{
+    const id=document.getElementById('ident').value.trim().toUpperCase();
     const pin=document.getElementById('pin').value.trim();
-    if(!ident||pin.length<6){document.getElementById('err').textContent='Entre ton identifiant et ton code.';return;}
+    if(!id||pin.length<6){document.getElementById('err').textContent='Entre ton identifiant et ton code.';return;}
     document.getElementById('go').disabled=true;
-    const {error} = await sb.auth.signInWithPassword({email:ident.toLowerCase()+EMAIL_DOMAIN,password:pin});
+    const {error}=await sb.auth.signInWithPassword({email:id.toLowerCase()+EMAIL_DOMAIN,password:pin});
     if(error){document.getElementById('err').textContent='Identifiant ou code incorrect.';document.getElementById('go').disabled=false;return;}
-    (await chargerContexte()) ? ecranAccueil() : ecranLogin('Compte non trouvé.');
+    (await charger())?accueil():login('Compte non trouvé.');
   };
   document.getElementById('go').onclick=go;
   document.getElementById('pin').addEventListener('keydown',e=>{if(e.key==='Enter')go();});
 }
 
-// ── ÉCRAN ACCUEIL ──
-function ecranAccueil() {
-  const c = statsNiveaux();
-  const dues = S.notions.filter(n=>{const r=S.srs[n.notion_id];return !r||r.due_date<=new Date().toISOString().slice(0,10);}).length;
-  const chapProgres = S.chapitres.slice(0,5).map(ch=>{
-    const p=S.progression[ch.id];
-    const niv=p?.niveau_qcm??0;
-    const pct=niv===3?100:niv===2?66:niv===1?33:0;
-    const couleur=niv===3?'var(--green2)':niv===2?'var(--amber2)':niv===1?'var(--coral2)':'var(--ligne)';
-    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-      <div style="font-size:12px;color:var(--gris);width:36px">Ch.${ch.id}</div>
-      <div class="barre-ch"><div style="width:${pct}%;height:100%;background:${couleur};border-radius:99px"></div></div>
-      <div style="flex-shrink:0">${badgeTxt(niv)}</div>
-    </div>`;
-  }).join('');
-
-  E.innerHTML=`
-  <div style="margin-bottom:14px">
-    <div class="label-s">${esc(S.classe.nom)} · ${esc(S.eleve.identifiant)}</div>
-    <h1 class="display" style="font-size:28px;margin:4px 0 0">Bonjour !</h1>
-  </div>
-
-  <!-- Révision du jour -->
-  <div style="background:var(--teal);border-radius:18px;padding:18px;margin-bottom:12px">
-    <div class="label-s" style="color:#9FE1CB;margin-bottom:6px">Révision du jour</div>
-    ${S.jourFaite
-      ? `<div class="display" style="font-size:22px;color:#fff;margin-top:4px">Terminée ✓</div>
-         <div style="font-size:13px;color:#5DCAA5;margin-top:4px">Bien joué — rendez-vous demain !</div>`
-      : `<div class="display" style="font-size:24px;color:#fff;margin-top:4px">${S.classe.session_size_qcm} questions + ${S.classe.session_size_cards} cartes</div>
-         <div style="font-size:13px;color:#5DCAA5;margin-top:4px">${dues} notions programmées</div>
-         <button class="btn" id="btnJour" style="background:#fff;color:var(--teal);margin-top:14px">▶ Commencer</button>`}
-  </div>
-
-  <!-- Révisions spéciales -->
-  <div class="carte">
-    <div style="font-weight:700;font-size:14px;margin-bottom:4px">Révisions spéciales</div>
-    <div class="muted petit" style="margin-bottom:12px">Entraîne-toi autant que tu veux</div>
-    <div style="display:flex;gap:6px;margin-bottom:10px" id="typeLibre">
-      ${[['qcm','QCM'],['cartes','Cartes'],['mixte','Les deux']].map(([k,l])=>
-        `<button data-t="${k}" style="flex:1;min-height:40px;border-radius:999px;font-size:13px;font-weight:600;border:1px solid var(--ligne);transition:transform .1s;${S.typeLibre===k?'background:var(--encre);color:#fff;border-color:var(--encre)':'background:var(--blanc);color:var(--encre)'}">${l}</button>`).join('')}
-    </div>
-    <button class="btn btn-coral" id="btnConso" style="margin-bottom:10px">
-      🔥 Mes notions à consolider (${c.fragile})
-    </button>
-    <div style="display:flex;gap:8px">
-      <select id="chapLibre" style="flex:1;min-width:0;border-radius:999px;min-height:46px;font-size:14px">
-        <option value="0">Tous les chapitres</option>
-        ${S.chapitres.map(ch=>`<option value="${ch.id}" ${S.chapLibre===ch.id?'selected':''}>Ch.${ch.id} — ${esc(ch.nom.slice(0,30))}</option>`).join('')}
-      </select>
-      <button class="btn btn-encre" id="btnGo" style="width:auto;padding:0 20px;flex-shrink:0">Go</button>
-    </div>
-  </div>
-
-  <!-- Notions -->
-  <div class="carte">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div style="font-weight:700;font-size:14px">Notions</div>
-      <button id="btnNotions" style="background:none;color:var(--teal);font-size:13px;font-weight:600">Tout voir →</button>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-      ${[['fragile','🔴','À consolider','--coralC','--coral'],['encours','🟡','En cours','--amberC','--amber'],['acquise','🟢','Acquise','--greenC','--green']].map(([k,ic,lab,bg,col])=>`
-      <div style="background:var(${bg});border-radius:12px;padding:10px;text-align:center;cursor:pointer" data-niv="${k}">
-        <div class="display" style="font-size:22px;color:var(${col})">${c[k]}</div>
-        <div style="font-size:11px;color:var(${col});margin-top:2px">${lab}</div>
-      </div>`).join('')}
-    </div>
-  </div>
-
-  <!-- Progression chapitres -->
-  <div class="carte">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div style="font-weight:700;font-size:14px">Progression QCM</div>
-      <button id="btnChapitres" style="background:none;color:var(--teal);font-size:13px;font-weight:600">Tout voir →</button>
-    </div>
-    ${chapProgres||'<p class="muted petit">Commence tes révisions pour voir ta progression !</p>'}
-  </div>
-
-  <button id="btnDeco" style="background:none;color:#B0AB9E;font-size:12px;margin-top:4px;width:100%">Se déconnecter</button>`;
-
-  if(!S.jourFaite) document.getElementById('btnJour').onclick=()=>lancerSeance('jour','mixte',0,false);
-  document.querySelectorAll('#typeLibre button').forEach(b=>b.onclick=()=>{S.typeLibre=b.dataset.t;ecranAccueil();});
-  document.getElementById('btnConso').onclick=()=>lancerSeance('libre',S.typeLibre,0,true);
-  document.getElementById('btnGo').onclick=()=>{S.chapLibre=+document.getElementById('chapLibre').value;lancerSeance('libre',S.typeLibre,S.chapLibre,false);};
-  document.getElementById('btnNotions').onclick=()=>ecranNotions('tous');
-  document.querySelectorAll('[data-niv]').forEach(b=>b.onclick=()=>ecranNotions(b.dataset.niv));
-  document.getElementById('btnChapitres').onclick=()=>ecranChapitres();
-  document.getElementById('btnDeco').onclick=async()=>{await sb.auth.signOut();ecranLogin();};
+// ═══════════ STATS ═══════════
+function statsChapitre(chid){
+  const nts=S.notions.filter(n=>n.chapter_id===chid);
+  let f=0,e=0,a=0;
+  nts.forEach(n=>{const b=S.srs[n.notion_id]?.box??0;if(b<=1)f++;else if(b<=3)e++;else a++;});
+  const p=S.progression[chid];
+  const niv=p?.niveau_qcm??0;
+  const cartesTot=p?.cartes_total??0,cartesMait=p?.cartes_maitrisees??0;
+  const pctCartes=cartesTot>0?Math.round(100*cartesMait/cartesTot):(nts.length?Math.round(100*a/nts.length):0);
+  const pctQcm=niv===3?100:niv===2?80:niv===1?50:p?.questions_niv1_tot>0?25:0;
+  return {fragile:f,encours:e,acquise:a,niveau:niv,pctCartes,pctQcm};
+}
+function statsGlobal(){
+  let totF=0,totC=0;const parChap={};
+  S.chapActifs.forEach(ch=>{const s=statsChapitre(ch);parChap[ch]=s;totF+=s.pctCartes;totC+=s.pctQcm;});
+  return {parChap,moyF:S.chapActifs.length?Math.round(totF/S.chapActifs.length):0,moyC:S.chapActifs.length?Math.round(totC/S.chapActifs.length):0};
 }
 
-// ── ÉCRAN NOTIONS ──
-function ecranNotions(filtreInit) {
-  let niveau=filtreInit||'tous', chap=0;
-  const FILTRES=[['tous','Toutes'],['fragile','À consolider'],['encours','En cours'],['acquise','Acquises']];
-  const render = () => {
-    const visibles=S.notions.map(n=>({...n,niveau:boxToNiveau(S.srs[n.notion_id]?.box)}))
-      .filter(n=>(niveau==='tous'||n.niveau===niveau)&&(chap===0||n.chapter_id===chap))
-      .sort((a,b)=>a.chapter_id-b.chapter_id||a.nom.localeCompare(b.nom));
-    const total=S.notions.filter(n=>chap===0||n.chapter_id===chap).length;
-    const acquises=S.notions.filter(n=>(chap===0||n.chapter_id===chap)&&boxToNiveau(S.srs[n.notion_id]?.box)==='acquise').length;
-    E.innerHTML=`
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
-      <h1 class="display" style="font-size:26px;margin:0">Notions</h1>
-      <button class="home-btn" data-home>${maison}</button>
-    </div>
-    <div style="display:flex;gap:8px;overflow-x:auto;margin:14px -20px 0;padding:0 20px 4px">
-      ${FILTRES.map(([k,l])=>`<button data-f="${k}" style="flex-shrink:0;border-radius:18px;padding:8px 14px;font-size:13px;font-weight:600;border:${niveau===k?'2px solid var(--encre)':'1px solid var(--ligne)'};background:var(--blanc);color:${niveau===k?'var(--encre)':'var(--gris)'}">${l}</button>`).join('')}
-    </div>
-    <select id="selChap" style="margin:12px 0;width:100%;border-radius:14px;min-height:46px;font-size:15px">
-      <option value="0">Tous les chapitres</option>
-      ${S.chapitres.map(c=>`<option value="${c.id}" ${chap===c.id?'selected':''}>Ch.${c.id} — ${esc(c.nom)}</option>`).join('')}
-    </select>
-    <div style="margin:0 -20px;padding:12px 20px;background:#EDEAE2;display:flex;justify-content:space-between;align-items:baseline">
-      <div><span class="display" style="font-size:20px">${visibles.length}</span><span class="muted" style="font-size:13px;margin-left:6px">notion${visibles.length>1?'s':''}</span></div>
-      <span class="muted petit">${acquises}/${total} acquises</span>
-    </div>
-    <div style="margin:0 -20px">
-      ${visibles.map(n=>`
-      <div style="padding:12px 20px;border-bottom:1px solid var(--ligne);background:var(--blanc);display:flex;align-items:center;justify-content:space-between;gap:12px">
-        <div style="min-width:0">
-          <div style="font-weight:600;font-size:14px">${esc(n.nom)}</div>
-          <div class="muted petit" style="margin-top:2px">Ch.${n.chapter_id}</div>
-        </div>
-        <span style="flex-shrink:0;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:${niveauCouleurBg(n.niveau)};color:${niveauCouleurTxt(n.niveau)}">${niveauLabel(n.niveau)}</span>
-      </div>`).join('')}
-      ${visibles.length===0?'<div class="centre muted" style="padding:40px;font-size:14px">Aucune notion ici — continue tes séances !</div>':''}
-    </div>`;
-    brancherMaison();
-    document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{niveau=b.dataset.f;render();});
-    document.getElementById('selChap').onchange=e=>{chap=+e.target.value;render();};
-  };
-  render();
-}
-
-// ── ÉCRAN CHAPITRES (progression QCM) ──
-function ecranChapitres() {
-  E.innerHTML=`
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
-    <h1 class="display" style="font-size:26px;margin:0">Progression QCM</h1>
-    <button class="home-btn" data-home>${maison}</button>
-  </div>
-  <div style="margin:14px -20px 0">
-    ${S.chapitres.map(ch=>{
-      const p=S.progression[ch.id];
-      const niv=p?.niveau_qcm??0;
-      const pct=niv===3?100:niv===2?66:niv===1?33:0;
-      const couleur=niv===3?'var(--green2)':niv===2?'var(--amber2)':niv===1?'var(--coral2)':'var(--ligne)';
-      const tot1=p?.questions_niv1_tot??0, ok1=p?.questions_niv1_ok??0;
-      const tot2=p?.questions_niv2_tot??0, ok2=p?.questions_niv2_ok??0;
-      const tot3=p?.questions_niv3_tot??0, ok3=p?.questions_niv3_ok??0;
-      const detail = niv===0&&tot1>0 ? `${ok1}/${tot1} questions niveau 1`
-        : niv===1&&tot2>0 ? `Niv.2 : ${ok2}/${tot2} questions`
-        : niv===2&&tot3>0 ? `Niv.3 : ${ok3}/${tot3} questions`
-        : niv===3 ? 'Toutes les difficultés maîtrisées !'
-        : 'Pas encore commencé';
-      return `
-      <div style="padding:14px 20px;border-bottom:1px solid var(--ligne);background:var(--blanc)">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-          <div style="font-size:12px;color:var(--gris);width:36px;flex-shrink:0">Ch.${ch.id}</div>
-          <div style="font-size:14px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(ch.nom)}</div>
-          ${badgeTxt(niv)}
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;margin-left:44px">
-          <div class="barre-ch"><div style="width:${pct}%;height:100%;background:${couleur};border-radius:99px"></div></div>
-        </div>
-        <div style="font-size:12px;color:var(--gris);margin-top:4px;margin-left:44px">${detail}</div>
-      </div>`;
-    }).join('')}
-  </div>`;
-  brancherMaison();
-}
-
-// ── LANCER SÉANCE ──
-async function lancerSeance(mode, type, chapitre, seulementFragiles) {
-  E.innerHTML=`<div class="centre" style="padding-top:40vh"><span class="spin"></span><p class="muted petit" style="margin-top:10px">Préparation…</p></div>`;
-  S.mode=mode; S.resQcm=[]; S.resCartes=[]; S.chapLibre=chapitre;
-  const today=new Date().toISOString().slice(0,10);
-  let chaps=chapitre?[chapitre]:S.chapActifs;
-  if(!chaps.length){E.innerHTML=`<div class="centre" style="padding-top:40vh"><p class="muted">Aucun chapitre ouvert.</p><button class="btn btn-encre" style="margin-top:16px;width:200px" onclick="ecranAccueil()">Retour</button></div>`;return;}
-
-  const {data:items} = await sb.from('v_items_eleve').select('*').in('chapter_id',chaps).limit(3000);
-  if(!items?.length){E.innerHTML=`<div class="centre" style="padding-top:40vh"><p class="muted">Aucune question disponible.</p><button class="btn btn-encre" style="margin-top:16px;width:200px" onclick="ecranAccueil()">Retour</button></div>`;return;}
-
-  const fragiles=new Set(Object.values(S.srs).filter(r=>r.box<=1).map(r=>r.notion_id));
-  const duesSet=new Set(Object.entries(S.srs).filter(([,r])=>r.due_date<=today).map(([k])=>k));
-
-  // Filtrer par niveau débloqué pour les QCM
-  const niveauChap = ch => S.progression[ch]?.niveau_qcm??0;
-  const diffMax = ch => niveauChap(ch)===0?1:niveauChap(ch)===1?2:3;
-
-  const score = it => {
-    let s=1+Math.random();
-    for(const nid of it.notion_ids||[]){
-      if(seulementFragiles&&fragiles.has(nid)) s+=10;
-      if(duesSet.has(nid)) s+=4;
-      if(!S.srs[nid]) s+=2;
-    }
-    return s;
-  };
-
-  let pool=items;
-  if(seulementFragiles){const f=items.filter(it=>(it.notion_ids||[]).some(nid=>fragiles.has(nid)));if(f.length)pool=f;}
-
-  // QCM : respecter le niveau débloqué par chapitre
-  const qcms = pool.filter(i=>i.type==='qcm')
-    .filter(i=>i.difficulty<=(diffMax(i.chapter_id)+1)) // +1 car on présente aussi le niveau suivant
-    .sort((a,b)=>score(b)-score(a));
-  const cartes = pool.filter(i=>i.type==='flashcard').sort((a,b)=>score(b)-score(a));
-
-  S.fileQcm = type==='cartes'?[]:melange(qcms.slice(0,S.classe.session_size_qcm));
-  S.fileCartes = type==='qcm'?[]:melange(cartes.slice(0,S.classe.session_size_cards));
-
-  if(S.fileQcm.length) ecranQcm(0); else if(S.fileCartes.length) ecranAnki(); else {
-    E.innerHTML=`<div class="centre" style="padding-top:40vh"><p class="muted">Aucun contenu disponible.</p><button class="btn btn-encre" style="margin-top:16px;width:200px" onclick="ecranAccueil()">Retour</button></div>`;
+// ═══════════ ACCUEIL ═══════════
+function accueil(){
+  S.ongletActif='accueil';
+  if(!S.chapCourant){
+    APP.innerHTML=`<div class="ecran-pad centre" style="padding-top:30vh"><p class="muted">Aucun chapitre n'est encore ouvert par ton professeur.</p><button class="btn btn-blanc" style="margin-top:20px;width:200px;margin-left:auto;margin-right:auto" onclick="(async()=>{await sb.auth.signOut();location.reload();})()">Se déconnecter</button></div>`;
+    return;
   }
+  const ch=S.chapitres.find(c=>c.id===S.chapCourant);
+  const st=statsChapitre(S.chapCourant);
+
+  APP.innerHTML=`
+  <div class="scroll">
+    <div class="hero">
+      <svg class="hero-deco" viewBox="0 0 200 200" fill="none" stroke="#fff" stroke-width="1.5"><circle cx="100" cy="60" r="8"/><circle cx="150" cy="100" r="6"/><circle cx="60" cy="120" r="7"/><path d="M100 68v40M108 64l38 32M92 66 64 114"/></svg>
+      <div class="avatar" id="goProfil">${ICN.user.replace('width="22"','').replace('height="22"','')}</div>
+      <h1 class="display">Bonjour !</h1>
+      <div class="sub">À force de forger on devient forgeron</div>
+    </div>
+
+    <div class="chap-select" id="openChap">
+      <div class="ic">⚗️</div>
+      <div style="flex:1;min-width:0">
+        <div class="lab">Chapitre travaillé</div>
+        <div class="val" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(ch?.nom||'—')}</div>
+      </div>
+      <div style="font-size:20px">⌄</div>
+    </div>
+
+    <!-- ESPACE FLASHCARDS -->
+    <div class="zone">
+      <div class="zone-head">
+        <div class="zone-ic" style="background:var(--primaireC)">📘</div>
+        <div class="zone-titre">ESPACE FLASHCARDS</div>
+      </div>
+      <div class="zone-sub">Mémorise les notions clés du chapitre.</div>
+      <button class="btn btn-plein" id="fcTout">🚀 Faire tout le chapitre</button>
+      <button class="btn btn-ligne" id="fcDiff">🎯 Revoir mes cartes difficiles</button>
+    </div>
+
+    <!-- ESPACE QCM -->
+    <div class="zone">
+      <div class="zone-head">
+        <div class="zone-ic" style="background:var(--accentC)">🎯</div>
+        <div class="zone-titre">ESPACE QCM</div>
+      </div>
+      <div class="zone-sub">Entraîne-toi et valide les 3 niveaux du chapitre.</div>
+      <button class="btn btn-accent" id="qcmProg">🏆 Progresser dans le chapitre</button>
+      <button class="btn btn-ligne" id="qcmErr">🔄 Revoir mes erreurs</button>
+    </div>
+
+    <!-- PRÉPARER BAC -->
+    <div class="bac-row" id="goBac">
+      <div class="bac-ic">🎓</div>
+      <div style="flex:1;font-weight:700;font-size:16px;color:var(--txt-primaire)">Préparer mon bac</div>
+      <div style="font-size:20px;color:var(--gris)">›</div>
+    </div>
+
+    <!-- PROGRESSION RÉSUMÉ -->
+    <div class="zone">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px">📈</span><span style="font-weight:800;font-size:17px;color:var(--txt-primaire)">Ma progression</span></div>
+        <button id="goProg" style="background:none;color:var(--accent);font-size:13px;font-weight:600">Détail par chapitre →</button>
+      </div>
+      <div class="prog-row">
+        <div class="prog-lab">Flashcards</div>
+        <div class="prog-bar"><div style="width:${st.pctCartes}%;background:linear-gradient(90deg,var(--primaire),var(--primaire2))"></div></div>
+        <div class="prog-pct">${st.pctCartes}%</div>
+      </div>
+      <div style="display:flex;gap:14px;padding-left:92px;margin:-6px 0 14px">
+        <span class="dot" style="color:var(--coral)">●<b>${st.fragile}</b><span class="muted" style="font-size:11px">à consolider</span></span>
+        <span class="dot" style="color:var(--amber)">●<b>${st.encours}</b><span class="muted" style="font-size:11px">en cours</span></span>
+        <span class="dot" style="color:var(--green)">●<b>${st.acquise}</b><span class="muted" style="font-size:11px">acquises</span></span>
+      </div>
+      <div class="prog-row">
+        <div class="prog-lab">QCM</div>
+        <div class="prog-bar"><div style="width:${st.pctQcm}%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div></div>
+        <div class="prog-pct">${st.pctQcm}%</div>
+      </div>
+      <div style="padding-left:92px;margin-top:4px">${st.niveau>0?`<span class="niveau-badge nv${st.niveau}" style="font-size:13px">✔ ${NIVEAUX[st.niveau].l} validé</span>`:'<span class="muted petit">Commence pour débloquer le niveau 1</span>'}</div>
+    </div>
+    <div style="height:8px"></div>
+  </div>
+  ${navBas('accueil')}`;
+
+  document.getElementById('openChap').onclick=modalChapitre;
+  document.getElementById('fcTout').onclick=()=>seance('fc_tout','cartes',[S.chapCourant],false);
+  document.getElementById('fcDiff').onclick=()=>seance('fc_diff','cartes',[S.chapCourant],true);
+  document.getElementById('qcmProg').onclick=()=>seance('qcm_prog','qcm',[S.chapCourant],false);
+  document.getElementById('qcmErr').onclick=()=>seance('qcm_err','qcm',[S.chapCourant],true);
+  document.getElementById('goBac').onclick=ecranBac;
+  document.getElementById('goProg').onclick=ongletProgression;
+  document.getElementById('goProfil').onclick=ongletProfil;
+  brancherNav();
+  maths();
 }
 
-// ── QCM ──
-function ecranQcm(i) {
-  const it=S.fileQcm[i];
-  const opts=melange(it.options);
-  const niv=S.progression[it.chapter_id]?.niveau_qcm??0;
-  E.innerHTML=`
-  <div style="display:flex;align-items:center;gap:12px">
-    <div class="progress"><div style="width:${(i/S.fileQcm.length)*100}%"></div></div>
-    <span class="petit" style="font-weight:600">${i}/${S.fileQcm.length}</span>
-    <button class="home-btn" data-home>${maison}</button>
-  </div>
-  <div style="margin:14px 0 8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-    <span class="pilule">${esc(it.chapter_title?.split('—')[0]?.trim().slice(0,25)||'')}</span>
-    <span class="petit muted">${'●'.repeat(it.difficulty)}${'○'.repeat(3-it.difficulty)}</span>
-    ${badgeTxt(niv)}
-  </div>
-  <h2 style="font-size:17px;font-weight:600;line-height:1.45;margin:0">${htmlCarte(esc(it.stem))}</h2>
-  ${it.image_url&&it.image_position!=='answer'?`<img src="${it.image_url}" style="max-width:100%;max-height:180px;border-radius:10px;margin:10px 0;object-fit:contain">`:''} 
-  <div id="opts">
-    ${opts.map(o=>`<button class="option" data-k="${o.key}"><b style="margin-right:8px">${o.key}.</b>${htmlCarte(esc(o.text))}</button>`).join('')}
-    <button class="option" data-k="NSP" style="color:var(--gris)">Je ne sais pas</button>
-  </div>
-  <div id="fb"></div>
-  <div class="sticky-bas" id="suite"></div>`;
-  brancherMaison(); rendreMaths();
-
-  document.querySelectorAll('#opts .option').forEach(b=>b.onclick=async()=>{
-    document.querySelectorAll('#opts .option').forEach(x=>x.disabled=true);
-    const k=b.dataset.k;
-    let res;
-    try{const {data,error}=await sb.rpc('repondre',{p_item_id:it.id,p_response_key:k,p_duration_ms:0,p_mode:S.mode});
-      if(error)throw error;res=data;}
-    catch(e){res={correct:k===it.answer,bonne_reponse:it.answer};}
-    S.resQcm.push({item:it,correct:!!res.correct});
-
-    // Mise à jour progression QCM
-    try{await sb.rpc('maj_progression_qcm',{p_eleve_id:S.eleve.id,p_chapter_id:it.chapter_id,p_difficulty:it.difficulty,p_correct:!!res.correct});}catch(e){}
-
-    document.querySelectorAll('#opts .option').forEach(x=>{
-      if(x.dataset.k===res.bonne_reponse)x.classList.add('bonne');
-      if(x.dataset.k===k&&!res.correct&&k!=='NSP')x.classList.add('fausse');
-    });
-    document.getElementById('fb').innerHTML=res.correct
-      ?`<div style="margin-top:12px;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:500;background:var(--okC);color:var(--ok)">Exact, bien joué !</div>`
-      :`<div style="margin-top:12px;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:500;background:var(--errC);color:var(--err)">La bonne réponse était ${esc(res.bonne_reponse)}.</div>`;
-    const fin=i+1>=S.fileQcm.length;
-    document.getElementById('suite').innerHTML=`<button class="btn btn-encre" id="next">${fin?(S.fileCartes.length?'Passer aux cartes':'Voir mon score'):'Question suivante'}</button>`;
-    document.getElementById('next').onclick=async()=>{
-      if(fin){
-        // Recharger la progression
-        const {data:prog}=await sb.from('progression').select('*').eq('eleve_id',S.eleve.id);
-        S.progression={};(prog||[]).forEach(p=>S.progression[p.chapter_id]=p);
-        S.fileCartes.length?ecranAnki():ecranBilan();
-      } else ecranQcm(i+1);
-    };
+// ═══════════ MODAL CHOIX CHAPITRE ═══════════
+function modalChapitre(){
+  const d=document.createElement('div');d.className='modal-fond';
+  d.innerHTML=`<div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div class="display" style="font-size:20px">Choisis ton chapitre</div>
+      <button id="close" style="background:none;font-size:24px;color:var(--gris)">×</button>
+    </div>
+    ${S.chapitres.map(c=>{const st=statsChapitre(c.id);
+      return `<div class="check-row ${c.id===S.chapCourant?'coche':''}" data-ch="${c.id}" style="justify-content:space-between">
+        <div style="min-width:0"><div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Ch.${c.id} — ${esc(c.nom)}</div>
+        <div class="muted petit">${st.acquise} notions acquises · ${NIVEAUX[st.niveau].l}</div></div>
+        ${c.id===S.chapCourant?'<span style="color:var(--primaire);font-size:20px">✓</span>':''}
+      </div>`;}).join('')}
+  </div>`;
+  document.body.appendChild(d);
+  d.querySelector('#close').onclick=()=>d.remove();
+  d.onclick=e=>{if(e.target===d)d.remove();};
+  d.querySelectorAll('[data-ch]').forEach(b=>b.onclick=async()=>{
+    S.chapCourant=+b.dataset.ch;
+    try{await sb.rpc('maj_preferences',{p_chapitre:S.chapCourant});}catch(e){}
+    d.remove();accueil();
   });
 }
 
-// ── ANKI MODE CARTES ──
-function ecranAnki() {
-  // Initialiser le paquet Anki
-  S.ankiFile=[...S.fileCartes];
-  S.ankiRepasse=[];
-  S.ankiIdx=0;
-  ecranAnkiCarte();
-}
-
-function ecranAnkiCarte() {
-  // Si plus de cartes dans le paquet principal, proposer les repassages
-  if(S.ankiIdx>=S.ankiFile.length){
-    if(S.ankiRepasse.length){
-      // Une passe de repassage
-      S.ankiFile=[...S.ankiRepasse];
-      S.ankiRepasse=[];
-      S.ankiIdx=0;
-    } else {
-      // Terminé
-      return ecranBilan();
-    }
-  }
-
-  const c=S.ankiFile[S.ankiIdx];
-  const srsN=S.srs[c.notion_ids?.[0]];
-  const box=srsN?.box??0;
-  let flipped=false;
-
-  const render=()=>{
-    const total=S.fileCartes.length;
-    const done=S.resCartes.length;
-    E.innerHTML=`
-    <div style="display:flex;align-items:center;gap:12px">
-      <div class="progress"><div style="width:${(done/Math.max(total,1))*100}%"></div></div>
-      <span class="petit" style="font-weight:600">${done}/${total}</span>
-      <button class="home-btn" data-home>${maison}</button>
+// ═══════════ PRÉPARER BAC ═══════════
+function ecranBac(){
+  S.bacChaps=[];
+  APP.innerHTML=`<div class="scroll ecran-pad">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px">
+      <div><h1 class="display" style="font-size:26px">🎓 Préparer mon bac</h1>
+      <p class="muted petit" style="margin-top:4px">Choisis un ou plusieurs chapitres, puis ton mode.</p></div>
+      <button class="home-btn" id="home">${ICN.home}</button>
     </div>
-    <div class="label-s" style="margin:12px 0 6px">Carte ${S.ankiIdx+1}/${S.ankiFile.length} · réponds de tête puis retourne</div>
-    <button id="flip" class="flip-carte ${flipped?'verso':''}">
-      <span class="label-s" style="color:${flipped?'#A7B4C4':'var(--gris)'};margin-bottom:10px">${flipped?'Réponse':'Question'}</span>
-      ${c.image_url&&!flipped?`<img src="${c.image_url}" style="max-width:90%;max-height:140px;border-radius:8px;margin-bottom:10px;object-fit:contain">`:''}
-      <div style="font-size:17px;font-weight:500;line-height:1.45">${htmlCarte(flipped?c.answer:c.stem)}</div>
-      ${!flipped?'<span class="petit" style="color:#B0AB9E;margin-top:12px">Touche pour retourner</span>':''}
-    </button>
-    ${flipped?`
-    <div style="margin-top:12px">
-      <div class="label-s" style="margin-bottom:8px">Honnêtement, tu le savais ?</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-        <button id="bNon" style="border-radius:999px;min-height:52px;font-size:14px;font-weight:600;background:var(--errC);color:var(--err);border:none;cursor:pointer">Non</button>
-        <button id="bMoitie" style="border-radius:999px;min-height:52px;font-size:14px;font-weight:600;background:var(--amberC);color:var(--amber);border:none;cursor:pointer">À moitié</button>
-        <button id="bOui" style="border-radius:999px;min-height:52px;font-size:14px;font-weight:600;background:var(--greenC);color:var(--green);border:none;cursor:pointer">Oui !</button>
-      </div>
-    </div>`:
-    `<div class="sticky-bas">
-      <button class="btn btn-blanc" id="jeNeSaisPas">Je ne sais pas</button>
-    </div>`}`;
-    brancherMaison(); rendreMaths();
-    document.getElementById('flip').onclick=()=>{flipped=!flipped;render();};
-    if(!flipped){
-      document.getElementById('jeNeSaisPas').onclick=()=>{flipped=true;render();setTimeout(()=>{
-        document.getElementById('bNon')?.click();},100);};
-    } else {
-      document.getElementById('bNon').onclick=()=>evaluerCarte(0);
-      document.getElementById('bMoitie').onclick=()=>evaluerCarte(1);
-      document.getElementById('bOui').onclick=()=>evaluerCarte(2);
-    }
+    <div style="margin:16px 0 10px;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:700;font-size:15px">Chapitres</div>
+      <button id="tous" style="background:none;color:var(--primaire);font-size:13px;font-weight:600">Tout sélectionner</button>
+    </div>
+    <div id="listeBac">
+      ${S.chapitres.map(c=>`<div class="check-row" data-ch="${c.id}">
+        <div class="check-box">✓</div>
+        <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Ch.${c.id} — ${esc(c.nom)}</div></div>
+      </div>`).join('')}
+    </div>
+    <div id="bacErr" class="err-txt centre" style="margin:12px 0"></div>
+    <div style="position:sticky;bottom:0;background:linear-gradient(transparent,var(--papier) 25%);padding:16px 0 8px">
+      <button class="btn btn-accent" id="bacQcm" style="margin-bottom:10px">📝 Mode QCM — lot de questions</button>
+      <button class="btn btn-plein" id="bacFc">📘 Mode Flashcards — mémorisation</button>
+      <p class="muted petit centre" style="margin-top:10px">Le mode bac n'affecte pas ta progression de niveaux.</p>
+    </div>
+  </div>${navBas('accueil')}`;
+  document.getElementById('home').onclick=accueil;
+  brancherNav();
+  const maj=()=>{document.querySelectorAll('#listeBac .check-row').forEach(r=>{
+    r.classList.toggle('coche',S.bacChaps.includes(+r.dataset.ch));});};
+  document.querySelectorAll('#listeBac .check-row').forEach(r=>r.onclick=()=>{
+    const ch=+r.dataset.ch;
+    if(S.bacChaps.includes(ch))S.bacChaps=S.bacChaps.filter(x=>x!==ch);
+    else S.bacChaps.push(ch);
+    maj();
+  });
+  document.getElementById('tous').onclick=()=>{
+    S.bacChaps=S.bacChaps.length===S.chapitres.length?[]:S.chapitres.map(c=>c.id);maj();
   };
-  render();
+  document.getElementById('bacQcm').onclick=()=>{
+    if(!S.bacChaps.length){document.getElementById('bacErr').textContent='Sélectionne au moins un chapitre.';return;}
+    seance('bac_qcm','qcm',S.bacChaps,false);
+  };
+  document.getElementById('bacFc').onclick=()=>{
+    if(!S.bacChaps.length){document.getElementById('bacErr').textContent='Sélectionne au moins un chapitre.';return;}
+    seance('bac_fc','cartes',S.bacChaps,true);
+  };
 }
 
-async function evaluerCarte(niveau) {
-  // 0=Non, 1=À moitié, 2=Oui
-  const c=S.ankiFile[S.ankiIdx];
-  const su = niveau===2;
-  const partiel = niveau===1;
+// ═══════════ SÉANCE (QCM ou CARTES) ═══════════
+async function seance(mode,type,chaps,seulementDues){
+  APP.innerHTML=`<div class="centre" style="padding-top:40vh"><span class="spin"></span><p class="muted petit" style="margin-top:10px">Préparation…</p></div>`;
+  S.mode=mode;S.resQcm=[];S.resCartes=[];S.seanceChaps=chaps;
+  if(chaps.length===1){try{await sb.rpc('maj_preferences',{p_chapitre:chaps[0]});}catch(e){}}
 
-  S.resCartes.push({item:c, su, partiel});
+  const {data:items}=await sb.from('v_items_eleve').select('*').in('chapter_id',chaps).limit(3000);
+  if(!items?.length){return finVide();}
 
-  // Logique Anki :
-  // Non → repassage dans la séance + revient demain (box reset)
-  // À moitié → revient dans 3 jours (box 2)
-  // Oui → intervalle doublé (box +1)
-  if(niveau===0){
-    // Ajouter à la liste de repassage
-    S.ankiRepasse.push(c);
-  }
+  const dues=new Set(Object.entries(S.srs).filter(([,r])=>r.due_date<=today()).map(([k])=>k));
+  const fragiles=new Set(Object.values(S.srs).filter(r=>r.box<=1).map(r=>r.notion_id));
 
-  // Appeler evaluer_carte avec la logique Anki
-  try{
-    const p_su = niveau===2;
-    const p_mode = S.mode;
-    await sb.rpc('evaluer_carte',{p_item_id:c.id, p_su, p_mode});
-    // Si "À moitié" : forcer box 2 (3 jours)
-    if(partiel){
-      await sb.from('srs_notions').upsert(
-        (c.notion_ids||[]).map(nid=>({eleve_id:S.eleve.id,notion_id:nid,box:2,due_date:new Date(Date.now()+3*86400000).toISOString().slice(0,10),streak:0,last_review:new Date().toISOString()})),
-        {onConflict:'eleve_id,notion_id'}
-      );
+  if(type==='qcm'){
+    let qcms=items.filter(i=>i.type==='qcm');
+    if(mode==='qcm_err'){ // revoir erreurs : notions où l'élève a raté, sans impact niveaux
+      qcms=qcms.filter(i=>(i.notion_ids||[]).some(nid=>fragiles.has(nid)));
+      if(!qcms.length)qcms=items.filter(i=>i.type==='qcm');
+    } else if(mode==='qcm_prog'){ // progression : limiter au niveau débloqué+1
+      const niv=S.progression[chaps[0]]?.niveau_qcm??0;
+      const diffMax=niv===0?2:niv===1?3:3; // présente le niveau courant et le suivant
+      qcms=qcms.filter(i=>i.difficulty<=diffMax);
     }
-    // Mettre à jour progression cartes
+    const score=it=>{let s=1+Math.random();for(const nid of it.notion_ids||[]){if(dues.has(nid))s+=3;if(!S.srs[nid])s+=2;if(fragiles.has(nid))s+=2;}return s;};
+    qcms=qcms.sort((a,b)=>score(b)-score(a));
+    const taille=mode.startsWith('bac')?20:S.classe.session_size_qcm;
+    S.fileQcm=melange(qcms.slice(0,taille));S.fileCartes=[];
+    if(!S.fileQcm.length)return finVide();
+    qcmEcran(0);
+  } else {
+    let cartes=items.filter(i=>i.type==='flashcard');
+    if(seulementDues){const d=cartes.filter(i=>(i.notion_ids||[]).some(nid=>dues.has(nid)||!S.srs[nid]));if(d.length)cartes=d;}
+    const score=it=>{let s=1+Math.random();for(const nid of it.notion_ids||[]){if(dues.has(nid))s+=4;if(!S.srs[nid])s+=2;}return s;};
+    cartes=cartes.sort((a,b)=>score(b)-score(a));
+    const taille=mode==='fc_tout'?cartes.length:mode.startsWith('bac')?40:S.classe.session_size_cards;
+    S.fileCartes=melange(cartes.slice(0,taille));S.fileQcm=[];
+    if(!S.fileCartes.length)return finVide();
+    ankiInit();
+  }
+}
+function finVide(){APP.innerHTML=`<div class="ecran-pad centre" style="padding-top:35vh"><p class="muted">Aucun contenu disponible ici pour le moment.</p><button class="btn btn-blanc" style="margin-top:20px;width:200px;margin-left:auto;margin-right:auto" id="r">Retour</button></div>`;document.getElementById('r').onclick=accueil;}
+
+// ═══════════ QCM ═══════════
+function qcmEcran(i){
+  const it=S.fileQcm[i];const opts=melange(it.options);
+  const niv=S.progression[it.chapter_id]?.niveau_qcm??0;
+  const impacteNiveau=(S.mode==='qcm_prog');
+  APP.innerHTML=`<div class="ecran-pad" style="display:flex;flex-direction:column;min-height:100vh">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="progress"><div style="width:${(i/S.fileQcm.length)*100}%"></div></div>
+      <span class="petit" style="font-weight:700">${i}/${S.fileQcm.length}</span>
+      <button class="home-btn" id="home">${ICN.home}</button>
+    </div>
+    <div style="margin:14px 0 8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span class="pilule">${esc((it.chapter_title||'').split('—')[0].trim().slice(0,22))}</span>
+      <span class="petit muted">${'●'.repeat(it.difficulty)}${'○'.repeat(3-it.difficulty)}</span>
+      ${impacteNiveau?badge(niv):'<span class="petit muted">entraînement libre</span>'}
+    </div>
+    <h2 style="font-size:17px;font-weight:600;line-height:1.45">${htmlC(esc(it.stem))}</h2>
+    ${it.image_url&&it.image_position!=='answer'?`<img src="${it.image_url}" style="max-width:100%;max-height:180px;border-radius:10px;margin:10px 0;object-fit:contain">`:''}
+    <div id="opts" style="margin-top:6px">
+      ${opts.map(o=>`<button class="option" data-k="${o.key}"><b style="margin-right:8px">${o.key}.</b>${htmlC(esc(o.text))}</button>`).join('')}
+      <button class="option" data-k="NSP" style="color:var(--gris)">Je ne sais pas</button>
+    </div>
+    <div id="fb"></div>
+    <div class="sticky-bas" id="suite"></div>
+  </div>`;
+  document.getElementById('home').onclick=accueil;maths();
+  document.querySelectorAll('#opts .option').forEach(b=>b.onclick=async()=>{
+    document.querySelectorAll('#opts .option').forEach(x=>x.disabled=true);
+    const k=b.dataset.k;let res;
+    try{const {data,error}=await sb.rpc('repondre',{p_item_id:it.id,p_response_key:k,p_duration_ms:0,p_mode:impacteNiveau?'jour':'libre'});if(error)throw error;res=data;}
+    catch(e){res={correct:k===it.answer,bonne_reponse:it.answer};}
+    S.resQcm.push({item:it,correct:!!res.correct});
+    if(impacteNiveau){try{await sb.rpc('maj_progression_qcm',{p_eleve_id:S.eleve.id,p_chapter_id:it.chapter_id,p_difficulty:it.difficulty,p_correct:!!res.correct});}catch(e){}}
+    document.querySelectorAll('#opts .option').forEach(x=>{
+      if(x.dataset.k===res.bonne_reponse)x.classList.add('bonne');
+      if(x.dataset.k===k&&!res.correct&&k!=='NSP')x.classList.add('fausse');});
+    document.getElementById('fb').innerHTML=res.correct
+      ?`<div style="margin-top:12px;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:600;background:var(--okC);color:var(--ok)">Exact, bien joué !</div>`
+      :`<div style="margin-top:12px;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:600;background:var(--errC);color:var(--err)">La bonne réponse était ${esc(res.bonne_reponse)}.</div>`;
+    const fin=i+1>=S.fileQcm.length;
+    document.getElementById('suite').innerHTML=`<button class="btn btn-encre" id="next">${fin?'Voir mon score':'Question suivante'}</button>`;
+    document.getElementById('next').onclick=async()=>{
+      if(fin){const {data:prog}=await sb.from('progression').select('*').eq('eleve_id',S.eleve.id);S.progression={};(prog||[]).forEach(p=>S.progression[p.chapter_id]=p);bilan();}
+      else qcmEcran(i+1);};
+  });
+}
+
+// ═══════════ ANKI CARTES ═══════════
+function ankiInit(){S.ankiFile=[...S.fileCartes];S.ankiRepasse=[];S.ankiIdx=0;ankiCarte();}
+function ankiCarte(){
+  if(S.ankiIdx>=S.ankiFile.length){
+    if(S.ankiRepasse.length){S.ankiFile=[...S.ankiRepasse];S.ankiRepasse=[];S.ankiIdx=0;}
+    else return bilan();
+  }
+  const c=S.ankiFile[S.ankiIdx];let flip=false;
+  const r=()=>{
+    const tot=S.fileCartes.length,done=S.resCartes.length;
+    APP.innerHTML=`<div class="ecran-pad" style="display:flex;flex-direction:column;min-height:100vh">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="progress"><div style="width:${(done/Math.max(tot,1))*100}%"></div></div>
+        <span class="petit" style="font-weight:700">${done}/${tot}</span>
+        <button class="home-btn" id="home">${ICN.home}</button>
+      </div>
+      <div class="petit muted" style="margin:12px 0 6px">Carte ${S.ankiIdx+1}/${S.ankiFile.length} · réponds de tête puis retourne</div>
+      <button id="flip" class="flip-carte ${flip?'verso':''}">
+        <span class="petit" style="color:${flip?'#A7B4C4':'var(--gris)'};font-weight:600;margin-bottom:10px">${flip?'RÉPONSE':'QUESTION'}</span>
+        ${c.image_url&&!flip?`<img src="${c.image_url}" style="max-width:90%;max-height:140px;border-radius:8px;margin-bottom:10px;object-fit:contain">`:''}
+        <div style="font-size:17px;font-weight:500;line-height:1.45">${htmlC(flip?c.answer:c.stem)}</div>
+        ${!flip?'<span class="petit" style="color:#B0AB9E;margin-top:12px">Touche pour retourner</span>':''}
+      </button>
+      ${flip?`<div style="margin-top:12px">
+        <div class="petit muted" style="margin-bottom:8px;font-weight:600">Honnêtement, tu le savais ?</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <button id="bN" style="border-radius:14px;min-height:54px;font-weight:700;background:var(--errC);color:var(--err);border:none">Non</button>
+          <button id="bM" style="border-radius:14px;min-height:54px;font-weight:700;background:var(--amberC);color:var(--amber);border:none">À moitié</button>
+          <button id="bO" style="border-radius:14px;min-height:54px;font-weight:700;background:var(--greenC);color:var(--green);border:none">Oui !</button>
+        </div></div>`:
+      `<div class="sticky-bas"><button class="btn btn-blanc" id="nsp">Je ne sais pas</button></div>`}
+    </div>`;
+    document.getElementById('home').onclick=accueil;maths();
+    document.getElementById('flip').onclick=()=>{flip=!flip;r();};
+    if(!flip)document.getElementById('nsp').onclick=()=>evalCarte(0);
+    else{document.getElementById('bN').onclick=()=>evalCarte(0);document.getElementById('bM').onclick=()=>evalCarte(1);document.getElementById('bO').onclick=()=>evalCarte(2);}
+  };r();
+}
+async function evalCarte(niv){
+  const c=S.ankiFile[S.ankiIdx];const su=niv===2,partiel=niv===1;
+  S.resCartes.push({item:c,su,partiel});
+  if(niv===0)S.ankiRepasse.push(c);
+  try{
+    await sb.rpc('evaluer_carte',{p_item_id:c.id,p_su:niv===2,p_mode:S.mode.startsWith('bac')||S.mode==='fc_tout'?'libre':'jour'});
+    if(partiel){await sb.from('srs_notions').upsert((c.notion_ids||[]).map(nid=>({eleve_id:S.eleve.id,notion_id:nid,box:2,due_date:new Date(Date.now()+3*86400000).toISOString().slice(0,10),streak:0,last_review:new Date().toISOString()})),{onConflict:'eleve_id,notion_id'});}
     await sb.rpc('maj_progression_cartes',{p_eleve_id:S.eleve.id,p_chapter_id:c.chapter_id});
   }catch(e){}
-
-  S.ankiIdx++;
-  ecranAnkiCarte();
+  S.ankiIdx++;ankiCarte();
 }
 
-// ── BILAN ──
-async function ecranBilan() {
-  const nQ=S.resQcm.length, bonnes=S.resQcm.filter(r=>r.correct).length;
-  const nC=S.resCartes.length, sues=S.resCartes.filter(r=>r.su).length;
-  const nonSues=S.resCartes.filter(r=>!r.su&&!r.partiel).length;
-  try{await sb.rpc('enregistrer_seance',{p_type:S.mode,p_n_items:nQ+nC,p_n_correct:bonnes+sues});}catch(e){}
-
-  // Recharger progression et srs
+// ═══════════ BILAN ═══════════
+async function bilan(){
+  const nQ=S.resQcm.length,bons=S.resQcm.filter(r=>r.correct).length;
+  const nC=S.resCartes.length,sus=S.resCartes.filter(r=>r.su).length,nonSus=S.resCartes.filter(r=>!r.su&&!r.partiel).length;
+  try{await sb.rpc('enregistrer_seance',{p_type:S.mode.startsWith('bac')?'libre':'libre',p_n_items:nQ+nC,p_n_correct:bons+sus});}catch(e){}
   const [{data:prog},{data:srs}]=await Promise.all([
     sb.from('progression').select('*').eq('eleve_id',S.eleve.id),
-    sb.from('srs_notions').select('*').eq('eleve_id',S.eleve.id)
-  ]);
+    sb.from('srs_notions').select('*').eq('eleve_id',S.eleve.id)]);
   S.progression={};(prog||[]).forEach(p=>S.progression[p.chapter_id]=p);
   S.srs={};(srs||[]).forEach(r=>S.srs[r.notion_id]=r);
-
-  const score = nQ>0?`${bonnes}/${nQ}`:nC>0?`${sues}/${nC}`:'—';
-  const sousScore = nQ>0?`questions justes${nC>0?` · ${sues}/${nC} cartes sues`:''}`:nC>0?'cartes sues':'';
-
-  E.innerHTML=`
-  <div style="display:flex;justify-content:flex-end"><button class="home-btn" data-home>${maison}</button></div>
-  <div class="centre" style="margin:12px 0 20px">
-    <div class="label-s">${S.mode==='libre'?'Révision spéciale':'Révision du jour'}</div>
-    <div class="display" style="font-size:52px;margin-top:6px">${score}</div>
-    <div class="muted" style="font-size:14px">${sousScore}</div>
-    ${nC>0&&nonSues>0?`<div style="margin-top:8px;font-size:13px;color:var(--coral)">🔁 ${nonSues} carte${nonSues>1?'s':''} repassée${nonSues>1?'s':''} dans la séance</div>`:''}
-  </div>
-
-  <!-- Badges débloqués -->
-  ${Object.values(S.progression).filter(p=>p.badge&&p.badge_at&&new Date(p.badge_at)>new Date(Date.now()-300000)).length>0?`
-  <div class="carte" style="background:var(--greenC);border-color:var(--green2)">
-    <div style="font-weight:700;font-size:14px;color:var(--green);margin-bottom:8px">🎉 Niveau débloqué !</div>
-    ${Object.values(S.progression).filter(p=>p.badge&&p.badge_at&&new Date(p.badge_at)>new Date(Date.now()-300000)).map(p=>`
-    <div style="font-size:14px;color:var(--green)">Ch.${p.chapter_id} → ${NIVEAUX[p.niveau_qcm].label}</div>`).join('')}
-  </div>`:''}
-
-  <!-- Résumé notions -->
-  <div class="carte">
-    <div style="font-weight:700;font-size:14px;margin-bottom:12px">Tes notions ont bougé</div>
-    ${[...new Set([...S.resQcm.map(r=>r.item.chapter_id),...S.resCartes.map(r=>r.item.chapter_id)])].map(chid=>{
-      const p=S.progression[chid];
-      const ch=S.chapitres.find(c=>c.id===chid);
-      return `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <span style="font-size:13px;font-weight:500">Ch.${chid} — ${esc(ch?.nom?.slice(0,25)||'')}</span>
-        ${badgeTxt(p?.niveau_qcm??0)}
-      </div>`;
-    }).join('')}
-  </div>
-
-  ${S.mode==='libre'?`<button class="btn btn-accent" id="encore" style="margin-bottom:10px">Encore une série</button>`:''}
-  <button class="btn ${S.mode==='libre'?'btn-blanc':'btn-encre'}" id="retour">Retour à l'accueil</button>`;
-
-  brancherMaison();
-  if(S.mode==='libre') document.getElementById('encore').onclick=()=>lancerSeance('libre',S.typeLibre,S.chapLibre,false);
-  document.getElementById('retour').onclick=async()=>{if(S.mode==='jour')S.jourFaite=true;ecranAccueil();};
+  const score=nQ>0?`${bons}/${nQ}`:nC>0?`${sus}/${nC}`:'—';
+  const sous=nQ>0?'questions justes':nC>0?'cartes sues':'';
+  const badgesNew=Object.values(S.progression).filter(p=>p.badge&&p.badge_at&&new Date(p.badge_at)>new Date(Date.now()-300000));
+  APP.innerHTML=`<div class="scroll ecran-pad">
+    <div style="display:flex;justify-content:flex-end"><button class="home-btn" id="home">${ICN.home}</button></div>
+    <div class="centre" style="margin:12px 0 20px">
+      <div class="petit muted" style="font-weight:600">${S.mode.startsWith('bac')?'Préparation bac':S.mode.startsWith('fc')?'Flashcards':'QCM'}</div>
+      <div class="display" style="font-size:54px;margin-top:6px;color:var(--txt-primaire)">${score}</div>
+      <div class="muted">${sous}</div>
+      ${nonSus>0?`<div style="margin-top:8px;font-size:13px;color:var(--coral)">🔁 ${nonSus} carte${nonSus>1?'s':''} repassée${nonSus>1?'s':''}</div>`:''}
+    </div>
+    ${badgesNew.length?`<div class="zone" style="background:var(--greenC);border:1px solid var(--green2)">
+      <div style="font-weight:800;color:var(--green);margin-bottom:8px">🎉 Niveau débloqué !</div>
+      ${badgesNew.map(p=>`<div style="color:var(--green)">Ch.${p.chapter_id} → ${NIVEAUX[p.niveau_qcm].l}</div>`).join('')}</div>`:''}
+    <button class="btn btn-accent" id="encore" style="margin-bottom:10px">Continuer</button>
+    <button class="btn btn-blanc" id="retour">Retour à l'accueil</button>
+  </div>${navBas('accueil')}`;
+  document.getElementById('home').onclick=accueil;
+  document.getElementById('retour').onclick=accueil;
+  document.getElementById('encore').onclick=()=>{
+    if(S.mode.startsWith('bac'))ecranBac();
+    else if(S.mode.startsWith('fc'))seance(S.mode,'cartes',S.seanceChaps,S.mode==='fc_diff');
+    else seance(S.mode,'qcm',S.seanceChaps,S.mode==='qcm_err');
+  };
+  brancherNav();maths();
 }
 
-// ── HELPERS ──
-const boxToNiveau = box => box==null?'fragile':box<=1?'fragile':box<=3?'encours':'acquise';
-const niveauLabel = n => n==='acquise'?'Acquise':n==='encours'?'En cours':'À consolider';
-const niveauCouleurBg = n => n==='acquise'?'var(--greenC)':n==='encours'?'var(--amberC)':'var(--coralC)';
-const niveauCouleurTxt = n => n==='acquise'?'var(--green)':n==='encours'?'var(--amber)':'var(--coral)';
-window.ecranAccueil=ecranAccueil;
+// ═══════════ ONGLET PROGRESSION ═══════════
+function ongletProgression(){
+  S.ongletActif='progression';
+  const g=statsGlobal();
+  APP.innerHTML=`<div class="scroll">
+    <div class="hero" style="padding-bottom:28px"><h1 class="display" style="font-size:28px">Ma progression</h1>
+      <div class="sub">Vue d'ensemble sur tous les chapitres</div></div>
+    <div class="zone" style="margin-top:-16px">
+      <div style="display:flex;gap:14px">
+        <div style="flex:1;text-align:center">
+          <div class="display" style="font-size:32px;color:var(--primaire)">${g.moyF}%</div>
+          <div class="petit muted">Flashcards mémorisées</div>
+        </div>
+        <div style="width:1px;background:var(--ligne)"></div>
+        <div style="flex:1;text-align:center">
+          <div class="display" style="font-size:32px;color:var(--accent)">${g.moyC}%</div>
+          <div class="petit muted">QCM validés</div>
+        </div>
+      </div>
+    </div>
+    <div class="zone">
+      <div style="font-weight:800;font-size:16px;color:var(--txt-primaire);margin-bottom:14px">Détail par chapitre</div>
+      ${S.chapitres.map(ch=>{const s=g.parChap[ch.id];
+        return `<div style="padding:12px 0;border-bottom:1px solid var(--ligne)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div style="font-weight:600;font-size:14px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:8px">Ch.${ch.id} — ${esc(ch.nom)}</div>
+            ${badge(s.niveau)}
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+            <span style="font-size:11px;color:var(--gris);width:62px">Flashcards</span>
+            <div class="prog-bar" style="height:6px"><div style="width:${s.pctCartes}%;background:var(--primaire2)"></div></div>
+            <span style="font-size:11px;font-weight:600;width:34px;text-align:right">${s.pctCartes}%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:11px;color:var(--gris);width:62px">QCM</span>
+            <div class="prog-bar" style="height:6px"><div style="width:${s.pctQcm}%;background:var(--accent)"></div></div>
+            <span style="font-size:11px;font-weight:600;width:34px;text-align:right">${s.pctQcm}%</span>
+          </div>
+        </div>`;}).join('')}
+    </div>
+    <div style="height:8px"></div>
+  </div>${navBas('progression')}`;
+  brancherNav();
+}
+
+// ═══════════ ONGLET PROFIL ═══════════
+function ongletProfil(){
+  S.ongletActif='profil';
+  const THEMES=[['ocean','Bleu Océan','#1B4FA8'],['emeraude','Émeraude','#0F6E56'],['violet','Violet Nuit','#4A3A9E']];
+  APP.innerHTML=`<div class="scroll">
+    <div class="hero" style="padding-bottom:28px"><h1 class="display" style="font-size:28px">Profil</h1>
+      <div class="sub">${esc(S.classe.nom)} · ${esc(S.eleve.identifiant)}</div></div>
+    <div class="zone" style="margin-top:-16px">
+      <div style="font-weight:800;font-size:16px;color:var(--txt-primaire);margin-bottom:14px">🎨 Thème de couleur</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${THEMES.map(([k,nom,col])=>`<button class="check-row ${S.theme===k?'coche':''}" data-th="${k}" style="border:none;width:100%;text-align:left">
+          <div style="width:28px;height:28px;border-radius:8px;background:${col};flex-shrink:0"></div>
+          <div style="flex:1;font-weight:600;font-size:15px">${nom}</div>
+          ${S.theme===k?'<span style="color:var(--primaire);font-size:20px">✓</span>':''}
+        </button>`).join('')}
+      </div>
+    </div>
+    <div class="zone">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-weight:600">Identifiant</div><div class="muted petit">${esc(S.eleve.identifiant)}</div></div>
+      </div>
+    </div>
+    <div style="margin:14px 16px">
+      <button class="btn btn-blanc" id="deco" style="color:var(--err)">Se déconnecter</button>
+    </div>
+    <div style="height:8px"></div>
+  </div>${navBas('profil')}`;
+  document.querySelectorAll('[data-th]').forEach(b=>b.onclick=async()=>{
+    S.theme=b.dataset.th;document.documentElement.setAttribute('data-theme',S.theme);
+    try{await sb.rpc('maj_preferences',{p_theme:S.theme});}catch(e){}
+    ongletProfil();
+  });
+  document.getElementById('deco').onclick=async()=>{await sb.auth.signOut();login();};
+  brancherNav();
+}
+
+// ═══════════ NAV BAS ═══════════
+function navBas(actif){
+  return `<div class="navbas">
+    <button data-nav="accueil" class="${actif==='accueil'?'actif':''}">${ICN.home}<span>Accueil</span></button>
+    <button data-nav="progression" class="${actif==='progression'?'actif':''}">${ICN.chart}<span>Progression</span></button>
+    <button data-nav="profil" class="${actif==='profil'?'actif':''}">${ICN.user}<span>Profil</span></button>
+  </div>`;
+}
+function brancherNav(){
+  document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{
+    const n=b.dataset.nav;
+    if(n==='accueil')accueil();else if(n==='progression')ongletProgression();else ongletProfil();
+  });
+}
+
+window.accueil=accueil;
 init();
 </script>
 </body>
