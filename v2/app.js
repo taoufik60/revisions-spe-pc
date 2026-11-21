@@ -94,6 +94,7 @@ async function enregistrer(id, rep) {
 const ROUTES = {
   accueil: vAccueil, chapitres: vChapitres, chapitre: vChapitre, partie: vPartie, complet: vComplet,
   cartes: vCartes, consulter: vConsulter, revisions: vRevisions, examen: vExamen, progression: vProgression, profil: vProfil,
+  aide: () => vAide(false), bienvenue: () => vBienvenue(0),
 };
 async function route() {
   if (!S.idx) return;
@@ -304,13 +305,49 @@ function vProfil() {
   const opts = THEMES.map(([k, nom, cols]) => `<button class="check ${S.theme === k ? 'on' : ''}" data-t="${k}" style="border-color:${S.theme === k ? 'var(--ch)' : '#E1E6EE'};background:#fff"><span style="display:flex">${cols.map(c => `<span style="width:18px;height:18px;border-radius:999px;background:${c};border:2px solid #fff;margin-left:-6px"></span>`).join('')}</span><b style="flex:1;font-size:16px">${nom}</b>${S.theme === k ? '<span style="color:var(--ch);font-weight:800">✓</span>' : ''}</button>`).join('');
   page(`<div class="top home"><div><h1>Mon profil</h1><p>${esc(S.eleve ? S.eleve.identifiant : 'Professeur (aperçu)')}</p></div>${BADGE}</div>
   <div class="panel mx"><b style="font-size:17px;color:var(--header)">Thème de couleur</b>${opts}</div>
-  <div class="panel mx" style="gap:0;padding:4px 16px"><p style="margin:0;padding:14px 2px;border-bottom:1px solid #E8ECF2;font-size:14px;color:#4F5B70">Code oublié ? Demande à ton professeur de le réinitialiser.</p>
+  <div class="panel mx" style="gap:0;padding:4px 16px"><a href="#/bienvenue" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8ECF2;text-decoration:none;font-weight:600">Revoir les explications${ICON.chev}</a><a href="#/aide" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8ECF2;text-decoration:none;font-weight:600">Installer PC Lab sur mon téléphone${ICON.chev}</a><p style="margin:0;padding:14px 2px;border-bottom:1px solid #E8ECF2;font-size:14px;color:#4F5B70">Code oublié ? Demande à ton professeur de le réinitialiser.</p>
   <button id="sortir" style="min-height:52px;border:none;background:none;text-align:left;color:#A3361C;font-size:15px;font-weight:700;padding:0 2px">Se déconnecter</button></div>`, 'profil');
   APP.querySelectorAll('[data-t]').forEach(b => b.onclick = async () => {
     S.theme = b.dataset.t; document.documentElement.dataset.theme = S.theme; vProfil();
     if (!S.apercu) { try { await sb.rpc('maj_preferences', { p_theme: S.theme }); } catch (e) { } }
   });
   document.getElementById('sortir').onclick = async () => { await sb.auth.signOut(); location.hash = ''; location.reload(); };
+}
+
+
+/* ---------- première connexion ---------- */
+const INTRO = [
+  ['Bienvenue sur PC Lab', `<p>Ici, tu révises la physique-chimie avec des <b>flashcards</b>.</p><p>Quelques minutes par jour suffisent pour retenir l'essentiel avant les contrôles et le bac.</p>`],
+  ['Une carte, trois réponses', `<p>Lis la question et cherche la réponse <b>dans ta tête</b>, puis touche « Voir la réponse ».</p><p>Ensuite, sois honnête :</p><div class="grade" style="margin:6px 0"><span class="g0" style="border-radius:12px;padding:10px 4px">Non</span><span class="g1" style="border-radius:12px;padding:10px 4px">À moitié</span><span class="g2" style="border-radius:12px;padding:10px 4px">Oui</span></div><p>Répondre « Oui » sans savoir ne t'aide pas : la carte reviendrait trop tard.</p>`],
+  ['Les cartes reviennent au bon moment', `<p>Une carte <b>ratée</b> revient <b>dès le lendemain</b>.</p><p>Une carte <b>réussie</b> revient de plus en plus tard : dans 3, 7, 15 puis 30 jours.</p><p>Chaque jour, <b>« Révisions générales »</b> te propose tes cartes du jour.</p>`],
+  ['Installe PC Lab sur ton téléphone', `<p>Tu l'ouvriras comme une application, d'un seul geste.</p><p><a href="#" id="voir-aide" style="color:var(--ch);font-weight:700">Voir comment faire</a></p><p style="color:#4F5B70;font-size:14px">Tu pourras revoir ces explications dans ton profil.</p>`],
+];
+function vBienvenue(i) {
+  const [t, html] = INTRO[i], last = i === INTRO.length - 1;
+  const dots = INTRO.map((_, k) => `<span style="width:${k === i ? 22 : 8}px;height:8px;border-radius:999px;background:${k === i ? 'var(--ch)' : '#C9D3E2'}"></span>`).join('');
+  APP.innerHTML = `<div class="scroll"><div class="top home"><div><h1 style="font-size:24px">${t}</h1><p>Étape ${i + 1} sur ${INTRO.length}</p></div>${BADGE}</div>
+  <div class="panel mx" style="font-size:17px;line-height:1.55;gap:4px">${html}</div>
+  <div style="display:flex;justify-content:center;gap:6px">${dots}</div>
+  <div class="mx" style="display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-bottom:10px">
+  <button class="btn-main ch" id="suite">${last ? 'Commencer' : 'Suivant'}</button>
+  ${last ? '' : '<button class="link-discret" id="passer">Passer</button>'}</div></div>`;
+  const fin = () => { localStorage.setItem('pclab_intro_vu', '1'); location.hash = '#/accueil'; route(); };
+  document.getElementById('suite').onclick = () => last ? fin() : vBienvenue(i + 1);
+  const p = document.getElementById('passer'); if (p) p.onclick = fin;
+  const a = document.getElementById('voir-aide'); if (a) a.onclick = e => { e.preventDefault(); localStorage.setItem('pclab_intro_vu', '1'); vAide(false, () => vBienvenue(i)); };
+}
+function vAide(avantConnexion, retour) {
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent), android = /Android/.test(navigator.userAgent);
+  const installe = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  const share = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 11v9h14v-9"/></svg>';
+  const etapes = (titre, list, on) => `<div class="panel mx" style="${on ? 'border:2px solid var(--ch)' : ''}"><b style="font-size:17px">${titre}</b><ol style="margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.45">${list.map(x => `<li>${x}</li>`).join('')}</ol></div>`;
+  const html = `<div class="top"><div class="top-row"><button class="back" id="retour">${ICON.back}Retour</button>${BADGE}</div><h1>Installer PC Lab</h1><p>Sur l'écran d'accueil de ton téléphone</p></div>
+  ${installe ? '<p class="note" style="color:#1D6B3E;font-weight:700">PC Lab est déjà installé sur ce téléphone.</p>' : ''}
+  ${etapes('Sur iPhone', [`Ouvre le site dans <b>Safari</b>.`, `Touche le bouton <b>Partager</b> ${share} en bas de l'écran.`, `Choisis <b>« Sur l'écran d'accueil »</b> (fais défiler si besoin), puis <b>« Ajouter »</b>.`, `Ouvre PC Lab depuis la nouvelle icône et <b>connecte-toi une fois</b> avec ton identifiant et ton code.`], ios)}
+  ${etapes('Sur Android', [`Ouvre le site dans <b>Chrome</b>.`, `Touche le menu <b>⋮</b> en haut à droite.`, `Choisis <b>« Installer l'application »</b> ou <b>« Ajouter à l'écran d'accueil »</b>.`, `Ouvre PC Lab depuis la nouvelle icône.`], android)}
+  <p class="note">Il faut une connexion Internet pour réviser. Ta progression est enregistrée en ligne : tu ne perds rien si tu changes de téléphone.</p>`;
+  if (avantConnexion) APP.innerHTML = `<div class="scroll">${html}</div>`; else page(html, 'profil');
+  document.getElementById('retour').onclick = () => retour ? retour() : (avantConnexion ? vLogin() : history.back());
 }
 
 /* ---------- connexion ---------- */
@@ -320,7 +357,8 @@ function vLogin(msg = '') {
   <label class="field"><input id="ident" placeholder="Identifiant" autocomplete="username" autocapitalize="none"></label>
   <label class="field"><input id="pin" placeholder="Code à 6 chiffres" inputmode="numeric" type="password" maxlength="6" autocomplete="current-password"></label>
   <p class="err" id="err">${esc(msg)}</p><button class="btn-main ch" id="go">Se connecter</button></div>
-  <p class="note">Ton identifiant et ton code t'ont été donnés par ton professeur.</p></div>`;
+  <p class="note">Ton identifiant et ton code t'ont été donnés par ton professeur.</p><button class="link-discret" id="aide">Installer PC Lab sur mon téléphone</button></div>`;
+  document.getElementById('aide').onclick = () => vAide(true);
   const go = async () => {
     const id = document.getElementById('ident').value.trim(), pin = document.getElementById('pin').value.trim();
     if (!id || pin.length < 6) { document.getElementById('err').textContent = 'Entre ton identifiant et ton code à 6 chiffres.'; return; }
@@ -358,6 +396,7 @@ async function demarrer() {
     }
   }
   document.documentElement.dataset.theme = S.theme;
+  if (!S.apercu && !localStorage.getItem('pclab_intro_vu')) return vBienvenue(0);
   route();
 }
 demarrer();
