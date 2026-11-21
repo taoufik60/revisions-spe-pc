@@ -33,7 +33,7 @@ const nav = on => `<nav class="tabs" aria-label="Navigation">
 <a href="#/accueil" class="${on === 'accueil' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Accueil</a>
 <a href="#/progression" class="${on === 'progression' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 3-3 3 3 5-5"/></svg>Progression</a>
 <a href="#/profil" class="${on === 'profil' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Profil</a></nav>`;
-const page = (html, tab) => { document.getElementById('tour')?.remove(); APP.innerHTML = (S.apercu ? '<div class="preview">Mode aperçu professeur : tous les chapitres sont visibles, rien n\'est enregistré.</div>' : '') + `<div class="scroll">${html}</div>` + (tab === false ? '' : nav(tab)); window.scrollTo(0, 0); };
+const page = (html, tab) => { document.getElementById('tour')?.remove(); APP.innerHTML = (S.apercu ? '<div class="preview">Mode aperçu professeur : ta progression de test est gardée dans ce navigateur seulement.</div>' : '') + (S.baseKO ? '<div class="preview" style="background:#FBE4DF;color:#7A2414">La base de données n\'est pas prête : ta progression ne sera pas enregistrée. Préviens ton professeur.</div>' : '') + `<div class="scroll">${html}</div>` + (tab === false ? '' : nav(tab)); window.scrollTo(0, 0); };
 const big = (cls, href, icon, title, sub, extra = '') => `<a class="big ${cls} mx" href="${href}" ${extra}><span class="row"><span class="ic">${icon}</span><span class="t">${title}</span><span class="go">${ICON.go}</span></span>${sub ? `<span class="s">${sub}</span>` : ''}</a>`;
 
 /* ---------- contenu ---------- */
@@ -82,12 +82,20 @@ function regleLocale(id, rep) {
 }
 async function enregistrer(id, rep) {
   regleLocale(id, rep); // affichage immédiat
-  if (S.apercu) return;
+  if (S.apercu) { localStorage.setItem('pclab_apercu_suivi', JSON.stringify(S.suivi)); return; }
   try {
     const { data, error } = await sb.rpc('repondre_carte', { p_carte_id: id, p_reponse: rep });
     if (error) throw error;
     if (data) S.suivi[id] = data;
-  } catch (e) { console.warn('Réponse non enregistrée', e); }
+  } catch (e) { console.warn('Réponse non enregistrée', e); alerteSauvegarde(); }
+}
+
+function alerteSauvegarde() {
+  if (document.getElementById('alerte')) return;
+  const d = document.createElement('div'); d.id = 'alerte';
+  d.style.cssText = 'position:fixed;left:12px;right:12px;bottom:84px;z-index:60;max-width:456px;margin:0 auto;background:#FBE4DF;color:#7A2414;border-radius:12px;padding:12px 14px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.2)';
+  d.innerHTML = '<b>Ta réponse n\'a pas pu être enregistrée.</b> Vérifie ta connexion Internet. Si cela continue, préviens ton professeur.';
+  document.body.appendChild(d); setTimeout(() => d.remove(), 6000);
 }
 
 /* ---------- routes ---------- */
@@ -400,6 +408,7 @@ async function demarrer() {
     const { data: prof } = await sb.from('profs').select('id').eq('id', session.user.id).maybeSingle();
     if (!prof) { await sb.auth.signOut(); return vLogin('Ce compte n\'est relié à aucun élève.'); }
     S.apercu = true;
+    try { S.suivi = JSON.parse(localStorage.getItem('pclab_apercu_suivi') || '{}'); } catch (e) { S.suivi = {}; }
   } else {
     S.theme = S.eleve.theme || 'ocean';
     const { data: cc } = await sb.from('classe_chapitres').select('chapter_id').eq('classe_id', S.eleve.classe_id).eq('active', true);
@@ -407,7 +416,8 @@ async function demarrer() {
     let from = 0;
     for (;;) {
       const { data, error } = await sb.from('carte_suivi').select('*').eq('eleve_id', S.eleve.id).range(from, from + 999);
-      if (error || !data) break;
+      if (error) { S.baseKO = true; break; }
+      if (!data) break;
       data.forEach(r => S.suivi[r.carte_id] = r);
       if (data.length < 1000) break; from += 1000;
     }
