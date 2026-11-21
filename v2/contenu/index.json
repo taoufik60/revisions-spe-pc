@@ -1,0 +1,89 @@
+{
+ "chapitres": [
+  {
+   "num": 1,
+   "titre": "Réactions acide-base",
+   "parties": [
+    {
+     "slug": "ch1-p1-acides-bases-ph",
+     "titre": "Acides, bases et pH",
+     "n": 14
+    },
+    {
+     "slug": "ch1-p2-noms-formules",
+     "titre": "Noms et formules",
+     "n": 20
+    }
+   ]
+  },
+  {
+   "num": 2,
+   "titre": "Méthodes physiques d'analyse",
+   "parties": [
+    {
+     "slug": "ch2-p1-spectroscopie-ir",
+     "titre": "Spectroscopie IR",
+     "n": 7
+    },
+    {
+     "slug": "ch2-p2-dosage-etalonnage",
+     "titre": "Dosage par étalonnage",
+     "n": 20
+    },
+    {
+     "slug": "ch2-p3-gaz-parfaits",
+     "titre": "Gaz parfaits",
+     "n": 7
+    }
+   ]
+  },
+  {
+   "num": 3,
+   "titre": "Titrages",
+   "parties": [
+    {
+     "slug": "ch3-p1-titrages",
+     "titre": "Titrages",
+     "n": 16
+    }
+   ]
+  },
+  {
+   "num": 4,
+   "titre": "Cinématique",
+   "parties": [
+    {
+     "slug": "ch4-p1-cinematique",
+     "titre": "Cinématique",
+     "n": 19
+    }
+   ]
+  },
+  {
+   "num": 5,
+   "titre": "Mouvements et forces",
+   "parties": [
+    {
+     "slug": "ch5-p1-lois-de-newton",
+     "titre": "Lois de Newton",
+     "n": 12
+    },
+    {
+     "slug": "ch5-p2-champ-de-pesanteur",
+     "titre": "Champ de pesanteur",
+     "n": 12
+    },
+    {
+     "slug": "ch5-p3-champ-electrique",
+     "titre": "Champ électrique",
+     "n": 12
+    },
+    {
+     "slug": "ch5-p4-etude-energetique",
+     "titre": "Étude énergétique",
+     "n": 12
+    }
+   ]
+  }
+ ]
+}

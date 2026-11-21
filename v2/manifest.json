@@ -1,0 +1,13 @@
+{
+  "name": "PC Lab – révisions Terminale Spé PC",
+  "short_name": "PC Lab",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F4F6FA",
+  "theme_color": "#0A2E6E",
+  "lang": "fr",
+  "icons": [
+    { "src": "icone-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icone-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
