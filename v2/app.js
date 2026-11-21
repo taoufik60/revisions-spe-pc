@@ -33,7 +33,7 @@ const nav = on => `<nav class="tabs" aria-label="Navigation">
 <a href="#/accueil" class="${on === 'accueil' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Accueil</a>
 <a href="#/progression" class="${on === 'progression' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 3-3 3 3 5-5"/></svg>Progression</a>
 <a href="#/profil" class="${on === 'profil' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Profil</a></nav>`;
-const page = (html, tab) => { APP.innerHTML = (S.apercu ? '<div class="preview">Mode aperçu professeur : tous les chapitres sont visibles, rien n\'est enregistré.</div>' : '') + `<div class="scroll">${html}</div>` + (tab === false ? '' : nav(tab)); window.scrollTo(0, 0); };
+const page = (html, tab) => { document.getElementById('tour')?.remove(); APP.innerHTML = (S.apercu ? '<div class="preview">Mode aperçu professeur : tous les chapitres sont visibles, rien n\'est enregistré.</div>' : '') + `<div class="scroll">${html}</div>` + (tab === false ? '' : nav(tab)); window.scrollTo(0, 0); };
 const big = (cls, href, icon, title, sub, extra = '') => `<a class="big ${cls} mx" href="${href}" ${extra}><span class="row"><span class="ic">${icon}</span><span class="t">${title}</span><span class="go">${ICON.go}</span></span>${sub ? `<span class="s">${sub}</span>` : ''}</a>`;
 
 /* ---------- contenu ---------- */
@@ -94,7 +94,7 @@ async function enregistrer(id, rep) {
 const ROUTES = {
   accueil: vAccueil, chapitres: vChapitres, chapitre: vChapitre, partie: vPartie, complet: vComplet,
   cartes: vCartes, consulter: vConsulter, revisions: vRevisions, examen: vExamen, progression: vProgression, profil: vProfil,
-  aide: () => vAide(false), bienvenue: () => vBienvenue(0),
+  aide: () => vAide(false), bienvenue: revoirExplications,
 };
 async function route() {
   if (!S.idx) return;
@@ -114,8 +114,14 @@ async function vAccueil() {
   const c = chapCourant();
   let due = 0; chapitres().forEach(x => idsChap(x).forEach(id => { if (aRevoir(id)) due++; }));
   page(`<div class="top home"><div><h1>Bonjour !</h1><p>${DEVISE}</p></div>${BADGE}</div><div style="height:10px"></div>
-  ${c ? big('ch', `#/chapitre/${c.num}`, ICON.book, 'Travailler un chapitre', `Ch. ${c.num} · ${esc(c.titre)}`) : '<p class="note">Ton professeur n\'a pas encore ouvert de chapitre.</p>'}
-  ${big('gen', '#/revisions', ICON.cal, 'Révisions générales', due ? `${due} carte${due > 1 ? 's' : ''} à revoir aujourd'hui` : 'Rien à revoir aujourd\'hui')}`, 'accueil');
+  ${c ? big('ch', `#/chapitre/${c.num}`, ICON.book, 'Travailler un chapitre', `Ch. ${c.num} · ${esc(c.titre)}`, 'data-tour="chap"') : '<p class="note">Ton professeur n\'a pas encore ouvert de chapitre.</p>'}
+  ${big('gen', '#/revisions', ICON.cal, 'Révisions générales', due ? `${due} carte${due > 1 ? 's' : ''} à revoir aujourd'hui` : 'Rien à revoir aujourd\'hui', 'data-tour="rev"')}`, 'accueil');
+  tour('accueil', [
+    { sel: '[data-tour="chap"]', text: 'Travaille le chapitre vu en classe, <b>partie par partie</b>.' },
+    { sel: '[data-tour="rev"]', text: 'Chaque jour, tes <b>cartes à revoir</b> t\'attendent ici.' },
+    { sel: 'nav.tabs a[href="#/progression"]', text: 'Ta <b>progression</b>, carte par carte.' },
+    { sel: 'nav.tabs a[href="#/profil"]', text: 'Couleurs et <b>installation</b> sur ton téléphone.' },
+  ]);
 }
 function vChapitres() {
   const cur = chapCourant();
@@ -237,6 +243,8 @@ function drawCarte() {
   const show = () => { s.revealed = true; s.flipped = true; drawCarte(); };
   document.getElementById('carte').onclick = () => { if (!s.revealed) show(); else { s.flipped = !s.flipped; drawCarte(); } };
   const v = document.getElementById('voir'); if (v) v.onclick = show;
+  if (!s.revealed) tour('carte_q', [{ sel: '#voir', text: 'Cherche la réponse <b>dans ta tête</b>, puis touche ici.' }]);
+  else tour('carte_r', [{ sel: '.grade', text: 'Sois honnête : une carte <b>ratée revient demain</b>, une carte réussie revient plus tard.' }]);
   APP.querySelectorAll('[data-r]').forEach(b => b.onclick = () => {
     const rep = +b.dataset.r, i = s.queue[s.pos];
     enregistrer(c.id, rep);
@@ -305,7 +313,7 @@ function vProfil() {
   const opts = THEMES.map(([k, nom, cols]) => `<button class="check ${S.theme === k ? 'on' : ''}" data-t="${k}" style="border-color:${S.theme === k ? 'var(--ch)' : '#E1E6EE'};background:#fff"><span style="display:flex">${cols.map(c => `<span style="width:18px;height:18px;border-radius:999px;background:${c};border:2px solid #fff;margin-left:-6px"></span>`).join('')}</span><b style="flex:1;font-size:16px">${nom}</b>${S.theme === k ? '<span style="color:var(--ch);font-weight:800">✓</span>' : ''}</button>`).join('');
   page(`<div class="top home"><div><h1>Mon profil</h1><p>${esc(S.eleve ? S.eleve.identifiant : 'Professeur (aperçu)')}</p></div>${BADGE}</div>
   <div class="panel mx"><b style="font-size:17px;color:var(--header)">Thème de couleur</b>${opts}</div>
-  <div class="panel mx" style="gap:0;padding:4px 16px"><a href="#/bienvenue" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8ECF2;text-decoration:none;font-weight:600">Revoir les explications${ICON.chev}</a><a href="#/aide" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8ECF2;text-decoration:none;font-weight:600">Installer PC Lab sur mon téléphone${ICON.chev}</a><p style="margin:0;padding:14px 2px;border-bottom:1px solid #E8ECF2;font-size:14px;color:#4F5B70">Code oublié ? Demande à ton professeur de le réinitialiser.</p>
+  <div class="panel mx" style="gap:0;padding:4px 16px"><a href="#/bienvenue" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8ECF2;text-decoration:none;font-weight:600">Revoir la visite guidée${ICON.chev}</a><a href="#/aide" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8ECF2;text-decoration:none;font-weight:600">Installer PC Lab sur mon téléphone${ICON.chev}</a><p style="margin:0;padding:14px 2px;border-bottom:1px solid #E8ECF2;font-size:14px;color:#4F5B70">Code oublié ? Demande à ton professeur de le réinitialiser.</p>
   <button id="sortir" style="min-height:52px;border:none;background:none;text-align:left;color:#A3361C;font-size:15px;font-weight:700;padding:0 2px">Se déconnecter</button></div>`, 'profil');
   APP.querySelectorAll('[data-t]').forEach(b => b.onclick = async () => {
     S.theme = b.dataset.t; document.documentElement.dataset.theme = S.theme; vProfil();
@@ -315,27 +323,36 @@ function vProfil() {
 }
 
 
-/* ---------- première connexion ---------- */
-const INTRO = [
-  ['Bienvenue sur PC Lab', `<p>Ici, tu révises la physique-chimie avec des <b>flashcards</b>.</p><p>Quelques minutes par jour suffisent pour retenir l'essentiel avant les contrôles et le bac.</p>`],
-  ['Une carte, trois réponses', `<p>Lis la question et cherche la réponse <b>dans ta tête</b>, puis touche « Voir la réponse ».</p><p>Ensuite, sois honnête :</p><div class="grade" style="margin:6px 0"><span class="g0" style="border-radius:12px;padding:10px 4px">Non</span><span class="g1" style="border-radius:12px;padding:10px 4px">À moitié</span><span class="g2" style="border-radius:12px;padding:10px 4px">Oui</span></div><p>Répondre « Oui » sans savoir ne t'aide pas : la carte reviendrait trop tard.</p>`],
-  ['Les cartes reviennent au bon moment', `<p>Une carte <b>ratée</b> revient <b>dès le lendemain</b>.</p><p>Une carte <b>réussie</b> revient de plus en plus tard : dans 3, 7, 15 puis 30 jours.</p><p>Chaque jour, <b>« Révisions générales »</b> te propose tes cartes du jour.</p>`],
-  ['Installe PC Lab sur ton téléphone', `<p>Tu l'ouvriras comme une application, d'un seul geste.</p><p><a href="#" id="voir-aide" style="color:var(--ch);font-weight:700">Voir comment faire</a></p><p style="color:#4F5B70;font-size:14px">Tu pourras revoir ces explications dans ton profil.</p>`],
-];
-function vBienvenue(i) {
-  const [t, html] = INTRO[i], last = i === INTRO.length - 1;
-  const dots = INTRO.map((_, k) => `<span style="width:${k === i ? 22 : 8}px;height:8px;border-radius:999px;background:${k === i ? 'var(--ch)' : '#C9D3E2'}"></span>`).join('');
-  APP.innerHTML = `<div class="scroll"><div class="top home"><div><h1 style="font-size:24px">${t}</h1><p>Étape ${i + 1} sur ${INTRO.length}</p></div>${BADGE}</div>
-  <div class="panel mx" style="font-size:17px;line-height:1.55;gap:4px">${html}</div>
-  <div style="display:flex;justify-content:center;gap:6px">${dots}</div>
-  <div class="mx" style="display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-bottom:10px">
-  <button class="btn-main ch" id="suite">${last ? 'Commencer' : 'Suivant'}</button>
-  ${last ? '' : '<button class="link-discret" id="passer">Passer</button>'}</div></div>`;
-  const fin = () => { localStorage.setItem('pclab_intro_vu', '1'); location.hash = '#/accueil'; route(); };
-  document.getElementById('suite').onclick = () => last ? fin() : vBienvenue(i + 1);
-  const p = document.getElementById('passer'); if (p) p.onclick = fin;
-  const a = document.getElementById('voir-aide'); if (a) a.onclick = e => { e.preventDefault(); localStorage.setItem('pclab_intro_vu', '1'); vAide(false, () => vBienvenue(i)); };
+/* ---------- visite guidée (bulles) ---------- */
+function tour(key, steps) {
+  if (localStorage.getItem('pclab_tour_' + key)) return;
+  steps = steps.filter(st => document.querySelector(st.sel));
+  if (!steps.length) return;
+  let i = 0;
+  const fin = () => { localStorage.setItem('pclab_tour_' + key, '1'); document.getElementById('tour')?.remove(); };
+  const show = () => {
+    document.getElementById('tour')?.remove();
+    const st = steps[i], el = document.querySelector(st.sel); if (!el) return fin();
+    el.scrollIntoView({ block: 'center' });
+    void document.body.offsetHeight;
+    const r = el.getBoundingClientRect(), pad = 6, below = r.top < window.innerHeight / 2;
+    const w = document.createElement('div'); w.id = 'tour';
+    w.innerHTML = `<div style="position:fixed;inset:0;z-index:50"></div>
+    <div style="position:fixed;z-index:51;left:${r.left - pad}px;top:${r.top - pad}px;width:${r.width + 2 * pad}px;height:${r.height + 2 * pad}px;border-radius:18px;box-shadow:0 0 0 9999px rgba(10,20,40,.6);pointer-events:none"></div>
+    <div role="dialog" style="position:fixed;z-index:52;left:16px;right:16px;max-width:420px;margin:0 auto;${below ? `top:${r.bottom + 14}px` : `bottom:${window.innerHeight - r.top + 14}px`};background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 8px 24px rgba(0,0,0,.25)">
+    <p style="margin:0 0 12px;font-size:16px;line-height:1.4">${st.text}</p>
+    <div style="display:flex;justify-content:space-between;align-items:center"><button id="t-skip" style="border:none;background:none;color:#6B7487;font-size:14px;min-height:40px;padding:0">Passer</button>
+    <button id="t-next" style="border:none;border-radius:10px;background:var(--ch);color:#fff;font-weight:800;font-size:15px;min-height:40px;padding:0 16px">${i < steps.length - 1 ? `Suivant (${i + 1}/${steps.length})` : 'Compris'}</button></div></div>`;
+    document.body.appendChild(w);
+    document.getElementById('t-skip').onclick = fin;
+    document.getElementById('t-next').onclick = () => { i++; i < steps.length ? show() : fin(); };
+  };
+  const go = () => requestAnimationFrame(() => requestAnimationFrame(show));
+  setTimeout(go, 400);
+  window.addEventListener('resize', () => { if (document.getElementById('tour')) show(); });
 }
+function revoirExplications() { Object.keys(localStorage).filter(k => k.startsWith('pclab_tour_')).forEach(k => localStorage.removeItem(k)); location.hash = '#/accueil'; }
+
 function vAide(avantConnexion, retour) {
   const ios = /iPhone|iPad|iPod/.test(navigator.userAgent), android = /Android/.test(navigator.userAgent);
   const installe = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
@@ -396,7 +413,6 @@ async function demarrer() {
     }
   }
   document.documentElement.dataset.theme = S.theme;
-  if (!S.apercu && !localStorage.getItem('pclab_intro_vu')) return vBienvenue(0);
   route();
 }
 demarrer();
