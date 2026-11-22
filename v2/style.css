@@ -132,3 +132,18 @@ nav.tabs a.on { color: var(--gen); font-weight: 700; }
 .spin { display: inline-block; width: 26px; height: 26px; border: 3px solid #DCE3EE; border-top-color: var(--ch); border-radius: 50%; animation: sp 1s linear infinite; }
 @keyframes sp { to { transform: rotate(360deg); } }
 .big.genmid .go svg path { stroke: var(--gen); }
+
+/* Racine carrée */
+.rac { display: inline-flex; align-items: stretch; white-space: nowrap; }
+.rac::before { content: "\221A"; font-size: 1.15em; line-height: 1; margin-right: -1px; align-self: center; }
+.rac > span { border-top: 1.5px solid currentColor; padding: 2px 3px 0; line-height: 1.25; }
+/* Boutons allégés (accueil, écran d'une partie) */
+.big.compact { gap: 6px; border-radius: 14px; padding: 14px 16px; }
+.big.compact .ic { width: 34px; height: 34px; border-radius: 10px; }
+.big.compact .ic svg { width: 20px; height: 20px; }
+.big.compact .t { font-size: 18px; }
+.big.compact .go { width: 30px; height: 30px; }
+.big.compact .s { padding-left: 46px; font-size: 14px; }
+.big.compact.ch { box-shadow: 0 3px 0 var(--chS); }
+.big.compact.gen { box-shadow: 0 3px 0 var(--genS); }
+.big.compact.mid { box-shadow: 0 3px 0 var(--midS); }

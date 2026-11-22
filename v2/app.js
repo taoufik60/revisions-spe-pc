@@ -4,7 +4,8 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const APP = document.getElementById('app');
 const DEVISE = 'À force de forger on devient forgeron';
 const JOURS = [1, 3, 7, 15, 30];
-const MAX_RETARD = 15, SERIE = 20;
+const MAX_RETARD = 15, SERIE = 20, SERIE_EXAMEN = 15, RETOUR_NON = [4, 5], RETOUR_MOITIE = 8;
+const melanger = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 const S = {
   apercu: false,      // compte professeur : rien n'est enregistré
@@ -122,8 +123,8 @@ async function vAccueil() {
   const c = chapCourant();
   let due = 0; chapitres().forEach(x => idsChap(x).forEach(id => { if (aRevoir(id)) due++; }));
   page(`<div class="top home"><div><h1>Bonjour !</h1><p>${DEVISE}</p></div>${BADGE}</div><div style="height:10px"></div>
-  ${c ? big('ch', `#/chapitre/${c.num}`, ICON.book, 'Travailler un chapitre', `Ch. ${c.num} · ${esc(c.titre)}`, 'data-tour="chap"') : '<p class="note">Ton professeur n\'a pas encore ouvert de chapitre.</p>'}
-  ${big('gen', '#/revisions', ICON.cal, 'Révisions générales', due ? `${due} carte${due > 1 ? 's' : ''} à revoir aujourd'hui` : 'Rien à revoir aujourd\'hui', 'data-tour="rev"')}`, 'accueil');
+  ${c ? big('ch compact', `#/chapitre/${c.num}`, ICON.book, 'Travailler un chapitre', `Ch. ${c.num} · ${esc(c.titre)}`, 'data-tour="chap"') : '<p class="note">Ton professeur n\'a pas encore ouvert de chapitre.</p>'}
+  ${big('gen compact', '#/revisions', ICON.cal, 'Révisions générales', due ? `${due} carte${due > 1 ? 's' : ''} à revoir aujourd'hui` : 'Rien à revoir aujourd\'hui', 'data-tour="rev"')}`, 'accueil');
   tour('accueil', [
     { sel: '[data-tour="chap"]', text: 'Travaille le chapitre vu en classe, <b>partie par partie</b>.' },
     { sel: '[data-tour="rev"]', text: 'Chaque jour, tes <b>cartes à revoir</b> t\'attendent ici.' },
@@ -158,8 +159,8 @@ function vPartie(slug) {
   const { c, p } = info, i = c.parties.indexOf(p) + 1, r = compte(idsPart(p)), vues = p.n - r.nouvelle;
   const sub = (c.parties.length > 1 ? `Partie ${i} / ${c.parties.length} · ` : '') + `Ch. ${c.num} ${esc(c.titre)}`;
   page(head(`#/chapitre/${c.num}`, `Chapitre ${c.num}`, esc(p.titre), sub) + `<div style="height:4px"></div>
-  ${big('ch', `#/cartes/partie/${slug}`, ICON.cards, 'Flashcards', `${p.n} cartes · ${vues ? `${r.acquise} acquises` : 'pas encore commencé'}${r.due ? ` · ${r.due} à revoir` : ''}`)}
-  ${big('mid off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')}
+  ${big('ch compact', `#/cartes/partie/${slug}`, ICON.cards, 'Flashcards', `${p.n} cartes · ${vues ? `${r.acquise} acquises` : 'pas encore commencé'}${r.due ? ` · ${r.due} à revoir` : ''}`)}
+  ${big('mid compact off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')}
   <a class="link-discret" href="#/consulter/${slug}">Consulter les cartes</a>`, 'accueil');
 }
 function vComplet(n) {
@@ -190,7 +191,7 @@ function vExamen() {
   <div class="mx" style="display:flex;justify-content:space-between;align-items:center"><span class="label" style="margin:0">1. Choisis tes chapitres</span><button class="link-discret" style="text-decoration:none;color:var(--gen);font-weight:700" id="tout">${sel.length === ch.length ? 'Tout décocher' : 'Tout cocher'}</button></div>
   <div class="mx" style="display:flex;flex-direction:column;gap:8px">${rows}</div>
   <span class="label">2. Choisis ton entraînement</span>
-  ${sel.length ? big('gen', `#/cartes/examen/${sel.map(c => c.num).join(',')}`, ICON.cards, 'Flashcards', `${nb} cartes, les plus fragiles d'abord, par séries de ${SERIE}`) + big('genmid off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')
+  ${sel.length ? big('gen', `#/cartes/examen/${sel.map(c => c.num).join(',')}`, ICON.cards, 'Flashcards', `${nb} cartes, les plus fragiles d'abord, par séries de ${SERIE_EXAMEN}, chapitres mélangés`) + big('genmid off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')
     : '<p class="note">Coche au moins un chapitre.</p>'}`, 'accueil');
   APP.querySelectorAll('[data-tog]').forEach(b => b.addEventListener('click', () => { const n = +b.dataset.tog; S.examenSel.has(n) ? S.examenSel.delete(n) : S.examenSel.add(n); vExamen(); }));
   document.getElementById('tout').addEventListener('click', () => { S.examenSel = sel.length === ch.length ? new Set() : new Set(ch.map(c => c.num)); vExamen(); });
@@ -204,7 +205,7 @@ async function vCartes(kind, arg) {
     title = p.titre; sub = c.parties.length > 1 ? `Partie ${c.parties.indexOf(p) + 1} / ${c.parties.length}` : `Ch. ${c.num}`;
     back = `#/partie/${arg}`; backLabel = p.titre;
   } else if (kind === 'chapitre') {
-    const c = chap(arg); cards = parFragilite(await loadChap(c.num)).slice(0, SERIE);
+    const c = chap(arg); cards = melanger(parFragilite(await loadChap(c.num)).slice(0, SERIE));
     title = `Tout le chapitre ${c.num}`; sub = 'Parties mélangées'; back = `#/complet/${c.num}`; backLabel = `Chapitre ${c.num}`;
   } else if (kind === 'difficiles') {
     const src = arg === 'tous' ? await loadAll() : await loadChap(arg);
@@ -216,11 +217,13 @@ async function vCartes(kind, arg) {
     title = 'Mes cartes du jour'; sub = 'Tous chapitres'; back = '#/revisions'; backLabel = 'Révisions'; color = 'gen';
   } else if (kind === 'examen') {
     const nums = arg.split(',').map(Number);
-    cards = parFragilite((await Promise.all(nums.map(loadChap))).flat()).slice(0, SERIE);
+    const pool = (await Promise.all(nums.map(loadChap))).flat();
+    cards = melanger(parFragilite(pool).slice(0, SERIE_EXAMEN));
+    S.examPool = { pool, faites: new Set(cards.map(x => x.id)) };
     title = 'Préparer un examen'; sub = 'Ch. ' + nums.join(', '); back = '#/examen'; backLabel = 'Examen'; color = 'gen';
   }
   if (!cards.length) { page(head(back, backLabel, esc(title)) + '<p class="note" style="margin-top:30px">Aucune carte à revoir ici pour le moment.</p>', 'accueil'); return; }
-  S.session = { cards, queue: cards.map((_, i) => i), pos: 0, revealed: false, flipped: false, acquired: 0, retries: 0, seen: new Set(), hard: new Set(), title, sub, back, backLabel, color, total: cards.length };
+  S.session = { kind, cards, queue: cards.map((_, i) => i), pos: 0, revealed: false, flipped: false, acquired: 0, retries: 0, seen: new Set(), moitie: new Set(), finies: new Set(), hard: new Set(), title, sub, back, backLabel, color, total: cards.length };
   drawCarte();
 }
 function drawCarte() {
@@ -233,10 +236,13 @@ function drawCarte() {
     page(top + `<div class="done"><span style="width:72px;height:72px;border-radius:999px;background:#DDF1E4;display:flex;align-items:center;justify-content:center"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1D6B3E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></span>
     <p style="margin:0;font-size:24px;font-weight:800;color:#0A2E6E">Paquet terminé !</p><p style="margin:0;color:#4F5B70">${s.total} cartes · ${s.retries} repassée(s)</p><p style="margin:0;font-size:14px;color:#4F5B70">Les cartes ratées reviendront demain.</p>
     ${nh ? `<button class="btn-main ${s.color}" style="width:100%;margin-top:10px" id="hard">Revoir mes ${nh} cartes difficiles</button>` : '<p style="margin:0;font-weight:700;color:#1D6B3E">Aucune carte difficile : bravo !</p>'}
-    <button class="link-discret" style="text-decoration:none;color:var(--${s.color});font-weight:700" id="again">Recommencer tout le paquet</button></div>`, 'accueil');
-    document.getElementById('again').onclick = () => { Object.assign(s, { queue: s.cards.map((_, i) => i), pos: 0, acquired: 0, retries: 0, seen: new Set(), hard: new Set(), total: s.cards.length }); drawCarte(); };
+    ${s.kind === 'examen' && S.examPool && S.examPool.pool.some(x => !S.examPool.faites.has(x.id)) ? `<button class="btn-main gen" style="width:100%" id="suivante">Série suivante (${Math.min(SERIE_EXAMEN, S.examPool.pool.filter(x => !S.examPool.faites.has(x.id)).length)} cartes)</button>` : ''}
+    <button class="link-discret" style="text-decoration:none;color:var(--${s.color});font-weight:700" id="again">Recommencer ${s.kind === 'examen' ? 'cette série' : 'tout le paquet'}</button></div>`, 'accueil');
+    const sv = document.getElementById('suivante');
+    if (sv) sv.onclick = () => { const reste = S.examPool.pool.filter(x => !S.examPool.faites.has(x.id)); const cs = melanger(parFragilite(reste).slice(0, SERIE_EXAMEN)); cs.forEach(x => S.examPool.faites.add(x.id)); Object.assign(s, { cards: cs, queue: cs.map((_, i) => i), pos: 0, acquired: 0, retries: 0, seen: new Set(), moitie: new Set(), finies: new Set(), hard: new Set(), total: cs.length }); drawCarte(); };
+    document.getElementById('again').onclick = () => { Object.assign(s, { queue: s.cards.map((_, i) => i), pos: 0, acquired: 0, retries: 0, seen: new Set(), moitie: new Set(), finies: new Set(), hard: new Set(), total: s.cards.length }); drawCarte(); };
     const h = document.getElementById('hard');
-    if (h) h.onclick = () => { const q = [...s.hard].sort((a, b) => a - b); Object.assign(s, { queue: q, pos: 0, acquired: 0, retries: 0, seen: new Set(), hard: new Set(), total: q.length }); drawCarte(); };
+    if (h) h.onclick = () => { const q = [...s.hard].sort((a, b) => a - b); Object.assign(s, { queue: q, pos: 0, acquired: 0, retries: 0, seen: new Set(), moitie: new Set(), finies: new Set(), hard: new Set(), total: q.length }); drawCarte(); };
     return;
   }
   const c = s.cards[s.queue[s.pos]];
@@ -246,7 +252,7 @@ function drawCarte() {
   const actions = !s.revealed ? `<button class="btn-main ${s.color}" id="voir">Voir la réponse</button>`
     : `<p class="ask">Tu avais trouvé ?</p><div class="grade"><button class="g0" data-r="0">Non</button><button class="g1" data-r="1">À moitié</button><button class="g2" data-r="2">Oui</button></div>`;
   page(top + `<div class="mx" style="display:flex;flex-direction:column;margin-top:4px"><div class="card" id="carte">${tag}${body}</div>
-  ${s.seen.has(s.queue[s.pos]) ? '<p style="margin:10px 0 0;text-align:center;font-size:13px;color:#A3361C">Carte ratée tout à l\'heure : elle revient.</p>' : ''}
+  ${s.seen.has(s.queue[s.pos]) ? '<p style="margin:10px 0 0;text-align:center;font-size:13px;color:#A3361C">Carte ratée tout à l\'heure : elle revient.</p>' : (s.moitie.has(s.queue[s.pos]) && s.queue.indexOf(s.queue[s.pos]) < s.pos ? '<p style="margin:10px 0 0;text-align:center;font-size:13px;color:#7A5106">Tu la connaissais à moitié : la revoici.</p>' : '')}
   <div style="display:flex;flex-direction:column;gap:10px;padding-top:18px">${actions}</div></div>`, 'accueil');
   const show = () => { s.revealed = true; s.flipped = true; drawCarte(); };
   document.getElementById('carte').onclick = () => { if (!s.revealed) show(); else { s.flipped = !s.flipped; drawCarte(); } };
@@ -256,7 +262,11 @@ function drawCarte() {
   APP.querySelectorAll('[data-r]').forEach(b => b.onclick = () => {
     const rep = +b.dataset.r, i = s.queue[s.pos];
     enregistrer(c.id, rep);
-    if (rep === 0) { s.queue.push(i); s.seen.add(i); s.retries++; } else s.acquired++;
+    const remettre = k => { const at = s.pos + 1 + k; at < s.queue.length ? s.queue.splice(at, 0, i) : s.queue.push(i); };
+    if (rep === 0) { remettre(RETOUR_NON[Math.floor(Math.random() * RETOUR_NON.length)]); s.seen.add(i); s.retries++; }
+    else if (rep === 1 && !s.moitie.has(i)) { s.moitie.add(i); remettre(RETOUR_MOITIE); }
+    else s.finies.add(i);
+    s.acquired = s.finies.size;
     if (rep < 2) s.hard.add(i);
     s.pos++; s.revealed = false; s.flipped = false; drawCarte();
   });
