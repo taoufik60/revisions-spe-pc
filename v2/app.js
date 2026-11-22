@@ -188,7 +188,7 @@ async function vRevisions() {
   const retard = due.length > MAX_RETARD, n = Math.min(due.length, MAX_RETARD), min = Math.max(1, Math.round(n * 0.6));
   page(head('#/accueil', 'Accueil', 'Révisions générales', 'Tous les chapitres déjà vus en classe') + `<div style="height:4px"></div>
   ${n ? big('gen', '#/cartes/jour', ICON.cards, 'Mes cartes du jour', `${n} carte${n > 1 ? 's' : ''} · environ ${min} minute${min > 1 ? 's' : ''}`)
-      : `<div class="mx" style="background:var(--genSub);border-radius:18px;padding:20px;display:flex;gap:14px;align-items:center;color:var(--genS)"><b style="font-size:18px">Cartes du jour : c'est fait</b></div>`}
+      : `<div class="mx" style="background:var(--doneBg);border-radius:18px;padding:20px;display:flex;gap:14px;align-items:center;color:var(--doneTx)"><b style="font-size:18px">Cartes du jour : c'est fait</b></div>`}
   ${retard ? `<p class="note" style="text-align:left;margin:0 20px;color:var(--muted)">Tu as pris un peu de retard, ce n'est pas grave : on te propose ${MAX_RETARD} cartes par jour, les plus fragiles d'abord. Le reste suivra.</p>` : ''}
   <a class="big genmid mx" href="#/examen"><span class="row"><span style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font-size:17px;font-weight:800">Préparer un examen</span><span style="font-size:14px;color:var(--genText)">Choisis tes chapitres : DS, bac blanc, bac</span></span><span class="go">${ICON.go}</span></span></a>
   <a class="row-link mx" href="#/cartes/difficiles/tous"><span><b>Mes cartes à consolider</b><small>${dif} carte${dif > 1 ? 's' : ''}, tous chapitres</small></span>${ICON.chev}</a>`, 'accueil');

@@ -17,16 +17,37 @@
   --dark: #2A1F66; --dark2: #3D2F82; --light: #EFECFB;
   --gen: #B83F7E; --genS: #82295A; --genSub: #FBE0EE; --genMid: #F2C4DB; --genText: #6E1F47;
 }
-:root { --page: #E9EDF3; --bg: #F4F6FA; --card: #FFFFFF; --ink: #1A2230; --muted: #4F5B70; --muted2: #6B7487; --line: #DCE3EE; --line2: #E8ECF2; --soft2: #F9FAFC; --selbg: #F2F6FD; --title: var(--header); color-scheme: light; }
-[data-mode="dark"] { --page: #070A10; --bg: #0F141E; --card: #1A2130; --ink: #E6EAF2; --muted: #AAB4C7; --muted2: #8C96AA; --line: #2C3547; --line2: #262E3E; --soft2: #151B27; --selbg: #1E2A44; --light: rgba(255,255,255,.06); --title: #E6EAF2; color-scheme: dark; }
+:root { --page: #E9EDF3; --bg: #F4F6FA; --card: #FFFFFF; --ink: #1A2230; --muted: #4F5B70; --muted2: #6B7487; --line: #DCE3EE; --line2: #E8ECF2; --soft2: #F9FAFC; --selbg: #F2F6FD; --title: var(--header); --doneBg: var(--genSub); --doneTx: var(--genS); color-scheme: light; }
+[data-mode="dark"] {
+  --page: #0B0F17; --bg: #121826; --card: #1B2332; --ink: #EEF1F6; --muted: #B3BCCD; --muted2: #8F99AD;
+  --line: #2A3446; --line2: #242D3D; --soft2: #161D2A; --selbg: color-mix(in srgb, var(--gen) 22%, var(--card)); --title: #EEF1F6;
+  --mid: color-mix(in srgb, var(--ch) 32%, var(--card)); --midS: color-mix(in srgb, var(--ch) 18%, #000);
+  --dark: var(--chSub); --dark2: color-mix(in srgb, var(--chSub) 80%, var(--card));
+  --light: color-mix(in srgb, var(--ch) 14%, var(--card));
+  --genMid: color-mix(in srgb, var(--gen) 30%, var(--card)); --genText: var(--genSub);
+  --doneBg: color-mix(in srgb, var(--gen) 22%, var(--card)); --doneTx: var(--genSub);
+  color-scheme: dark;
+}
+[data-mode="dark"] .top { background: color-mix(in srgb, var(--header) 85%, #000); box-shadow: inset 0 -1px 0 rgba(255,255,255,.06); }
+[data-mode="dark"] .big.ch, [data-mode="dark"] .btn-main.ch, [data-mode="dark"] .banner { background: color-mix(in srgb, var(--ch) 88%, #fff); }
+[data-mode="dark"] .big.gen, [data-mode="dark"] .btn-main.gen { background: color-mix(in srgb, var(--gen) 85%, #fff); }
+[data-mode="dark"] .big.genmid { color: var(--genSub); box-shadow: 0 4px 0 color-mix(in srgb, var(--gen) 40%, #000); }
+[data-mode="dark"] .big.genmid .go, [data-mode="dark"] .big.mid .go { background: rgba(255,255,255,.9); }
+[data-mode="dark"] .big.mid .ic { background: rgba(255,255,255,.1); color: var(--chSub); }
+[data-mode="dark"] .item, [data-mode="dark"] .card, [data-mode="dark"] .panel, [data-mode="dark"] .row-link { box-shadow: 0 1px 0 rgba(255,255,255,.03), 0 6px 16px rgba(0,0,0,.25); }
+[data-mode="dark"] .item { box-shadow: 0 6px 16px rgba(0,0,0,.25); }
 [data-mode="dark"] .soft { color: var(--ink); }
 [data-mode="dark"] .soft small { color: var(--muted) !important; }
-[data-mode="dark"] .g0 { background: #4A231C; color: #FFB4A5; box-shadow: 0 4px 0 #2E1510; }
-[data-mode="dark"] .g1 { background: #45360F; color: #F7D48A; box-shadow: 0 4px 0 #2A2009; }
-[data-mode="dark"] .g2 { background: #173A27; color: #9FE0B8; box-shadow: 0 4px 0 #0E2418; }
-[data-mode="dark"] .card img, [data-mode="dark"] .panel img { background: #fff; border-radius: 8px; padding: 4px; }
+[data-mode="dark"] .due { background: #4A3A12; color: #F6D78C; }
+[data-mode="dark"] nav.tabs { background: #141B28; }
+[data-mode="dark"] nav.tabs a.on { color: color-mix(in srgb, var(--gen) 45%, #fff); }
+[data-mode="dark"] .tag.rep { color: color-mix(in srgb, var(--ch) 55%, #fff); }
+[data-mode="dark"] .g0 { background: #3F1F1A; color: #FFB8AA; box-shadow: 0 4px 0 #26120F; }
+[data-mode="dark"] .g1 { background: #3D3112; color: #F8D98F; box-shadow: 0 4px 0 #241C0A; }
+[data-mode="dark"] .g2 { background: #15362A; color: #A6E6C0; box-shadow: 0 4px 0 #0C2018; }
+[data-mode="dark"] .card img, [data-mode="dark"] .panel img { background: #fff; border-radius: 10px; padding: 6px; }
 [data-mode="dark"] .preview { background: #3A2E10; color: #F2D68E; }
-[data-mode="dark"] .c1 { color: #7FB2FF; } [data-mode="dark"] .c2 { color: #FF8A7A; } [data-mode="dark"] .c3 { color: #6FD39A; }
+[data-mode="dark"] .c1 { color: #8DBBFF; } [data-mode="dark"] .c2 { color: #FF9585; } [data-mode="dark"] .c3 { color: #7CDCA4; }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
 body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--page); color: var(--ink); -webkit-tap-highlight-color: transparent; }
