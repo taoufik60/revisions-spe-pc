@@ -140,6 +140,7 @@ $$ update eleves set theme = p_theme where user_id = auth.uid() and p_theme in (
 
 -- Boîtes de Leitner :
 --   Oui      : monte d'une boîte (5 max), revient après 1/3/7/15/30 jours
+--              (seulement si la carte était à revoir ce jour-là, ou nouvelle)
 --   À moitié : reste dans sa boîte, revient le lendemain
 --   Non      : recule d'une boîte (1 min), revient le lendemain, « à consolider » jusqu'au prochain Oui
 create or replace function repondre_carte(p_carte_id text, p_reponse int)
@@ -155,8 +156,12 @@ begin
   if p_reponse not in (0, 1, 2) then raise exception 'Réponse invalide'; end if;
   insert into carte_suivi (eleve_id, carte_id) values (e, p_carte_id) on conflict do nothing;
   select * into r from carte_suivi where eleve_id = e and carte_id = p_carte_id for update;
+  -- Un « Oui » ne fait monter la carte que si elle était à revoir (ou jamais vue) :
+  -- refaire un paquet plusieurs fois le même jour ne rend pas une carte « acquise ».
   if p_reponse = 2 then
-    r.boite := least(r.boite + 1, 5); r.a_consolider := false; r.prochaine := auj + jours[r.boite];
+    if r.nb_reponses = 0 or r.prochaine <= auj then
+      r.boite := least(r.boite + 1, 5); r.a_consolider := false; r.prochaine := auj + jours[r.boite];
+    end if;
   elsif p_reponse = 1 then
     r.prochaine := auj + 1;
   else

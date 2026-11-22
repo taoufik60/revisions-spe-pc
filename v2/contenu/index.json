@@ -12,7 +12,9 @@
     {
      "slug": "ch1-p2-noms-formules",
      "titre": "Noms et formules",
-     "n": 20
+     "n": 20,
+     "melange": true,
+     "paires": true
     }
    ]
   },

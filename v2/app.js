@@ -86,9 +86,44 @@ const barre = (r, n, h = 6) => {
 };
 
 /* ---------- enregistrement d'une réponse ---------- */
+/* ---------- séries, mélange, alternance ---------- */
+function tailles(n) { const k = n <= 15 ? 1 : n <= 30 ? 2 : Math.max(3, Math.ceil(n / 15)), b = Math.floor(n / k); return Array.from({ length: k }, (_, i) => b + (i < n % k ? 1 : 0)); }
+function melangerSansPaire(ids, paires) {
+  const g = id => paires ? Math.ceil(+id.match(/(\d+)$/)[1] / 2) : id;
+  let a = melanger(ids);
+  for (let essai = 0; essai < 50; essai++) {
+    let ok = true;
+    for (let i = 1; i < a.length; i++) if (g(a[i]) === g(a[i - 1])) { ok = false; const j = i + 1 + Math.floor(Math.random() * (a.length - i - 1)); if (j < a.length) [a[i], a[j]] = [a[j], a[i]]; else a = melanger(a); }
+    if (ok) break;
+  }
+  return a;
+}
+function seriesPartie(p) {
+  const cle = 'pclab_series_' + p.slug, ids = idsPart(p);
+  let st = null; try { st = JSON.parse(localStorage.getItem(cle)); } catch (e) { }
+  if (!st || !Array.isArray(st.ordre) || st.ordre.length !== ids.length || ids.some(i => !st.ordre.includes(i))) {
+    st = { ordre: p.melange ? melangerSansPaire(ids, p.paires) : ids, k: 0 };
+    localStorage.setItem(cle, JSON.stringify(st));
+  }
+  const t = tailles(ids.length), k = Math.min(st.k, t.length - 1), debut = t.slice(0, k).reduce((a, b) => a + b, 0);
+  return { cle, st, k, nb: t.length, ids: st.ordre.slice(debut, debut + t[k]) };
+}
+const chapNumDe = c => { const i = partInfo(c.slug); return i ? i.c.num : 0; };
+function entrelacer(cards) {
+  const groupes = new Map(); cards.forEach(c => { const n = chapNumDe(c); if (!groupes.has(n)) groupes.set(n, []); groupes.get(n).push(c); });
+  const res = []; let dernier = null;
+  while (res.length < cards.length) {
+    const dispo = [...groupes.entries()].filter(([n, l]) => l.length && n !== dernier).sort((a, b) => b[1].length - a[1].length);
+    const [n, l] = dispo.length ? dispo[0] : [...groupes.entries()].find(([, l]) => l.length);
+    res.push(l.shift()); dernier = n;
+  }
+  return res;
+}
+
 function regleLocale(id, rep) {
   const s = S.suivi[id] || { carte_id: id, boite: 1, a_consolider: false, prochaine: auj(), nb_reponses: 0 };
-  if (rep === 2) { s.boite = Math.min(s.boite + 1, 5); s.a_consolider = false; s.prochaine = addDays(auj(), JOURS[s.boite - 1]); }
+  const due = !s.nb_reponses || s.prochaine <= auj();
+  if (rep === 2) { if (due) { s.boite = Math.min(s.boite + 1, 5); s.a_consolider = false; s.prochaine = addDays(auj(), JOURS[s.boite - 1]); } }
   else if (rep === 1) s.prochaine = addDays(auj(), 1);
   else { s.boite = Math.max(s.boite - 1, 1); s.a_consolider = true; s.prochaine = addDays(auj(), 1); }
   s.nb_reponses++; S.suivi[id] = s;
@@ -172,7 +207,7 @@ function vPartie(slug) {
   const { c, p } = info, i = c.parties.indexOf(p) + 1, r = compte(idsPart(p)), vues = p.n - r.nouvelle;
   const sub = (c.parties.length > 1 ? `Partie ${i} / ${c.parties.length} · ` : '') + `Ch. ${c.num} ${esc(c.titre)}`;
   page(head(`#/chapitre/${c.num}`, `Chapitre ${c.num}`, esc(p.titre), sub) + `<div style="height:4px"></div>
-  ${big('ch compact', `#/cartes/partie/${slug}`, ICON.cards, 'Flashcards', `${p.n} cartes · ${vues ? `${r.acquise} acquises` : 'pas encore commencé'}${r.due ? ` · ${r.due} à revoir` : ''}`)}
+  ${(() => { const se = seriesPartie(p); return big('ch compact', `#/cartes/partie/${slug}`, ICON.cards, 'Flashcards', se.nb > 1 ? `${p.n} cartes en ${se.nb} séries · prochaine : série ${se.k + 1} (${se.ids.length} cartes)` : `${p.n} cartes · ${vues ? `${r.acquise} acquises` : 'pas encore commencé'}${r.due ? ` · ${r.due} à revoir` : ''}`); })()}
   ${big('mid compact off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')}
   <a class="link-discret" href="#/consulter/${slug}">Consulter les cartes</a>`, 'accueil');
 }
@@ -215,8 +250,10 @@ function vExamen() {
 async function vCartes(kind, arg) {
   let cards = [], title = '', sub = '', back = '#/accueil', backLabel = 'Accueil', color = 'ch';
   if (kind === 'partie') {
-    const { c, p } = partInfo(arg); cards = await loadPart(arg);
-    title = p.titre; sub = c.parties.length > 1 ? `Partie ${c.parties.indexOf(p) + 1} / ${c.parties.length}` : `Ch. ${c.num}`;
+    const { c, p } = partInfo(arg), tout = await loadPart(arg), se = seriesPartie(p);
+    cards = se.ids.map(id => tout.find(x => x.id === id)).filter(Boolean);
+    title = p.titre; sub = se.nb > 1 ? `Série ${se.k + 1} / ${se.nb}` : (c.parties.length > 1 ? `Partie ${c.parties.indexOf(p) + 1} / ${c.parties.length}` : `Ch. ${c.num}`);
+    S.serie = { slug: arg, ...se };
     back = `#/partie/${arg}`; backLabel = p.titre;
   } else if (kind === 'chapitre') {
     const c = chap(arg); cards = melanger(parFragilite(await loadChap(c.num)).slice(0, SERIE));
@@ -227,7 +264,7 @@ async function vCartes(kind, arg) {
     title = 'Cartes difficiles'; sub = arg === 'tous' ? 'Tous chapitres' : `Ch. ${arg}`;
     back = arg === 'tous' ? '#/revisions' : `#/complet/${arg}`; backLabel = 'Retour'; color = arg === 'tous' ? 'gen' : 'ch';
   } else if (kind === 'jour') {
-    cards = parFragilite((await loadAll()).filter(x => aRevoir(x.id))).slice(0, MAX_RETARD);
+    cards = entrelacer(parFragilite((await loadAll()).filter(x => aRevoir(x.id))).slice(0, MAX_RETARD));
     title = 'Mes cartes du jour'; sub = 'Tous chapitres'; back = '#/revisions'; backLabel = 'Révisions'; color = 'gen';
   } else if (kind === 'examen') {
     const nums = arg.split(',').map(Number);
@@ -247,11 +284,21 @@ function drawCarte() {
   <div class="prog"><span class="bar"><span style="width:${Math.round(100 * s.acquired / s.total)}%"></span></span><b>${s.acquired} / ${s.total}</b></div></div>`;
   if (done) {
     const nh = s.hard.size;
+    const ser = s.kind === 'partie' && S.serie && S.serie.nb > 1 ? S.serie : null;
+    if (ser && !s.serieFinie) {
+      s.serieFinie = true;
+      if (ser.k + 1 < ser.nb) { ser.st.k = ser.k + 1; localStorage.setItem(ser.cle, JSON.stringify(ser.st)); }
+      else localStorage.removeItem(ser.cle);
+    }
+    const suite = ser && ser.k + 1 < ser.nb ? tailles(ser.st.ordre.length)[ser.k + 1] : 0;
     page(top + `<div class="done"><span style="width:72px;height:72px;border-radius:999px;background:#DDF1E4;display:flex;align-items:center;justify-content:center"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1D6B3E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></span>
-    <p style="margin:0;font-size:24px;font-weight:800;color:var(--title)">Paquet terminé !</p><p style="margin:0;color:var(--muted)">${s.total} cartes · ${s.retries} repassée(s)</p><p style="margin:0;font-size:14px;color:var(--muted)">Les cartes ratées reviendront demain.</p>
+    <p style="margin:0;font-size:24px;font-weight:800;color:var(--title)">${ser ? `Série ${ser.k + 1} / ${ser.nb} terminée !` : 'Paquet terminé !'}</p><p style="margin:0;color:var(--muted)">${s.total} cartes · ${s.retries} repassée(s)</p><p style="margin:0;font-size:14px;color:var(--muted)">Les cartes ratées reviendront demain.</p>
     ${nh ? `<button class="btn-main ${s.color}" style="width:100%;margin-top:10px" id="hard">Revoir mes ${nh} cartes difficiles</button>` : '<p style="margin:0;font-weight:700;color:#1D6B3E">Aucune carte difficile : bravo !</p>'}
+    ${suite ? `<button class="btn-main ch" style="width:100%" id="serieSuiv">Continuer avec la série ${ser.k + 2} (${suite} cartes)</button><a class="link-discret" href="${s.back}" style="text-decoration:none;font-weight:700">M'arrêter là</a>` : ''}
     ${s.kind === 'examen' && S.examPool && S.examPool.pool.some(x => !S.examPool.faites.has(x.id)) ? `<button class="btn-main gen" style="width:100%" id="suivante">Série suivante (${Math.min(SERIE_EXAMEN, S.examPool.pool.filter(x => !S.examPool.faites.has(x.id)).length)} cartes)</button>` : ''}
-    <button class="link-discret" style="text-decoration:none;color:var(--${s.color});font-weight:700" id="again">Recommencer ${s.kind === 'examen' ? 'cette série' : 'tout le paquet'}</button></div>`, 'accueil');
+    <button class="link-discret" style="text-decoration:none;color:var(--${s.color});font-weight:700" id="again">Recommencer ${s.kind === 'examen' || ser ? 'cette série' : 'tout le paquet'}</button></div>`, 'accueil');
+    const ss = document.getElementById('serieSuiv');
+    if (ss) ss.onclick = () => vCartes('partie', ser.slug);
     const sv = document.getElementById('suivante');
     if (sv) sv.onclick = () => { const reste = S.examPool.pool.filter(x => !S.examPool.faites.has(x.id)); const cs = melanger(parFragilite(reste).slice(0, SERIE_EXAMEN)); cs.forEach(x => S.examPool.faites.add(x.id)); Object.assign(s, { cards: cs, queue: cs.map((_, i) => i), pos: 0, acquired: 0, retries: 0, seen: new Set(), moitie: new Set(), finies: new Set(), hard: new Set(), total: cs.length }); drawCarte(); };
     document.getElementById('again').onclick = () => { Object.assign(s, { queue: s.cards.map((_, i) => i), pos: 0, acquired: 0, retries: 0, seen: new Set(), moitie: new Set(), finies: new Set(), hard: new Set(), total: s.cards.length }); drawCarte(); };
