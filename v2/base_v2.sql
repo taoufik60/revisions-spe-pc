@@ -100,3 +100,82 @@ $$;
 
 grant execute on function repondre_carte(text, int) to authenticated;
 grant execute on function seances_semaine() to authenticated;
+
+-- =====================================================================
+-- ESPACE PROFESSEUR
+-- =====================================================================
+
+-- 6. Message du professeur (affiché sur l'accueil des élèves), objectif de
+--    séances par semaine, et prénom facultatif (visible du professeur).
+alter table classes add column if not exists message text;
+alter table classes add column if not exists message_le timestamptz;
+alter table classes add column if not exists objectif_seances smallint not null default 3;
+alter table eleves  add column if not exists prenom text;
+
+-- 7. Le professeur propriétaire d'une classe
+create or replace function est_prof_de(p_classe uuid) returns boolean
+language sql stable security definer set search_path = public as
+$$ select exists (select 1 from classes where id = p_classe and prof_id = auth.uid()) $$;
+
+-- 8. Tableau des élèves : dernière activité, séances des 4 dernières semaines,
+--    cartes vues / acquises / à consolider
+create or replace function prof_eleves(p_classe uuid)
+returns table (eleve_id uuid, identifiant text, prenom text, actif boolean, derniere timestamptz,
+               jours_7 int, s0 int, s1 int, s2 int, s3 int, vues int, acquises int, a_consolider int)
+language sql stable security definer set search_path = public as $$
+  with lundi as (select date_trunc('week', now() at time zone 'Europe/Paris')::date as l,
+                        (now() at time zone 'Europe/Paris')::date as a),
+  jours as (
+    select r.eleve_id, (r.cree_le at time zone 'Europe/Paris')::date as d, count(*) as n
+      from carte_reponses r join eleves e on e.id = r.eleve_id
+     where e.classe_id = p_classe and r.cree_le > now() - interval '36 days'
+     group by 1, 2)
+  select e.id, e.identifiant, e.prenom, e.actif,
+    (select max(cree_le) from carte_reponses r where r.eleve_id = e.id),
+    (select count(*) from jours j, lundi where j.eleve_id = e.id and j.d > a - 7)::int,
+    (select count(*) from jours j, lundi where j.eleve_id = e.id and j.n >= 5 and j.d >= l)::int,
+    (select count(*) from jours j, lundi where j.eleve_id = e.id and j.n >= 5 and j.d >= l - 7  and j.d < l)::int,
+    (select count(*) from jours j, lundi where j.eleve_id = e.id and j.n >= 5 and j.d >= l - 14 and j.d < l - 7)::int,
+    (select count(*) from jours j, lundi where j.eleve_id = e.id and j.n >= 5 and j.d >= l - 21 and j.d < l - 14)::int,
+    (select count(*) from carte_suivi s where s.eleve_id = e.id)::int,
+    (select count(*) from carte_suivi s where s.eleve_id = e.id and s.boite >= 4 and not s.a_consolider)::int,
+    (select count(*) from carte_suivi s where s.eleve_id = e.id and (s.a_consolider or s.boite <= 1))::int
+  from eleves e
+  where e.classe_id = p_classe and est_prof_de(p_classe)
+  order by e.identifiant;
+$$;
+
+-- 9. Résultats de la classe carte par carte (pour repérer les cartes ratées)
+create or replace function prof_cartes(p_classe uuid)
+returns table (carte_id text, eleves int, reponses int, non int, moitie int, oui int, consolider int)
+language sql stable security definer set search_path = public as $$
+  select r.carte_id,
+         count(distinct r.eleve_id)::int,
+         count(*)::int,
+         count(*) filter (where r.reponse = 0)::int,
+         count(*) filter (where r.reponse = 1)::int,
+         count(*) filter (where r.reponse = 2)::int,
+         (select count(*) from carte_suivi s join eleves e2 on e2.id = s.eleve_id
+           where e2.classe_id = p_classe and s.carte_id = r.carte_id and (s.a_consolider or s.boite <= 1))::int
+    from carte_reponses r join eleves e on e.id = r.eleve_id
+   where e.classe_id = p_classe and est_prof_de(p_classe)
+   group by r.carte_id;
+$$;
+
+-- 10. Nouveau code PIN pour un élève qui l'a oublié (6 chiffres, affiché une seule fois)
+create extension if not exists pgcrypto with schema extensions;
+create or replace function prof_nouveau_pin(p_eleve uuid) returns text
+language plpgsql security definer set search_path = public, extensions, auth as $$
+declare u uuid; c uuid; pin text;
+begin
+  select user_id, classe_id into u, c from eleves where id = p_eleve;
+  if u is null or not est_prof_de(c) then raise exception 'Non autorisé'; end if;
+  pin := (100000 + floor(random() * 900000))::int::text;
+  update auth.users set encrypted_password = extensions.crypt(pin, extensions.gen_salt('bf')) where id = u;
+  return pin;
+end $$;
+
+grant execute on function est_prof_de(uuid) to authenticated;
+grant execute on function prof_eleves(uuid) to authenticated;
+grant execute on function prof_cartes(uuid) to authenticated;
+grant execute on function prof_nouveau_pin(uuid) to authenticated;

@@ -45,7 +45,7 @@ const nav = on => `<nav class="tabs" aria-label="Navigation">
 <a href="#/accueil" class="${on === 'accueil' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Accueil</a>
 <a href="#/progression" class="${on === 'progression' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 3-3 3 3 5-5"/></svg>Progression</a>
 <a href="#/profil" class="${on === 'profil' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Profil</a></nav>`;
-const page = (html, tab) => { document.getElementById('tour')?.remove(); APP.innerHTML = (S.apercu ? '<div class="preview">Mode aperçu professeur : ta progression de test est gardée dans ce navigateur seulement.</div>' : '') + (S.baseKO ? '<div class="preview" style="background:#FBE4DF;color:#7A2414">La base de données n\'est pas prête : ta progression ne sera pas enregistrée. Préviens ton professeur.</div>' : '') + `<div class="scroll">${html}</div>` + (tab === false ? '' : nav(tab)); window.scrollTo(0, 0); };
+const page = (html, tab) => { document.getElementById('tour')?.remove(); APP.classList.remove('large'); APP.innerHTML = (S.apercu ? '<div class="preview">Mode aperçu professeur : ta progression de test est gardée dans ce navigateur seulement.</div>' : '') + (S.baseKO ? '<div class="preview" style="background:#FBE4DF;color:#7A2414">La base de données n\'est pas prête : ta progression ne sera pas enregistrée. Préviens ton professeur.</div>' : '') + `<div class="scroll">${html}</div>` + (tab === false ? '' : nav(tab)); window.scrollTo(0, 0); };
 const surPlace = f => { const y = window.scrollY; f(); window.scrollTo(0, y); };
 const big = (cls, href, icon, title, sub, extra = '') => `<a class="big ${cls} mx" href="${href}" ${extra}><span class="row"><span class="ic">${icon}</span><span class="t">${title}</span><span class="go">${ICON.go}</span></span>${sub ? `<span class="s">${sub}</span>` : ''}</a>`;
 
@@ -135,6 +135,7 @@ async function vAccueil() {
   const c = chapCourant();
   let due = 0; chapitres().forEach(x => idsChap(x).forEach(id => { if (aRevoir(id)) due++; }));
   page(`<div class="top home"><div><h1>Bonjour !</h1><p>${DEVISE}</p></div>${BADGE}</div><div style="height:10px"></div>
+  ${S.message ? `<div class="panel mx msg-eleve"><b>Message de ton professeur</b><div>${esc(S.message.message).replace(/\n/g, '<br>')}</div><small>${new Date(S.message.message_le).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</small></div>` : ''}
   ${c ? big('ch compact', `#/chapitre/${c.num}`, ICON.book, 'Travailler un chapitre', `Ch. ${c.num} · ${esc(c.titre)}`, 'data-tour="chap"') : '<p class="note">Ton professeur n\'a pas encore ouvert de chapitre.</p>'}
   ${big('gen compact', '#/revisions', ICON.cal, 'Révisions générales', due ? `${due} carte${due > 1 ? 's' : ''} à revoir aujourd'hui` : 'Rien à revoir aujourd\'hui', 'data-tour="rev"')}`, 'accueil');
   tour('accueil', [
@@ -345,6 +346,7 @@ function vProfil() {
   page(`<div class="top home"><div><h1>Mon profil</h1><p>${esc(S.eleve ? S.eleve.identifiant : 'Professeur (aperçu)')}</p></div>${BADGE}</div>
   <div class="panel mx"><b style="font-size:17px;color:var(--title)">Thème de couleur</b>${opts}</div>
   <div class="panel mx"><b style="font-size:17px;color:var(--title)">Apparence</b><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${[['auto', 'Automatique'], ['clair', 'Clair'], ['sombre', 'Sombre']].map(([k, l]) => `<button class="check ${modeChoisi() === k ? 'on' : ''}" data-m="${k}" style="min-height:48px;justify-content:center;font-weight:700;font-size:14px;padding:6px">${l}</button>`).join('')}</div><small style="color:var(--muted);font-size:13px">« Automatique » suit le réglage de ton téléphone.</small></div>
+  ${S.prof ? `<a class="big gen compact mx" href="#/prof"><span class="row"><span class="ic">${ICON.cal}</span><span class="t">Espace professeur</span><span class="go">${ICON.go}</span></span><span class="s">Retour au suivi de vos classes</span></a>` : ''}
   <div class="panel mx" style="gap:0;padding:4px 16px"><a href="#/bienvenue" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line2);text-decoration:none;font-weight:600">Revoir la visite guidée${ICON.chev}</a><a href="#/aide" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line2);text-decoration:none;font-weight:600">Installer PC Lab sur mon téléphone${ICON.chev}</a><p style="margin:0;padding:14px 2px;border-bottom:1px solid var(--line2);font-size:14px;color:var(--muted)">Code oublié ? Demande à ton professeur de le réinitialiser.</p>
   <button id="sortir" style="min-height:52px;border:none;background:none;text-align:left;color:#A3361C;font-size:15px;font-weight:700;padding:0 2px">Se déconnecter</button></div>`, 'profil');
   APP.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { surPlace(() => { localStorage.setItem('pclab_mode', b.dataset.m); appliquerMode(); vProfil(); }); });
@@ -407,8 +409,9 @@ function vLogin(msg = '') {
   <label class="field"><input id="ident" placeholder="Identifiant" autocomplete="username" autocapitalize="none"></label>
   <label class="field"><input id="pin" placeholder="Code à 6 chiffres" inputmode="numeric" type="password" maxlength="6" autocomplete="current-password"></label>
   <p class="err" id="err">${esc(msg)}</p><button class="btn-main ch" id="go">Se connecter</button></div>
-  <p class="note">Ton identifiant et ton code t'ont été donnés par ton professeur.</p><button class="link-discret" id="aide">Installer PC Lab sur mon téléphone</button></div>`;
+  <p class="note">Ton identifiant et ton code t'ont été donnés par ton professeur.</p><button class="link-discret" id="aide">Installer PC Lab sur mon téléphone</button><button class="link-discret" id="profLog">Espace professeur</button></div>`;
   document.getElementById('aide').onclick = () => vAide(true);
+  document.getElementById('profLog').onclick = () => vLoginProf();
   const go = async () => {
     const id = document.getElementById('ident').value.trim(), pin = document.getElementById('pin').value.trim();
     if (!id || pin.length < 6) { document.getElementById('err').textContent = 'Entre ton identifiant et ton code à 6 chiffres.'; return; }
@@ -422,6 +425,35 @@ function vLogin(msg = '') {
   document.getElementById('pin').onkeydown = e => { if (e.key === 'Enter') go(); };
 }
 
+function vLoginProf(msg = '') {
+  APP.classList.remove('large');
+  APP.innerHTML = `<div class="scroll"><div class="top home" style="padding-bottom:40px"><div><h1>Espace professeur</h1><p>Connexion avec votre adresse e-mail</p></div>${BADGE}</div>
+  <div class="panel mx" style="margin-top:-20px"><b style="font-size:18px">Connexion</b>
+  <label class="field"><input id="em" type="email" placeholder="Adresse e-mail" autocomplete="username"></label>
+  <label class="field"><input id="pw" type="password" placeholder="Mot de passe (8 caractères minimum)" autocomplete="current-password"></label>
+  <p class="err" id="err">${esc(msg)}</p><button class="btn-main ch" id="go">Se connecter</button></div>
+  <button class="link-discret" id="creer">Première utilisation : créer le compte professeur</button>
+  <button class="link-discret" id="retour">Retour à la connexion élève</button></div>`;
+  const val = () => [document.getElementById('em').value.trim(), document.getElementById('pw').value];
+  const err = t => { document.getElementById('err').textContent = t; };
+  document.getElementById('retour').onclick = () => vLogin();
+  document.getElementById('go').onclick = async () => {
+    const [email, password] = val(); if (!email || !password) return err('Indiquez votre e-mail et votre mot de passe.');
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) return err('E-mail ou mot de passe incorrect.');
+    location.hash = '#/prof'; demarrer();
+  };
+  document.getElementById('creer').onclick = async () => {
+    const [email, password] = val();
+    if (!email || password.length < 8) return err('Indiquez votre e-mail et un mot de passe d\'au moins 8 caractères, puis touchez à nouveau ce lien.');
+    const { error } = await sb.auth.signUp({ email, password });
+    if (error) return err('Création impossible : ' + error.message);
+    sessionStorage.setItem('pclab_init_prof', '1');
+    await sb.auth.signInWithPassword({ email, password });
+    location.hash = '#/prof'; demarrer();
+  };
+}
+
 /* ---------- démarrage ---------- */
 async function demarrer() {
   APP.innerHTML = '<div class="scroll" style="align-items:center;justify-content:center"><span class="spin"></span></div>';
@@ -430,12 +462,19 @@ async function demarrer() {
   const [idxR, elR] = await Promise.all([fetch('contenu/index.json').then(r => r.json()), sb.from('eleves').select('*').eq('user_id', session.user.id).maybeSingle()]);
   S.idx = idxR; S.eleve = elR.data || null;
   if (!S.eleve) {
-    const { data: prof } = await sb.from('profs').select('id').eq('id', session.user.id).maybeSingle();
+    let { data: prof } = await sb.from('profs').select('id,nom').eq('id', session.user.id).maybeSingle();
+    if (!prof && sessionStorage.getItem('pclab_init_prof')) {
+      sessionStorage.removeItem('pclab_init_prof');
+      const { data: ok } = await sb.rpc('initialiser_prof', { p_nom: null });
+      if (ok) prof = { id: session.user.id, nom: null };
+    }
     if (!prof) { await sb.auth.signOut(); return vLogin('Ce compte n\'est relié à aucun élève.'); }
-    S.apercu = true;
+    S.apercu = true; S.prof = prof;
+    if (!location.hash || location.hash === '#/' || location.hash === '#/accueil') history.replaceState(null, '', '#/prof');
     try { S.suivi = JSON.parse(localStorage.getItem('pclab_apercu_suivi') || '{}'); } catch (e) { S.suivi = {}; }
   } else {
     S.theme = S.eleve.theme || 'ocean';
+    try { const { data: cl } = await sb.from('classes').select('message,message_le').eq('id', S.eleve.classe_id).maybeSingle(); S.message = cl && cl.message ? cl : null; } catch (e) { }
     const { data: cc } = await sb.from('classe_chapitres').select('chapter_id').eq('classe_id', S.eleve.classe_id).eq('active', true);
     S.ouverts = (cc || []).map(x => +x.chapter_id);
     let from = 0;
