@@ -310,15 +310,18 @@ function drawCarte() {
   const img = side => c.image && c.image_cote === side ? `<img src="img/${esc(c.image)}" alt="Schéma">` : '';
   const tag = !s.flipped ? (c.type ? `<p class="tag ${c.type === 'SITUATION' ? 'sit' : ''}">${esc(c.type)}</p>` : '<p class="tag">Question</p>') : '<p class="tag rep">Réponse</p>';
   const body = !s.flipped ? `<div class="qtxt">${c.question}</div>${img('q')}` : `<div class="atxt">${c.reponse}</div>${img('a')}`;
+  const rate = s.seen.has(s.queue[s.pos]), moitie = !rate && s.moitie.has(s.queue[s.pos]) && s.queue.indexOf(s.queue[s.pos]) < s.pos;
+  const revient = rate ? '<span class="revient rate" role="img" aria-label="Carte ratée tout à l\'heure : elle revient" title="Carte ratée tout à l\'heure : elle revient">↻</span>'
+    : moitie ? '<span class="revient moitie" role="img" aria-label="Carte connue à moitié : elle revient" title="Carte connue à moitié : elle revient">↻</span>' : '';
   const actions = !s.revealed ? `<button class="btn-main ${s.color}" id="voir">Voir la réponse</button>`
     : `<p class="ask">Tu avais trouvé ?</p><div class="grade"><button class="g0" data-r="0">Non</button><button class="g1" data-r="1">À moitié</button><button class="g2" data-r="2">Oui</button></div>`;
-  page(top + `<div class="mx" style="display:flex;flex-direction:column;margin-top:4px"><div class="card" id="carte">${tag}${body}</div>
-  ${s.seen.has(s.queue[s.pos]) ? '<p style="margin:10px 0 0;text-align:center;font-size:13px;color:#A3361C">Carte ratée tout à l\'heure : elle revient.</p>' : (s.moitie.has(s.queue[s.pos]) && s.queue.indexOf(s.queue[s.pos]) < s.pos ? '<p style="margin:10px 0 0;text-align:center;font-size:13px;color:#7A5106">Tu la connaissais à moitié : la revoici.</p>' : '')}
+  page(top + `<div class="mx" style="display:flex;flex-direction:column;margin-top:4px"><div class="card" id="carte">${revient}${tag}${body}</div>
   <div style="display:flex;flex-direction:column;gap:10px;padding-top:18px">${actions}</div></div>`, 'accueil');
   const show = () => { s.revealed = true; s.flipped = true; drawCarte(); };
   document.getElementById('carte').onclick = () => { if (!s.revealed) show(); else { s.flipped = !s.flipped; drawCarte(); } };
   const v = document.getElementById('voir'); if (v) v.onclick = show;
-  if (!s.revealed) tour('carte_q', [{ sel: '#voir', text: 'Cherche la réponse <b>dans ta tête</b>, puis touche ici.' }]);
+  if (!s.revealed && revient && localStorage.getItem('pclab_tour_carte_q')) tour('revient', [{ sel: '.revient', text: '<b>↻</b> Cette carte revient : tu l\'avais <b>ratée</b> (rouge) ou connue <b>à moitié</b> (ambre).' }]);
+  else if (!s.revealed) tour('carte_q', [{ sel: '#voir', text: 'Cherche la réponse <b>dans ta tête</b>, puis touche ici.' }]);
   else tour('carte_r', [{ sel: '.grade', text: 'Sois honnête : une carte <b>ratée revient demain</b>, une carte réussie revient plus tard.' }]);
   APP.querySelectorAll('[data-r]').forEach(b => b.onclick = () => {
     const rep = +b.dataset.r, i = s.queue[s.pos];

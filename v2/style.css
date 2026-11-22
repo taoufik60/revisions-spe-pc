@@ -286,3 +286,9 @@ nav.tabs.t4 { grid-template-columns: repeat(4, 1fr); }
 .ligne-form .field input { width: 100%; min-width: 0; }
 .ligne-form .field .petit { white-space: nowrap; }
 .proj-carte small { display: block; font-size: .55em; line-height: 1.4; color: var(--muted); }
+#carte { position: relative; }
+.revient { position: absolute; top: 10px; right: 12px; width: 30px; height: 30px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 19px; font-weight: 800; line-height: 1; }
+.revient.rate { background: var(--g0bg, #FBE4DF); color: var(--g0tx, #A3361C); }
+.revient.moitie { background: var(--g1bg, #FCF0D6); color: var(--g1tx, #7A5106); }
+[data-mode="dark"] .revient.rate { background: var(--g0bg); color: #FFB8AA; }
+[data-mode="dark"] .revient.moitie { background: var(--g1bg); color: #F8D98F; }
