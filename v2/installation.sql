@@ -251,3 +251,12 @@ grant execute on function current_eleve_id(), est_prof(), est_prof_de(uuid), cla
   initialiser_prof(text), maj_preferences(text), repondre_carte(text, int), seances_semaine(),
   prof_eleves(uuid), prof_cartes(uuid), prof_nouveau_pin(uuid), prof_effacer_progression(uuid)
   to authenticated;
+
+-- ---------------------------------------------------------------- Accès des comptes connectés
+-- (le projet n'expose aucune table par défaut : on autorise seulement ce qui est utile,
+--  la sécurité ligne par ligne ci-dessus décide ensuite de ce que chacun voit)
+grant usage on schema public to authenticated;
+grant select on profs to authenticated;
+grant select, insert, update, delete on classes, eleves, classe_chapitres to authenticated;
+grant select on carte_suivi, carte_reponses to authenticated;
+revoke all on profs, classes, eleves, classe_chapitres, carte_suivi, carte_reponses from anon;
