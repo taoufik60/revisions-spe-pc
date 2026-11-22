@@ -46,6 +46,7 @@ const nav = on => `<nav class="tabs" aria-label="Navigation">
 <a href="#/progression" class="${on === 'progression' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 3-3 3 3 5-5"/></svg>Progression</a>
 <a href="#/profil" class="${on === 'profil' ? 'on' : ''}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Profil</a></nav>`;
 const page = (html, tab) => { document.getElementById('tour')?.remove(); APP.innerHTML = (S.apercu ? '<div class="preview">Mode aperçu professeur : ta progression de test est gardée dans ce navigateur seulement.</div>' : '') + (S.baseKO ? '<div class="preview" style="background:#FBE4DF;color:#7A2414">La base de données n\'est pas prête : ta progression ne sera pas enregistrée. Préviens ton professeur.</div>' : '') + `<div class="scroll">${html}</div>` + (tab === false ? '' : nav(tab)); window.scrollTo(0, 0); };
+const surPlace = f => { const y = window.scrollY; f(); window.scrollTo(0, y); };
 const big = (cls, href, icon, title, sub, extra = '') => `<a class="big ${cls} mx" href="${href}" ${extra}><span class="row"><span class="ic">${icon}</span><span class="t">${title}</span><span class="go">${ICON.go}</span></span>${sub ? `<span class="s">${sub}</span>` : ''}</a>`;
 
 /* ---------- contenu ---------- */
@@ -334,7 +335,7 @@ async function vProgression() {
   <details><summary style="color:var(--ch);font-weight:700;font-size:14px;cursor:pointer;min-height:36px">Comment une carte devient acquise ?</summary><div style="background:var(--bg);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.5;display:flex;flex-direction:column;gap:6px;margin-top:6px">
   <span><b style="color:#D2553F">À consolider</b> : tu as répondu « Non » la dernière fois. Elle revient dès demain.</span><span><b style="color:#E0A030">En cours</b> : tu l'as réussie, elle revient dans 3 puis 7 jours.</span><span><b style="color:#2E8B57">Acquise</b> : tu l'as réussie plusieurs fois, à une semaine d'écart ou plus. Elle revient dans 15 puis 30 jours pour ne pas l'oublier.</span></div></details></div>
   ${chs}`, 'progression');
-  APP.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { S.progOpen[b.dataset.p] = !S.progOpen[b.dataset.p]; vProgression(); });
+  APP.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { surPlace(() => { S.progOpen[b.dataset.p] = !S.progOpen[b.dataset.p]; vProgression(); }); });
 }
 
 /* ---------- profil ---------- */
@@ -346,9 +347,9 @@ function vProfil() {
   <div class="panel mx"><b style="font-size:17px;color:var(--title)">Apparence</b><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${[['auto', 'Automatique'], ['clair', 'Clair'], ['sombre', 'Sombre']].map(([k, l]) => `<button class="check ${modeChoisi() === k ? 'on' : ''}" data-m="${k}" style="min-height:48px;justify-content:center;font-weight:700;font-size:14px;padding:6px">${l}</button>`).join('')}</div><small style="color:var(--muted);font-size:13px">« Automatique » suit le réglage de ton téléphone.</small></div>
   <div class="panel mx" style="gap:0;padding:4px 16px"><a href="#/bienvenue" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line2);text-decoration:none;font-weight:600">Revoir la visite guidée${ICON.chev}</a><a href="#/aide" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line2);text-decoration:none;font-weight:600">Installer PC Lab sur mon téléphone${ICON.chev}</a><p style="margin:0;padding:14px 2px;border-bottom:1px solid var(--line2);font-size:14px;color:var(--muted)">Code oublié ? Demande à ton professeur de le réinitialiser.</p>
   <button id="sortir" style="min-height:52px;border:none;background:none;text-align:left;color:#A3361C;font-size:15px;font-weight:700;padding:0 2px">Se déconnecter</button></div>`, 'profil');
-  APP.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { localStorage.setItem('pclab_mode', b.dataset.m); appliquerMode(); vProfil(); });
+  APP.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { surPlace(() => { localStorage.setItem('pclab_mode', b.dataset.m); appliquerMode(); vProfil(); }); });
   APP.querySelectorAll('[data-t]').forEach(b => b.onclick = async () => {
-    S.theme = b.dataset.t; document.documentElement.dataset.theme = S.theme; vProfil();
+    S.theme = b.dataset.t; document.documentElement.dataset.theme = S.theme; surPlace(vProfil);
     if (!S.apercu) { try { await sb.rpc('maj_preferences', { p_theme: S.theme }); } catch (e) { } }
   });
   document.getElementById('sortir').onclick = async () => { await sb.auth.signOut(); location.hash = ''; location.reload(); };
