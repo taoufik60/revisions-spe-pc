@@ -13,6 +13,17 @@ const S = {
   session: null, examenSel: null, consult: null, progOpen: {},
 };
 
+/* ---------- mode clair / sombre ---------- */
+const MQ = window.matchMedia('(prefers-color-scheme: dark)');
+const modeChoisi = () => localStorage.getItem('pclab_mode') || 'auto';
+function appliquerMode() {
+  const m = modeChoisi(), sombre = m === 'sombre' || (m === 'auto' && MQ.matches);
+  document.documentElement.dataset.mode = sombre ? 'dark' : 'light';
+  document.querySelector('meta[name=theme-color]')?.setAttribute('content', sombre ? '#0F141E' : '#0A2E6E');
+}
+appliquerMode();
+MQ.addEventListener?.('change', appliquerMode);
+
 /* ---------- utilitaires ---------- */
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const auj = () => new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Paris' });
@@ -178,7 +189,7 @@ async function vRevisions() {
   page(head('#/accueil', 'Accueil', 'Révisions générales', 'Tous les chapitres déjà vus en classe') + `<div style="height:4px"></div>
   ${n ? big('gen', '#/cartes/jour', ICON.cards, 'Mes cartes du jour', `${n} carte${n > 1 ? 's' : ''} · environ ${min} minute${min > 1 ? 's' : ''}`)
       : `<div class="mx" style="background:var(--genSub);border-radius:18px;padding:20px;display:flex;gap:14px;align-items:center;color:var(--genS)"><b style="font-size:18px">Cartes du jour : c'est fait</b></div>`}
-  ${retard ? `<p class="note" style="text-align:left;margin:0 20px;color:#33405A">Tu as pris un peu de retard, ce n'est pas grave : on te propose ${MAX_RETARD} cartes par jour, les plus fragiles d'abord. Le reste suivra.</p>` : ''}
+  ${retard ? `<p class="note" style="text-align:left;margin:0 20px;color:var(--muted)">Tu as pris un peu de retard, ce n'est pas grave : on te propose ${MAX_RETARD} cartes par jour, les plus fragiles d'abord. Le reste suivra.</p>` : ''}
   <a class="big genmid mx" href="#/examen"><span class="row"><span style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font-size:17px;font-weight:800">Préparer un examen</span><span style="font-size:14px;color:var(--genText)">Choisis tes chapitres : DS, bac blanc, bac</span></span><span class="go">${ICON.go}</span></span></a>
   <a class="row-link mx" href="#/cartes/difficiles/tous"><span><b>Mes cartes à consolider</b><small>${dif} carte${dif > 1 ? 's' : ''}, tous chapitres</small></span>${ICON.chev}</a>`, 'accueil');
 }
@@ -186,7 +197,7 @@ function vExamen() {
   const ch = chapitres();
   if (!S.examenSel) S.examenSel = new Set(ch.slice(-3).map(c => c.num));
   const sel = ch.filter(c => S.examenSel.has(c.num)), nb = sel.reduce((s, c) => s + idsChap(c).length, 0);
-  const rows = ch.map(c => `<button class="check ${S.examenSel.has(c.num) ? 'on' : ''}" data-tog="${c.num}"><span class="box">${S.examenSel.has(c.num) ? ICON.ok : ''}</span><span style="flex:1;display:flex;flex-direction:column"><b style="font-size:15px">Ch. ${c.num} · ${esc(c.titre)}</b><small style="color:#4F5B70">${idsChap(c).length} cartes</small></span></button>`).join('');
+  const rows = ch.map(c => `<button class="check ${S.examenSel.has(c.num) ? 'on' : ''}" data-tog="${c.num}"><span class="box">${S.examenSel.has(c.num) ? ICON.ok : ''}</span><span style="flex:1;display:flex;flex-direction:column"><b style="font-size:15px">Ch. ${c.num} · ${esc(c.titre)}</b><small style="color:var(--muted)">${idsChap(c).length} cartes</small></span></button>`).join('');
   page(head('#/revisions', 'Révisions générales', 'Préparer un examen', 'DS, bac blanc ou bac') + `
   <div class="mx" style="display:flex;justify-content:space-between;align-items:center"><span class="label" style="margin:0">1. Choisis tes chapitres</span><button class="link-discret" style="text-decoration:none;color:var(--gen);font-weight:700" id="tout">${sel.length === ch.length ? 'Tout décocher' : 'Tout cocher'}</button></div>
   <div class="mx" style="display:flex;flex-direction:column;gap:8px">${rows}</div>
@@ -234,7 +245,7 @@ function drawCarte() {
   if (done) {
     const nh = s.hard.size;
     page(top + `<div class="done"><span style="width:72px;height:72px;border-radius:999px;background:#DDF1E4;display:flex;align-items:center;justify-content:center"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1D6B3E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></span>
-    <p style="margin:0;font-size:24px;font-weight:800;color:#0A2E6E">Paquet terminé !</p><p style="margin:0;color:#4F5B70">${s.total} cartes · ${s.retries} repassée(s)</p><p style="margin:0;font-size:14px;color:#4F5B70">Les cartes ratées reviendront demain.</p>
+    <p style="margin:0;font-size:24px;font-weight:800;color:var(--title)">Paquet terminé !</p><p style="margin:0;color:var(--muted)">${s.total} cartes · ${s.retries} repassée(s)</p><p style="margin:0;font-size:14px;color:var(--muted)">Les cartes ratées reviendront demain.</p>
     ${nh ? `<button class="btn-main ${s.color}" style="width:100%;margin-top:10px" id="hard">Revoir mes ${nh} cartes difficiles</button>` : '<p style="margin:0;font-weight:700;color:#1D6B3E">Aucune carte difficile : bravo !</p>'}
     ${s.kind === 'examen' && S.examPool && S.examPool.pool.some(x => !S.examPool.faites.has(x.id)) ? `<button class="btn-main gen" style="width:100%" id="suivante">Série suivante (${Math.min(SERIE_EXAMEN, S.examPool.pool.filter(x => !S.examPool.faites.has(x.id)).length)} cartes)</button>` : ''}
     <button class="link-discret" style="text-decoration:none;color:var(--${s.color});font-weight:700" id="again">Recommencer ${s.kind === 'examen' ? 'cette série' : 'tout le paquet'}</button></div>`, 'accueil');
@@ -282,8 +293,8 @@ async function vConsulter(slug) {
     page(`<div class="top"><div class="top-row"><button class="back" id="liste">${ICON.back}Toutes les cartes</button>${BADGE}</div><h1>Consulter les cartes</h1><p>${esc(p.titre)} · ${cards.length} cartes · sans effet sur ta progression</p></div>
     <p class="mx" style="margin-top:2px;margin-bottom:-4px;font-size:14px;font-weight:700;color:var(--ch)">Carte ${k.open} / ${cards.length} · ${esc(c.titre)}</p>
     <div class="panel mx" style="text-align:center"><p class="tag">Question</p><div class="qtxt" style="font-size:17px">${c.question}</div>${img('q')}
-    ${k.shown ? `<div style="height:1px;background:#E8ECF2;margin:8px 0"></div><p class="tag rep">Réponse</p><div class="atxt" style="font-size:17px">${c.reponse}</div>${img('a')}` : '<button class="link-discret" style="align-self:center;margin-top:8px;border:1.5px solid var(--ch);border-radius:999px;padding:0 16px;min-height:40px;text-decoration:none;color:var(--ch);font-weight:700" id="montrer">Afficher la réponse</button>'}</div>
-    <div style="display:flex;justify-content:center;align-items:center;gap:28px"><button class="check" style="width:52px;min-height:52px;border-radius:999px;justify-content:center;border-color:var(--ch);opacity:${k.open > 1 ? 1 : .3}" id="prec">‹</button><b style="color:#4F5B70">${k.open} / ${cards.length}</b><button class="check" style="width:52px;min-height:52px;border-radius:999px;justify-content:center;border-color:var(--ch);opacity:${k.open < cards.length ? 1 : .3}" id="suiv">›</button></div>`, 'accueil');
+    ${k.shown ? `<div style="height:1px;background:var(--line2);margin:8px 0"></div><p class="tag rep">Réponse</p><div class="atxt" style="font-size:17px">${c.reponse}</div>${img('a')}` : '<button class="link-discret" style="align-self:center;margin-top:8px;border:1.5px solid var(--ch);border-radius:999px;padding:0 16px;min-height:40px;text-decoration:none;color:var(--ch);font-weight:700" id="montrer">Afficher la réponse</button>'}</div>
+    <div style="display:flex;justify-content:center;align-items:center;gap:28px"><button class="check" style="width:52px;min-height:52px;border-radius:999px;justify-content:center;border-color:var(--ch);opacity:${k.open > 1 ? 1 : .3}" id="prec">‹</button><b style="color:var(--muted)">${k.open} / ${cards.length}</b><button class="check" style="width:52px;min-height:52px;border-radius:999px;justify-content:center;border-color:var(--ch);opacity:${k.open < cards.length ? 1 : .3}" id="suiv">›</button></div>`, 'accueil');
     document.getElementById('liste').onclick = () => { k.open = 0; vConsulter(slug); };
     const m = document.getElementById('montrer'); if (m) m.onclick = () => { k.shown = true; vConsulter(slug); };
     document.getElementById('prec').onclick = () => { if (k.open > 1) { k.open--; k.shown = false; vConsulter(slug); } };
@@ -297,7 +308,7 @@ async function vConsulter(slug) {
     const q = norm(k.q.trim()); let n = 0;
     document.getElementById('liste').innerHTML = cards.map((c, i) => {
       if (q && !norm(c.titre + ' ' + c.question + ' ' + c.reponse).includes(q)) return '';
-      n++; return `<button data-o="${i + 1}" style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:none;border-bottom:1px solid #E8ECF2;background:#fff;text-align:left;width:100%"><b style="width:26px;color:var(--ch)">${i + 1}</b><span style="flex:1;font-size:15px;font-weight:600">${esc(c.titre)}</span>${ICON.chev}</button>`;
+      n++; return `<button data-o="${i + 1}" style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:none;border-bottom:1px solid var(--line2);background:var(--card);text-align:left;width:100%"><b style="width:26px;color:var(--ch)">${i + 1}</b><span style="flex:1;font-size:15px;font-weight:600">${esc(c.titre)}</span>${ICON.chev}</button>`;
     }).join('');
     const v = document.getElementById('vide'); v.hidden = n > 0; v.textContent = `Aucune carte ne contient « ${k.q} ».`;
     APP.querySelectorAll('[data-o]').forEach(b => b.onclick = () => { k.open = +b.dataset.o; k.shown = false; vConsulter(slug); });
@@ -310,16 +321,16 @@ async function vProgression() {
   const ch = chapitres(), all = ch.flatMap(idsChap), r = compte(all);
   let seances = null;
   if (!S.apercu) { try { const { data } = await sb.rpc('seances_semaine'); seances = data; } catch (e) { } }
-  const leg = (col, n, l) => `<span style="flex:1;display:flex;flex-direction:column;align-items:center"><b style="font-size:24px;color:${col}">${n}</b><small style="font-size:12px;color:#4F5B70;text-align:center">${l}</small></span>`;
+  const leg = (col, n, l) => `<span style="flex:1;display:flex;flex-direction:column;align-items:center"><b style="font-size:24px;color:${col}">${n}</b><small style="font-size:12px;color:var(--muted);text-align:center">${l}</small></span>`;
   const chs = ch.map(c => {
     const ids = idsChap(c), rc = compte(ids), open = !!S.progOpen[c.num];
-    const parts = open ? c.parties.map(p => { const rp = compte(idsPart(p)), vues = p.n - rp.nouvelle; return `<div style="padding:12px 0;border-top:1px solid #E8ECF2;display:flex;flex-direction:column;gap:6px"><b style="font-size:15px">${esc(p.titre)}</b>${barre(rp, p.n, 8)}<small style="color:#4F5B70">${vues ? `<b style="color:#2E8B57">${rp.acquise} acquises</b> · ${rp.encours} en cours · ${rp.consolider} à consolider` : `${p.n} cartes, pas encore commencé`}</small></div>`; }).join('') : '';
-    return `<div class="panel mx" style="padding:4px 16px;gap:0"><button data-p="${c.num}" style="display:flex;align-items:center;gap:12px;min-height:64px;border:none;background:none;padding:10px 0;text-align:left;width:100%;color:#1A2230"><span class="num" style="background:var(--ch);color:#fff;font-size:13px">Ch.&#160;${c.num}</span><span style="flex:1;display:flex;flex-direction:column;gap:6px"><b style="font-size:16px">${esc(c.titre)}</b>${barre(rc, ids.length, 8)}</span><span>${open ? '▴' : '▾'}</span></button>${parts}</div>`;
+    const parts = open ? c.parties.map(p => { const rp = compte(idsPart(p)), vues = p.n - rp.nouvelle; return `<div style="padding:12px 0;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:6px"><b style="font-size:15px">${esc(p.titre)}</b>${barre(rp, p.n, 8)}<small style="color:var(--muted)">${vues ? `<b style="color:#2E8B57">${rp.acquise} acquises</b> · ${rp.encours} en cours · ${rp.consolider} à consolider` : `${p.n} cartes, pas encore commencé`}</small></div>`; }).join('') : '';
+    return `<div class="panel mx" style="padding:4px 16px;gap:0"><button data-p="${c.num}" style="display:flex;align-items:center;gap:12px;min-height:64px;border:none;background:none;padding:10px 0;text-align:left;width:100%;color:var(--ink)"><span class="num" style="background:var(--ch);color:#fff;font-size:13px">Ch.&#160;${c.num}</span><span style="flex:1;display:flex;flex-direction:column;gap:6px"><b style="font-size:16px">${esc(c.titre)}</b>${barre(rc, ids.length, 8)}</span><span>${open ? '▴' : '▾'}</span></button>${parts}</div>`;
   }).join('');
   page(`<div class="top home"><div><h1>Ma progression</h1>${seances !== null ? `<p>Cette semaine : ${seances} séance${seances > 1 ? 's' : ''}</p>` : ''}</div>${BADGE}</div>
-  <div class="panel mx"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:17px;color:var(--header)">Mes flashcards</b><span style="font-size:14px;color:#4F5B70"><b style="color:#1A2230">${r.acquise}</b> / ${all.length} acquises</span></div>
+  <div class="panel mx"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:17px;color:var(--title)">Mes flashcards</b><span style="font-size:14px;color:var(--muted)"><b style="color:var(--ink)">${r.acquise}</b> / ${all.length} acquises</span></div>
   ${barre(r, all.length || 1, 12)}<div style="display:flex;gap:6px">${leg('#2E8B57', r.acquise, 'acquises')}${leg('#E0A030', r.encours, 'en cours')}${leg('#D2553F', r.consolider, 'à consolider')}${leg('#7C8597', r.nouvelle, 'pas encore vues')}</div>
-  <details><summary style="color:var(--ch);font-weight:700;font-size:14px;cursor:pointer;min-height:36px">Comment une carte devient acquise ?</summary><div style="background:#F4F6FA;border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.5;display:flex;flex-direction:column;gap:6px;margin-top:6px">
+  <details><summary style="color:var(--ch);font-weight:700;font-size:14px;cursor:pointer;min-height:36px">Comment une carte devient acquise ?</summary><div style="background:var(--bg);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.5;display:flex;flex-direction:column;gap:6px;margin-top:6px">
   <span><b style="color:#D2553F">À consolider</b> : tu as répondu « Non » la dernière fois. Elle revient dès demain.</span><span><b style="color:#E0A030">En cours</b> : tu l'as réussie, elle revient dans 3 puis 7 jours.</span><span><b style="color:#2E8B57">Acquise</b> : tu l'as réussie plusieurs fois, à une semaine d'écart ou plus. Elle revient dans 15 puis 30 jours pour ne pas l'oublier.</span></div></details></div>
   ${chs}`, 'progression');
   APP.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { S.progOpen[b.dataset.p] = !S.progOpen[b.dataset.p]; vProgression(); });
@@ -328,11 +339,13 @@ async function vProgression() {
 /* ---------- profil ---------- */
 const THEMES = [['ocean', 'Bleu Océan', ['#0A2E6E', '#0B7A72', '#1B4FA8']], ['emeraude', 'Émeraude', ['#0B3D2E', '#0F6E56', '#B5651D']], ['violet', 'Violet Nuit', ['#231A55', '#5B48B5', '#B83F7E']]];
 function vProfil() {
-  const opts = THEMES.map(([k, nom, cols]) => `<button class="check ${S.theme === k ? 'on' : ''}" data-t="${k}" style="border-color:${S.theme === k ? 'var(--ch)' : '#E1E6EE'};background:#fff"><span style="display:flex">${cols.map(c => `<span style="width:18px;height:18px;border-radius:999px;background:${c};border:2px solid #fff;margin-left:-6px"></span>`).join('')}</span><b style="flex:1;font-size:16px">${nom}</b>${S.theme === k ? '<span style="color:var(--ch);font-weight:800">✓</span>' : ''}</button>`).join('');
+  const opts = THEMES.map(([k, nom, cols]) => `<button class="check ${S.theme === k ? 'on' : ''}" data-t="${k}" style="border-color:${S.theme === k ? 'var(--ch)' : 'var(--line)'};background:var(--card)"><span style="display:flex">${cols.map(c => `<span style="width:18px;height:18px;border-radius:999px;background:${c};border:2px solid #fff;margin-left:-6px"></span>`).join('')}</span><b style="flex:1;font-size:16px">${nom}</b>${S.theme === k ? '<span style="color:var(--ch);font-weight:800">✓</span>' : ''}</button>`).join('');
   page(`<div class="top home"><div><h1>Mon profil</h1><p>${esc(S.eleve ? S.eleve.identifiant : 'Professeur (aperçu)')}</p></div>${BADGE}</div>
-  <div class="panel mx"><b style="font-size:17px;color:var(--header)">Thème de couleur</b>${opts}</div>
-  <div class="panel mx" style="gap:0;padding:4px 16px"><a href="#/bienvenue" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8ECF2;text-decoration:none;font-weight:600">Revoir la visite guidée${ICON.chev}</a><a href="#/aide" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #E8ECF2;text-decoration:none;font-weight:600">Installer PC Lab sur mon téléphone${ICON.chev}</a><p style="margin:0;padding:14px 2px;border-bottom:1px solid #E8ECF2;font-size:14px;color:#4F5B70">Code oublié ? Demande à ton professeur de le réinitialiser.</p>
+  <div class="panel mx"><b style="font-size:17px;color:var(--title)">Thème de couleur</b>${opts}</div>
+  <div class="panel mx"><b style="font-size:17px;color:var(--title)">Apparence</b><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${[['auto', 'Automatique'], ['clair', 'Clair'], ['sombre', 'Sombre']].map(([k, l]) => `<button class="check ${modeChoisi() === k ? 'on' : ''}" data-m="${k}" style="min-height:48px;justify-content:center;font-weight:700;font-size:14px;padding:6px">${l}</button>`).join('')}</div><small style="color:var(--muted);font-size:13px">« Automatique » suit le réglage de ton téléphone.</small></div>
+  <div class="panel mx" style="gap:0;padding:4px 16px"><a href="#/bienvenue" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line2);text-decoration:none;font-weight:600">Revoir la visite guidée${ICON.chev}</a><a href="#/aide" style="min-height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line2);text-decoration:none;font-weight:600">Installer PC Lab sur mon téléphone${ICON.chev}</a><p style="margin:0;padding:14px 2px;border-bottom:1px solid var(--line2);font-size:14px;color:var(--muted)">Code oublié ? Demande à ton professeur de le réinitialiser.</p>
   <button id="sortir" style="min-height:52px;border:none;background:none;text-align:left;color:#A3361C;font-size:15px;font-weight:700;padding:0 2px">Se déconnecter</button></div>`, 'profil');
+  APP.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { localStorage.setItem('pclab_mode', b.dataset.m); appliquerMode(); vProfil(); });
   APP.querySelectorAll('[data-t]').forEach(b => b.onclick = async () => {
     S.theme = b.dataset.t; document.documentElement.dataset.theme = S.theme; vProfil();
     if (!S.apercu) { try { await sb.rpc('maj_preferences', { p_theme: S.theme }); } catch (e) { } }
@@ -357,9 +370,9 @@ function tour(key, steps) {
     const w = document.createElement('div'); w.id = 'tour';
     w.innerHTML = `<div style="position:fixed;inset:0;z-index:50"></div>
     <div style="position:fixed;z-index:51;left:${r.left - pad}px;top:${r.top - pad}px;width:${r.width + 2 * pad}px;height:${r.height + 2 * pad}px;border-radius:18px;box-shadow:0 0 0 9999px rgba(10,20,40,.6);pointer-events:none"></div>
-    <div role="dialog" style="position:fixed;z-index:52;left:16px;right:16px;max-width:420px;margin:0 auto;${below ? `top:${r.bottom + 14}px` : `bottom:${window.innerHeight - r.top + 14}px`};background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 8px 24px rgba(0,0,0,.25)">
+    <div role="dialog" style="position:fixed;z-index:52;left:16px;right:16px;max-width:420px;margin:0 auto;${below ? `top:${r.bottom + 14}px` : `bottom:${window.innerHeight - r.top + 14}px`};background:var(--card);border-radius:14px;padding:14px 16px;box-shadow:0 8px 24px rgba(0,0,0,.25)">
     <p style="margin:0 0 12px;font-size:16px;line-height:1.4">${st.text}</p>
-    <div style="display:flex;justify-content:space-between;align-items:center"><button id="t-skip" style="border:none;background:none;color:#6B7487;font-size:14px;min-height:40px;padding:0">Passer</button>
+    <div style="display:flex;justify-content:space-between;align-items:center"><button id="t-skip" style="border:none;background:none;color:var(--muted2);font-size:14px;min-height:40px;padding:0">Passer</button>
     <button id="t-next" style="border:none;border-radius:10px;background:var(--ch);color:#fff;font-weight:800;font-size:15px;min-height:40px;padding:0 16px">${i < steps.length - 1 ? `Suivant (${i + 1}/${steps.length})` : 'Compris'}</button></div></div>`;
     document.body.appendChild(w);
     document.getElementById('t-skip').onclick = fin;
