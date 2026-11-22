@@ -1,0 +1,69 @@
+{
+ "chapitre": 12,
+ "partie": "Effet Doppler",
+ "cartes": [
+  {
+   "titre": "Effet Doppler",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que l'<b>effet Doppler</b> ?",
+   "reponse": "La modification de la fréquence <b>perçue</b> quand l'émetteur et le récepteur sont en <b>mouvement relatif</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p2-effet-doppler-01"
+  },
+  {
+   "titre": "La source se rapproche",
+   "type": "MÉTHODE",
+   "question": "Que se passe-t-il quand la source <b>se rapproche</b> ?",
+   "reponse": "<span class=\"f\">f<sub>R</sub> &gt; f<sub>E</sub></span><br/>Le son perçu est plus <b>aigu</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p2-effet-doppler-02"
+  },
+  {
+   "titre": "La source s'éloigne",
+   "type": "MÉTHODE",
+   "question": "Que se passe-t-il quand la source <b>s'éloigne</b> ?",
+   "reponse": "<span class=\"f\">f<sub>R</sub> &lt; f<sub>E</sub></span><br/>Le son perçu est plus <b>grave</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p2-effet-doppler-03"
+  },
+  {
+   "titre": "Fréquence reçue : approche",
+   "type": "SITUATION",
+   "question": "Une source se rapproche d'un récepteur immobile à la vitesse v. Donner la <b>fréquence reçue</b>.",
+   "reponse": "<span class=\"f\">f<sub>R</sub> = f<sub>E</sub> × <span class=\"fr\"><span>c</span><span>c − v</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p2-effet-doppler-04"
+  },
+  {
+   "titre": "Fréquence reçue : éloignement",
+   "type": "SITUATION",
+   "question": "Une source s'éloigne d'un récepteur immobile à la vitesse v. Donner la <b>fréquence reçue</b>.",
+   "reponse": "<span class=\"f\">f<sub>R</sub> = f<sub>E</sub> × <span class=\"fr\"><span>c</span><span>c + v</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p2-effet-doppler-05"
+  },
+  {
+   "titre": "Décalage Doppler",
+   "type": "MÉTHODE",
+   "question": "Donner le <b>décalage Doppler</b> quand v ≪ c.",
+   "reponse": "<span class=\"f\">Δf = |f<sub>R</sub> − f<sub>E</sub>| ≈ f<sub>E</sub> × <span class=\"fr\"><span>v</span><span>c</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p2-effet-doppler-06"
+  },
+  {
+   "titre": "Applications de l'effet Doppler",
+   "type": "MÉTHODE",
+   "question": "Citer deux <b>applications</b> de l'effet Doppler.",
+   "reponse": "Radars de vitesse, échographie Doppler, vitesse des étoiles (effet Doppler-Fizeau).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p2-effet-doppler-07"
+  }
+ ]
+}

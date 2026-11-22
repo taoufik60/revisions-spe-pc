@@ -1,0 +1,141 @@
+{
+ "chapitre": 19,
+ "partie": "Mécanique des fluides",
+ "cartes": [
+  {
+   "titre": "Fluide",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>fluide</b> ?",
+   "reponse": "Un milieu qui peut <b>s'écouler</b> et qui n'a pas de forme propre : les <b>liquides</b> et les <b>gaz</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-01"
+  },
+  {
+   "titre": "Origine de la pression",
+   "type": "MÉTHODE",
+   "question": "Quelle est l'origine <b>microscopique</b> de la pression d'un fluide ?",
+   "reponse": "Les <b>chocs</b> des particules du fluide sur les surfaces en contact.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-02"
+  },
+  {
+   "titre": "Pression et profondeur",
+   "type": "MÉTHODE",
+   "question": "Pourquoi la pression d'un fluide <b>augmente</b>-t-elle avec la profondeur ?",
+   "reponse": "Plus on descend, plus la <b>colonne de fluide</b> située au-dessus est lourde.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-03"
+  },
+  {
+   "titre": "Origine de la poussée d'Archimède",
+   "type": "MÉTHODE",
+   "question": "Comment la différence de pression explique-t-elle la poussée d'Archimède ?",
+   "reponse": "La pression est plus grande <b>sous</b> l'objet que <b>dessus</b> : la résultante des forces pressantes est <b>verticale vers le haut</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-04"
+  },
+  {
+   "titre": "Poussée d'Archimède",
+   "type": "MÉTHODE",
+   "question": "Énoncer la <b>poussée d'Archimède</b>.",
+   "reponse": "Un corps immergé dans un fluide au repos subit une force <b>verticale, vers le haut</b>, de valeur égale au <b>poids du fluide déplacé</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-05"
+  },
+  {
+   "titre": "Valeur de la poussée d'Archimède",
+   "type": "MÉTHODE",
+   "question": "Donner la <b>valeur</b> de la poussée d'Archimède.",
+   "reponse": "<span class=\"f\">Π = ρ<sub>fluide</sub> × V<sub>immergé</sub> × g</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-06"
+  },
+  {
+   "titre": "Vecteur poussée d'Archimède",
+   "type": "MÉTHODE",
+   "question": "Que traduit le signe − dans <span class=\"f\"><span class=\"vec\">Π</span> = − ρ × V × <span class=\"vec\">g</span></span> ?",
+   "reponse": "<span class=\"vec\">g</span> est vers le bas, donc <span class=\"vec\">Π</span> est vers le <b>haut</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-07"
+  },
+  {
+   "titre": "De quoi dépend la poussée d'Archimède",
+   "type": "MÉTHODE",
+   "question": "De quelles grandeurs dépend la <b>valeur</b> de la poussée d'Archimède ?",
+   "reponse": "De la <b>masse volumique du fluide</b> et du <b>volume immergé</b>, <b>pas</b> de la nature de l'objet.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-08"
+  },
+  {
+   "titre": "Régime permanent",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un écoulement en <b>régime permanent</b> ?",
+   "reponse": "En chaque point, la vitesse du fluide ne varie <b>pas</b> au cours du temps.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-09"
+  },
+  {
+   "titre": "Débit volumique",
+   "type": "MÉTHODE",
+   "question": "Définir le <b>débit volumique</b> D<sub>V</sub>. Unité ?",
+   "reponse": "Le volume de fluide qui traverse une section par unité de temps :<br/><span class=\"f\">D<sub>V</sub> = <span class=\"fr\"><span>V</span><span>Δt</span></span></span><br/><small>en m³·s⁻¹</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-10"
+  },
+  {
+   "titre": "Débit, section et vitesse",
+   "type": "MÉTHODE",
+   "question": "Quelle relation lie D<sub>V</sub>, la section S et la vitesse v ?",
+   "reponse": "<span class=\"f\">D<sub>V</sub> = S × v</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-11"
+  },
+  {
+   "titre": "Conservation du débit",
+   "type": "MÉTHODE",
+   "question": "Qu'exprime la <b>conservation du débit</b> (écoulement permanent, fluide incompressible) ?",
+   "reponse": "Le débit est le même dans toutes les sections :<br/><span class=\"f\">S<sub>1</sub> × v<sub>1</sub> = S<sub>2</sub> × v<sub>2</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-12"
+  },
+  {
+   "titre": "Relation de Bernoulli",
+   "type": "MÉTHODE",
+   "question": "Écrire la <b>relation de Bernoulli</b> le long d'une ligne de courant.",
+   "reponse": "<span class=\"f\">P + <span class=\"fr\"><span>1</span><span>2</span></span> ρ v² + ρ g z = constante</span><br/><small>P : pression (Pa) ; ρ : masse volumique (kg·m⁻³) ; z : altitude (m)</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-13"
+  },
+  {
+   "titre": "Conditions de Bernoulli",
+   "type": "MÉTHODE",
+   "question": "Sous quelles <b>conditions</b> la relation de Bernoulli s'applique-t-elle ?",
+   "reponse": "Fluide <b>incompressible</b> et <b>parfait</b> (sans frottements), écoulement <b>permanent</b>, le long d'une <b>ligne de courant</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-14"
+  },
+  {
+   "titre": "Effet Venturi",
+   "type": "MÉTHODE",
+   "question": "Énoncer l'<b>effet Venturi</b>.",
+   "reponse": "Là où la <b>vitesse augmente</b>, la <b>pression diminue</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch19-p1-fluides-15"
+  }
+ ]
+}

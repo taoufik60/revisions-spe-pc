@@ -1,0 +1,51 @@
+{
+ "chapitre": 9,
+ "partie": "Prouver un ordre 1",
+ "cartes": [
+  {
+   "titre": "Ordre 1 : méthode graphique",
+   "type": "MÉTHODE",
+   "question": "Comment prouve-t-on <b>graphiquement</b> qu'une réaction est d'ordre 1 ?",
+   "reponse": "On passe au logarithme :<br/><span class=\"f\">ln [A] = − k t + ln [A]<sub>0</sub></span><br/>On trace ln [A] = f(t) : si on obtient une <b>droite décroissante</b>, la réaction est d'ordre 1.",
+   "image": "ch9-ord1-01.jpg",
+   "image_cote": "a",
+   "id": "ch9-p2-ordre-1-01"
+  },
+  {
+   "titre": "Coefficient directeur",
+   "type": "MÉTHODE",
+   "question": "Que représente le <b>coefficient directeur</b> de la droite ln [A] = f(t) ?",
+   "reponse": "Il vaut <b>− k</b> (l'opposé de la constante de vitesse).",
+   "image": "ch9-ord1-02.jpg",
+   "image_cote": "a",
+   "id": "ch9-p2-ordre-1-02"
+  },
+  {
+   "titre": "Temps de demi-réaction : ordre 1",
+   "type": "MÉTHODE",
+   "question": "Quelle est la particularité de t<sub>1/2</sub> pour une réaction d'ordre 1 ?",
+   "reponse": "Il ne dépend <b>pas</b> de la concentration initiale :<br/><span class=\"f\">t<sub>1/2</sub> = <span class=\"fr\"><span>ln 2</span><span>k</span></span></span>",
+   "image": "ch9-ord1-03.jpg",
+   "image_cote": "a",
+   "id": "ch9-p2-ordre-1-03"
+  },
+  {
+   "titre": "Ordre 1 : méthode numérique",
+   "type": "MÉTHODE",
+   "question": "Avec un tableau de mesures (t ; [A]), comment vérifie-t-on l'ordre 1 ?",
+   "reponse": "On calcule à chaque date :<br/><span class=\"f\">k = <span class=\"fr\"><span>1</span><span>t</span></span> × ln <span class=\"fr\"><span>[A]<sub>0</sub></span><span>[A](t)</span></span></span><br/>Si k est à peu près <b>constant</b>, la réaction est d'ordre 1.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p2-ordre-1-04"
+  },
+  {
+   "titre": "Ordre 1 : vitesse et concentration",
+   "type": "MÉTHODE",
+   "question": "Pour une réaction d'ordre 1, quelle est l'allure de la courbe v = f([A]) ?",
+   "reponse": "Une <b>droite passant par l'origine</b>, car v = k × [A].",
+   "image": "ch9-ord1-05.jpg",
+   "image_cote": "a",
+   "id": "ch9-p2-ordre-1-05"
+  }
+ ]
+}

@@ -1,0 +1,168 @@
+{
+ "chapitre": 11,
+ "partie": "Les étapes d'une synthèse",
+ "cartes": [
+  {
+   "titre": "Les quatre étapes",
+   "type": "MÉTHODE",
+   "question": "Quelles sont les <b>quatre étapes</b> d'une synthèse ?",
+   "reponse": "1. Transformation<br/>2. Isolement<br/>3. Purification<br/>4. Identification",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-01"
+  },
+  {
+   "titre": "Transformation",
+   "type": "MÉTHODE",
+   "question": "Comment s'appelle l'étape où l'on <b>forme</b> l'espèce voulue à partir des réactifs ?",
+   "reponse": "La <b>transformation</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-02"
+  },
+  {
+   "titre": "Isolement",
+   "type": "MÉTHODE",
+   "question": "Quelle étape <b>sépare</b> le produit du reste du mélange réactionnel ?",
+   "reponse": "L'<b>isolement</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-03"
+  },
+  {
+   "titre": "Purification",
+   "type": "MÉTHODE",
+   "question": "Quelle étape <b>élimine les impuretés</b> du produit brut ?",
+   "reponse": "La <b>purification</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-04"
+  },
+  {
+   "titre": "Identification",
+   "type": "MÉTHODE",
+   "question": "Quelle étape permet de vérifier la <b>nature</b> et la <b>pureté</b> du produit ?",
+   "reponse": "L'<b>identification</b> (analyse).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-05"
+  },
+  {
+   "titre": "Chauffage à reflux",
+   "type": "MÉTHODE",
+   "question": "Nommer ce montage, l'annoter et donner son <b>utilité</b>.",
+   "reponse": "<b>Chauffage à reflux</b>.<br/>Il accélère la réaction et évite les pertes par évaporation.",
+   "image": "ch11-synth-06.jpg",
+   "image_cote": "q",
+   "id": "ch11-p2-etapes-synthese-06"
+  },
+  {
+   "titre": "Réfrigérant à boules",
+   "type": "MÉTHODE",
+   "question": "Quel est le rôle du <b>réfrigérant à boules</b> dans le montage à reflux ?",
+   "reponse": "Il <b>condense</b> les vapeurs, qui retombent dans le ballon.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-07"
+  },
+  {
+   "titre": "Filtration sous vide",
+   "type": "MÉTHODE",
+   "question": "Nommer ce montage, l'annoter et donner son <b>rôle</b>.",
+   "reponse": "<b>Filtration sous vide</b> (Büchner + fiole à vide).<br/>Il isole un <b>solide</b>, plus vite qu'une filtration simple.",
+   "image": "ch11-synth-08.jpg",
+   "image_cote": "q",
+   "id": "ch11-p2-etapes-synthese-08"
+  },
+  {
+   "titre": "Distillation fractionnée",
+   "type": "MÉTHODE",
+   "question": "Nommer ce montage, l'annoter et donner le <b>rôle du thermomètre</b>.",
+   "reponse": "<b>Distillation fractionnée</b> : elle sépare des liquides de températures d'ébullition différentes.<br/>Le thermomètre mesure la température des <b>vapeurs</b> qui distillent.",
+   "image": "ch11-synth-09.jpg",
+   "image_cote": "q",
+   "id": "ch11-p2-etapes-synthese-09"
+  },
+  {
+   "titre": "Isoler un solide",
+   "type": "MÉTHODE",
+   "question": "Quelle technique d'<b>isolement</b> convient à un produit <b>solide</b> ?",
+   "reponse": "La <b>filtration sous vide</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-10"
+  },
+  {
+   "titre": "Isoler un liquide",
+   "type": "MÉTHODE",
+   "question": "Quelle technique d'<b>isolement</b> convient à un produit <b>liquide</b> ?",
+   "reponse": "L'<b>extraction liquide-liquide</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-11"
+  },
+  {
+   "titre": "Purifier un liquide",
+   "type": "MÉTHODE",
+   "question": "Quelle technique de <b>purification</b> convient à un produit <b>liquide</b> ?",
+   "reponse": "La <b>distillation fractionnée</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-12"
+  },
+  {
+   "titre": "Purifier un solide",
+   "type": "MÉTHODE",
+   "question": "Quelle technique de <b>purification</b> convient à un produit <b>solide</b> ?",
+   "reponse": "La <b>recristallisation</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-13"
+  },
+  {
+   "titre": "Chromatographie sur couche mince",
+   "type": "MÉTHODE",
+   "question": "Quelle est cette technique ? Quel est son but ?",
+   "reponse": "La <b>chromatographie sur couche mince</b> (CCM).<br/>Elle <b>sépare</b> et <b>identifie</b> les espèces d'un mélange.",
+   "image": "ch11-synth-14.jpg",
+   "image_cote": "q",
+   "id": "ch11-p2-etapes-synthese-14"
+  },
+  {
+   "titre": "Lire un chromatogramme",
+   "type": "SITUATION",
+   "question": "Que peut-on conclure sur l'échantillon E ?",
+   "reponse": "E n'est <b>pas pur</b> : il contient L et AL, et au moins une autre espèce.",
+   "image": "ch11-synth-15.jpg",
+   "image_cote": "q",
+   "id": "ch11-p2-etapes-synthese-15"
+  },
+  {
+   "titre": "Spectroscopie infrarouge",
+   "type": "MÉTHODE",
+   "question": "Quelle méthode d'analyse identifie les <b>liaisons</b> et les <b>groupes caractéristiques</b> ?",
+   "reponse": "La <b>spectroscopie infrarouge</b> (IR).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-16"
+  },
+  {
+   "titre": "Banc Kofler",
+   "type": "MÉTHODE",
+   "question": "Quelle méthode mesure la température de changement d'état d'un <b>solide</b> ?",
+   "reponse": "Le <b>banc Kofler</b> : il mesure la <b>température de fusion</b>.",
+   "image": "ch11-synth-17.jpg",
+   "image_cote": "a",
+   "id": "ch11-p2-etapes-synthese-17"
+  },
+  {
+   "titre": "Rendement",
+   "type": "MÉTHODE",
+   "question": "Quelle formule donne le <b>rendement</b> η d'une synthèse ?",
+   "reponse": "<span class=\"f\">η = <span class=\"fr\"><span>n<sub>exp</sub></span><span>n<sub>max</sub></span></span></span><br/><small>Les deux quantités dans la même unité.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p2-etapes-synthese-18"
+  }
+ ]
+}

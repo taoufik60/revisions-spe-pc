@@ -1,0 +1,159 @@
+{
+ "chapitre": 16,
+ "partie": "Circuit RC",
+ "cartes": [
+  {
+   "titre": "Intensité et charge",
+   "type": "MÉTHODE",
+   "question": "En régime variable, comment définit-on l'<b>intensité</b> i(t) ?",
+   "reponse": "<span class=\"f\">i = <span class=\"fr\"><span>dq</span><span>dt</span></span></span><br/><small>i en A ; q en C</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-01"
+  },
+  {
+   "titre": "Condensateur",
+   "type": "MÉTHODE",
+   "question": "De quoi est constitué un <b>condensateur</b> ?",
+   "reponse": "Deux <b>armatures</b> conductrices séparées par un <b>isolant</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-02"
+  },
+  {
+   "titre": "Capacité",
+   "type": "MÉTHODE",
+   "question": "Que représente la <b>capacité</b> C ? Unité ?",
+   "reponse": "Son aptitude à <b>stocker des charges</b>, en <b>farad</b> (F).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-03"
+  },
+  {
+   "titre": "Capacité d'un condensateur plan",
+   "type": "MÉTHODE",
+   "question": "De quoi dépend la capacité d'un <b>condensateur plan</b> ?",
+   "reponse": "De la <b>surface</b> S des armatures, de leur <b>distance</b> e et de l'<b>isolant</b> (permittivité ε) :<br/><span class=\"f\">C = <span class=\"fr\"><span>ε × S</span><span>e</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-04"
+  },
+  {
+   "titre": "Charge et tension",
+   "type": "MÉTHODE",
+   "question": "Quelle relation lie la charge q d'une armature et la tension u<sub>C</sub> ?",
+   "reponse": "<span class=\"f\">q = C × u<sub>C</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-05"
+  },
+  {
+   "titre": "Intensité et tension",
+   "type": "MÉTHODE",
+   "question": "Quelle relation lie l'intensité i et la tension u<sub>C</sub> ?",
+   "reponse": "<span class=\"f\">i = C × <span class=\"fr\"><span>du<sub>C</sub></span><span>dt</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-06"
+  },
+  {
+   "titre": "Dipôle RC",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>dipôle RC</b> ?",
+   "reponse": "Un conducteur ohmique R et un condensateur C en <b>série</b>.",
+   "image": "ch16-rc.svg",
+   "image_cote": "a",
+   "id": "ch16-p1-circuit-rc-07"
+  },
+  {
+   "titre": "Méthode : l'équation différentielle",
+   "type": "MÉTHODE",
+   "question": "Quelles sont les <b>trois étapes</b> pour établir l'équation différentielle d'un circuit RC ?",
+   "reponse": "1. Loi des mailles.<br/>2. On remplace u<sub>R</sub> = R × i et i = C × <span class=\"fr\"><span>du<sub>C</sub></span><span>dt</span></span>.<br/>3. On met l'équation sous la forme voulue.",
+   "image": "ch16-rc.svg",
+   "image_cote": "q",
+   "id": "ch16-p1-circuit-rc-08"
+  },
+  {
+   "titre": "Charge : équation différentielle",
+   "type": "SITUATION",
+   "question": "Le condensateur se <b>charge</b> sous une tension constante E. Quelle est l'équation différentielle vérifiée par u<sub>C</sub> ?",
+   "reponse": "<span class=\"f\">RC × <span class=\"fr\"><span>du<sub>C</sub></span><span>dt</span></span> + u<sub>C</sub> = E</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-09"
+  },
+  {
+   "titre": "Charge : condition initiale",
+   "type": "SITUATION",
+   "question": "Lors de la <b>charge</b>, que vaut u<sub>C</sub> à t = 0 ?",
+   "reponse": "<span class=\"f\">u<sub>C</sub>(0) = 0</span><br/><small>Le condensateur est initialement déchargé.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-10"
+  },
+  {
+   "titre": "Charge : solution",
+   "type": "SITUATION",
+   "question": "Donner la <b>solution</b> u<sub>C</sub>(t) lors de la <b>charge</b>.",
+   "reponse": "<span class=\"f\">u<sub>C</sub>(t) = E × (1 − e<sup>−t/τ</sup>)</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-11"
+  },
+  {
+   "titre": "Temps caractéristique",
+   "type": "MÉTHODE",
+   "question": "Que vaut le <b>temps caractéristique</b> τ d'un circuit RC ?",
+   "reponse": "<span class=\"f\">τ = R × C</span><br/><small>τ en s ; R en Ω ; C en F</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-12"
+  },
+  {
+   "titre": "Charge : valeur à t = τ",
+   "type": "SITUATION",
+   "question": "Lors de la <b>charge</b>, quelle fraction de E la tension atteint-elle à t = τ ?",
+   "reponse": "Environ <b>63 %</b> :<br/><span class=\"f\">u<sub>C</sub>(τ) ≈ 0,63 E</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-13"
+  },
+  {
+   "titre": "Décharge : équation différentielle",
+   "type": "SITUATION",
+   "question": "Quelle est l'équation différentielle vérifiée par u<sub>C</sub> lors de la <b>décharge</b> ?",
+   "reponse": "<span class=\"f\">RC × <span class=\"fr\"><span>du<sub>C</sub></span><span>dt</span></span> + u<sub>C</sub> = 0</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-14"
+  },
+  {
+   "titre": "Décharge : solution",
+   "type": "SITUATION",
+   "question": "Le condensateur, chargé sous la tension E, se <b>décharge</b>. Donner u<sub>C</sub>(t).",
+   "reponse": "<span class=\"f\">u<sub>C</sub>(t) = E × e<sup>−t/τ</sup></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-15"
+  },
+  {
+   "titre": "Décharge : valeur à t = τ",
+   "type": "SITUATION",
+   "question": "Lors de la <b>décharge</b>, quelle fraction de E reste-t-il à t = τ ?",
+   "reponse": "Environ <b>37 %</b> :<br/><span class=\"f\">u<sub>C</sub>(τ) ≈ 0,37 E</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-16"
+  },
+  {
+   "titre": "τ par la tangente à l'origine",
+   "type": "MÉTHODE",
+   "question": "Comment détermine-t-on <b>graphiquement</b> τ avec la tangente à l'origine ?",
+   "reponse": "La tangente à la courbe en t = 0 coupe l'<b>asymptote horizontale</b> à la date t = τ.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch16-p1-circuit-rc-17"
+  }
+ ]
+}

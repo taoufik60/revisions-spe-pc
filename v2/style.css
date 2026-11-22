@@ -178,3 +178,4 @@ nav.tabs a.on { color: var(--gen); font-weight: 700; }
 .big.compact.ch { box-shadow: 0 3px 0 var(--chS); }
 .big.compact.gen { box-shadow: 0 3px 0 var(--genS); }
 .big.compact.mid { box-shadow: 0 3px 0 var(--midS); }
+.nuc{display:inline-flex;flex-direction:column;align-items:flex-end;font-size:.62em;line-height:1.05;vertical-align:-.45em;margin-right:1px}

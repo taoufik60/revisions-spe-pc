@@ -1,0 +1,159 @@
+{
+ "chapitre": 7,
+ "partie": "Évolution spontanée",
+ "cartes": [
+  {
+   "titre": "Symbole : transformation totale",
+   "type": "MÉTHODE",
+   "question": "Quel symbole utilise-t-on dans l'équation d'une transformation <b>totale</b> ?",
+   "reponse": "Une flèche <b>simple</b> : →",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-01"
+  },
+  {
+   "titre": "Symbole : transformation non totale",
+   "type": "MÉTHODE",
+   "question": "Quel symbole utilise-t-on dans l'équation d'une transformation <b>non totale</b> ?",
+   "reponse": "Une <b>double flèche</b> : ⇌",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-02"
+  },
+  {
+   "titre": "Transformation totale",
+   "type": "MÉTHODE",
+   "question": "Comment appelle-t-on une transformation où au moins un réactif est <b>entièrement consommé</b> ?",
+   "reponse": "Une transformation <b>totale</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-03"
+  },
+  {
+   "titre": "Transformation non totale",
+   "type": "MÉTHODE",
+   "question": "Comment appelle-t-on une transformation où réactifs et produits <b>coexistent</b> dans l'état final ?",
+   "reponse": "Une transformation <b>non totale</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-04"
+  },
+  {
+   "titre": "Avancement final : réaction totale",
+   "type": "MÉTHODE",
+   "question": "Pour une réaction <b>totale</b>, quelle relation lie x<sub>f</sub> et x<sub>max</sub> ?",
+   "reponse": "<span class=\"f\">x<sub>f</sub> = x<sub>max</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-05"
+  },
+  {
+   "titre": "Avancement final : réaction non totale",
+   "type": "MÉTHODE",
+   "question": "Pour une réaction <b>non totale</b>, quelle relation lie x<sub>f</sub> et x<sub>max</sub> ?",
+   "reponse": "<span class=\"f\">x<sub>f</sub> = x<sub>éq</sub> &lt; x<sub>max</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-06"
+  },
+  {
+   "titre": "Taux d'avancement final",
+   "type": "MÉTHODE",
+   "question": "Donner la définition du <b>taux d'avancement final</b> τ.",
+   "reponse": "<span class=\"f\">τ = <span class=\"fr\"><span>x<sub>f</sub></span><span>x<sub>max</sub></span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-07"
+  },
+  {
+   "titre": "Taux d'avancement : réaction totale",
+   "type": "MÉTHODE",
+   "question": "Que vaut τ pour une transformation <b>totale</b> ?",
+   "reponse": "<span class=\"f\">τ = 1</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-08"
+  },
+  {
+   "titre": "Taux d'avancement : réaction non totale",
+   "type": "MÉTHODE",
+   "question": "Que vaut τ pour une transformation <b>non totale</b> ?",
+   "reponse": "<span class=\"f\">τ &lt; 1</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-09"
+  },
+  {
+   "titre": "Équilibre dynamique",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>équilibre dynamique</b> ?",
+   "reponse": "À l'échelle <b>macroscopique</b>, les quantités de matière ne varient plus.<br/>À l'échelle <b>microscopique</b>, la réaction continue dans les <b>deux sens</b>, à la même vitesse.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-10"
+  },
+  {
+   "titre": "Solvant et solide dans Qr",
+   "type": "MÉTHODE",
+   "question": "Que vaut la contribution d'un <b>solvant</b> ou d'un <b>solide</b> dans le quotient de réaction Q<sub>r</sub> ?",
+   "reponse": "Elle vaut <b>1</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-11"
+  },
+  {
+   "titre": "Quotient de réaction",
+   "type": "MÉTHODE",
+   "question": "Donner l'expression de Q<sub>r</sub> pour la réaction en solution :<br/>a A + b B ⇌ c C + d D",
+   "reponse": "<span class=\"f\">Q<sub>r</sub> = <span class=\"fr\"><span>[C]<sup>c</sup> × [D]<sup>d</sup></span><span>[A]<sup>a</sup> × [B]<sup>b</sup></span></span></span><br/><small>Concentrations divisées par c° = 1 mol·L⁻¹ : Q<sub>r</sub> est sans unité.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-12"
+  },
+  {
+   "titre": "Qr à l'équilibre",
+   "type": "MÉTHODE",
+   "question": "Que vaut Q<sub>r</sub> quand le système est à l'<b>équilibre</b> ?",
+   "reponse": "<span class=\"f\">Q<sub>r,éq</sub> = K</span><br/><small>K : constante d'équilibre</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-13"
+  },
+  {
+   "titre": "Constante d'équilibre",
+   "type": "MÉTHODE",
+   "question": "De quoi dépend la <b>constante d'équilibre</b> K ?",
+   "reponse": "Uniquement de la <b>température</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-14"
+  },
+  {
+   "titre": "Critère : Qr < K",
+   "type": "MÉTHODE",
+   "question": "Dans quel sens évolue spontanément un système si Q<sub>r</sub> &lt; K ?",
+   "reponse": "Dans le sens <b>direct</b> (formation des produits).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-15"
+  },
+  {
+   "titre": "Critère : Qr > K",
+   "type": "MÉTHODE",
+   "question": "Dans quel sens évolue spontanément un système si Q<sub>r</sub> &gt; K ?",
+   "reponse": "Dans le sens <b>indirect</b> (formation des réactifs).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-16"
+  },
+  {
+   "titre": "Critère : Qr = K",
+   "type": "MÉTHODE",
+   "question": "Que se passe-t-il si Q<sub>r</sub> = K ?",
+   "reponse": "Le système est à l'<b>équilibre</b> : pas d'évolution macroscopique.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch7-p1-evolution-spontanee-17"
+  }
+ ]
+}

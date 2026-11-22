@@ -1,0 +1,87 @@
+{
+ "chapitre": 13,
+ "partie": "Interférences",
+ "cartes": [
+  {
+   "titre": "Conditions d'interférences",
+   "type": "MÉTHODE",
+   "question": "À quelles conditions deux ondes peuvent-elles <b>interférer</b> ?",
+   "reponse": "Elles doivent être <b>cohérentes</b> : même fréquence et déphasage constant.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p2-interferences-01"
+  },
+  {
+   "titre": "Différence de marche",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que la <b>différence de marche</b> δ au point M ?",
+   "reponse": "<span class=\"f\">δ = S<sub>2</sub>M − S<sub>1</sub>M</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p2-interferences-02"
+  },
+  {
+   "titre": "Frange brillante",
+   "type": "MÉTHODE",
+   "question": "À quelle condition observe-t-on une frange <b>brillante</b> (interférences constructives) ?",
+   "reponse": "<span class=\"f\">δ = k × λ</span><br/><small>k entier</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p2-interferences-03"
+  },
+  {
+   "titre": "Frange sombre",
+   "type": "MÉTHODE",
+   "question": "À quelle condition observe-t-on une frange <b>sombre</b> (interférences destructives) ?",
+   "reponse": "<span class=\"f\">δ = (k + ½) × λ</span><br/><small>k entier</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p2-interferences-04"
+  },
+  {
+   "titre": "Différence de marche et position",
+   "type": "MÉTHODE",
+   "question": "Fentes de Young : quelle relation lie δ et la position x du point M sur l'écran ?",
+   "reponse": "<span class=\"f\">δ = <span class=\"fr\"><span>a × x</span><span>D</span></span></span><br/><small>a : distance entre les fentes ; D : distance fentes-écran</small>",
+   "image": "ch13-young.svg",
+   "image_cote": "q",
+   "id": "ch13-p2-interferences-05"
+  },
+  {
+   "titre": "Interfrange",
+   "type": "MÉTHODE",
+   "question": "Donner l'expression de l'<b>interfrange</b> i.",
+   "reponse": "<span class=\"f\">i = <span class=\"fr\"><span>λ × D</span><span>a</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p2-interferences-06"
+  },
+  {
+   "titre": "Définition de l'interfrange",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que l'<b>interfrange</b> ?",
+   "reponse": "La distance entre <b>deux franges brillantes</b> (ou sombres) <b>consécutives</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p2-interferences-07"
+  },
+  {
+   "titre": "Mesurer un interfrange",
+   "type": "MÉTHODE",
+   "question": "Comment calcule-t-on i si on mesure une distance d correspondant à N interfranges ?",
+   "reponse": "<span class=\"f\">i = <span class=\"fr\"><span>d</span><span>N</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p2-interferences-08"
+  },
+  {
+   "titre": "Une seule source",
+   "type": "MÉTHODE",
+   "question": "Pourquoi éclaire-t-on les deux fentes avec <b>une seule source</b> ?",
+   "reponse": "Pour que les deux sources secondaires soient <b>cohérentes</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p2-interferences-09"
+  }
+ ]
+}

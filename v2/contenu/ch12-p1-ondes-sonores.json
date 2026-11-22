@@ -1,0 +1,123 @@
+{
+ "chapitre": 12,
+ "partie": "Ondes sonores",
+ "cartes": [
+  {
+   "titre": "Onde sonore",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'une <b>onde sonore</b> ?",
+   "reponse": "Une onde <b>mécanique progressive longitudinale</b> : une suite de compressions et de dilatations du milieu matériel.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-01"
+  },
+  {
+   "titre": "Domaine audible",
+   "type": "MÉTHODE",
+   "question": "Quelles fréquences l'oreille humaine perçoit-elle ?",
+   "reponse": "<span class=\"f\">20 Hz ≤ f ≤ 20 kHz</span><br/><small>En dessous : infrasons ; au-dessus : ultrasons</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-02"
+  },
+  {
+   "titre": "Fréquence et période",
+   "type": "MÉTHODE",
+   "question": "Quelle relation lie fréquence et période ?",
+   "reponse": "<span class=\"f\">f = <span class=\"fr\"><span>1</span><span>T</span></span></span><br/><small>Fréquence élevée : son aigu ; faible : son grave</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-03"
+  },
+  {
+   "titre": "Intensité sonore",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que l'<b>intensité sonore</b> I ?",
+   "reponse": "La puissance reçue par unité de surface :<br/><span class=\"f\">I = <span class=\"fr\"><span>P</span><span>S</span></span></span><br/><small>I en W·m⁻²</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-04"
+  },
+  {
+   "titre": "Intensité et distance",
+   "type": "MÉTHODE",
+   "question": "Donner l'intensité sonore à la distance R d'une source ponctuelle de puissance P.",
+   "reponse": "<span class=\"f\">I = <span class=\"fr\"><span>P</span><span>4πR²</span></span></span><br/><small>I diminue comme le carré de la distance.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-05"
+  },
+  {
+   "titre": "Niveau d'intensité sonore",
+   "type": "MÉTHODE",
+   "question": "Donner l'expression du <b>niveau d'intensité sonore</b> L.",
+   "reponse": "<span class=\"f\">L = 10 log <span class=\"fr\"><span>I</span><span>I<sub>0</sub></span></span></span><br/><small>I<sub>0</sub> = 1,0 × 10⁻¹² W·m⁻²</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-06"
+  },
+  {
+   "titre": "Unité du niveau sonore",
+   "type": "MÉTHODE",
+   "question": "Quelle est l'unité du niveau d'intensité sonore ?",
+   "reponse": "Le <b>décibel</b> (dB).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-07"
+  },
+  {
+   "titre": "Doubler l'intensité",
+   "type": "MÉTHODE",
+   "question": "Que devient le niveau sonore si l'intensité <b>double</b> ?",
+   "reponse": "Il augmente d'environ <b>3 dB</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-08"
+  },
+  {
+   "titre": "Additionner des niveaux",
+   "type": "MÉTHODE",
+   "question": "Peut-on additionner des <b>niveaux</b> sonores ?",
+   "reponse": "<b>Non</b> : on additionne les <b>intensités</b>, puis on calcule le niveau.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-09"
+  },
+  {
+   "titre": "Atténuation géométrique",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que l'<b>atténuation géométrique</b> ?",
+   "reponse": "La baisse du niveau sonore quand on <b>s'éloigne</b> de la source :<br/><span class=\"f\">A = L<sub>proche</sub> − L<sub>loin</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-10"
+  },
+  {
+   "titre": "Atténuation et intensités",
+   "type": "MÉTHODE",
+   "question": "Exprimer une atténuation A à partir des intensités I et I'.",
+   "reponse": "<span class=\"f\">A = 10 log <span class=\"fr\"><span>I</span><span>I'</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-11"
+  },
+  {
+   "titre": "Atténuation par absorption",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que l'<b>atténuation par absorption</b> ?",
+   "reponse": "La baisse du niveau sonore quand l'onde <b>traverse un matériau</b> :<br/><span class=\"f\">A = L<sub>incident</sub> − L<sub>transmis</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-12"
+  },
+  {
+   "titre": "Meilleur isolant",
+   "type": "MÉTHODE",
+   "question": "Comment reconnaît-on le meilleur <b>isolant acoustique</b> ?",
+   "reponse": "C'est celui dont l'<b>atténuation</b> est la plus grande.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch12-p1-ondes-sonores-13"
+  }
+ ]
+}

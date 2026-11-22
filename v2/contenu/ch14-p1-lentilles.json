@@ -1,0 +1,159 @@
+{
+ "chapitre": 14,
+ "partie": "Rappels sur les lentilles",
+ "cartes": [
+  {
+   "titre": "Rayon passant par le centre optique",
+   "type": "MÉTHODE",
+   "question": "Que devient un rayon qui passe par le <b>centre optique</b> d'une lentille mince ?",
+   "reponse": "Il n'est <b>pas dévié</b>.",
+   "image": "ch14-lent-01.jpg",
+   "image_cote": "a",
+   "id": "ch14-p1-lentilles-01"
+  },
+  {
+   "titre": "Rayon passant par le foyer objet",
+   "type": "MÉTHODE",
+   "question": "Que devient un rayon qui passe par le <b>foyer objet</b> F d'une lentille convergente ?",
+   "reponse": "Il ressort <b>parallèle</b> à l'axe optique.",
+   "image": "ch14-lent-02.jpg",
+   "image_cote": "a",
+   "id": "ch14-p1-lentilles-02"
+  },
+  {
+   "titre": "Rayon parallèle à l'axe",
+   "type": "MÉTHODE",
+   "question": "Que devient un rayon <b>parallèle à l'axe optique</b> ?",
+   "reponse": "Il ressort en passant par le <b>foyer image</b> F'.",
+   "image": "ch14-lent-03.jpg",
+   "image_cote": "a",
+   "id": "ch14-p1-lentilles-03"
+  },
+  {
+   "titre": "Image réelle",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'une <b>image réelle</b> ?",
+   "reponse": "Une image formée par les rayons eux-mêmes : on peut la <b>projeter sur un écran</b>.",
+   "image": "ch14-lent-04.jpg",
+   "image_cote": "a",
+   "id": "ch14-p1-lentilles-04"
+  },
+  {
+   "titre": "Image virtuelle",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'une <b>image virtuelle</b> ?",
+   "reponse": "Une image formée par les <b>prolongements</b> des rayons : on ne peut <b>pas</b> la projeter sur un écran.",
+   "image": "ch14-lent-05.jpg",
+   "image_cote": "a",
+   "id": "ch14-p1-lentilles-05"
+  },
+  {
+   "titre": "Image droite ou renversée",
+   "type": "MÉTHODE",
+   "question": "Quand une image est-elle <b>droite</b> ? <b>renversée</b> ?",
+   "reponse": "<b>Droite</b> : dans le même sens que l'objet.<br/><b>Renversée</b> : dans le sens inverse.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p1-lentilles-06"
+  },
+  {
+   "titre": "Image agrandie ou réduite",
+   "type": "MÉTHODE",
+   "question": "Quand une image est-elle <b>agrandie</b> ? <b>réduite</b> ?",
+   "reponse": "<b>Agrandie</b> : plus grande que l'objet.<br/><b>Réduite</b> : plus petite que l'objet.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p1-lentilles-07"
+  },
+  {
+   "titre": "Grandissement",
+   "type": "MÉTHODE",
+   "question": "Donner l'expression du <b>grandissement</b> γ.",
+   "reponse": "<span class=\"f\">γ = <span class=\"fr\"><span><span style=\"display:inline-block;border-top:1px solid currentColor;padding-top:1px;margin-top:3px;line-height:1.1\">A'B'</span></span><span><span style=\"display:inline-block;border-top:1px solid currentColor;padding-top:1px;margin-top:3px;line-height:1.1\">AB</span></span></span> = <span class=\"fr\"><span><span style=\"display:inline-block;border-top:1px solid currentColor;padding-top:1px;margin-top:3px;line-height:1.1\">OA'</span></span><span><span style=\"display:inline-block;border-top:1px solid currentColor;padding-top:1px;margin-top:3px;line-height:1.1\">OA</span></span></span></span><br/><small>valeurs algébriques</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p1-lentilles-08"
+  },
+  {
+   "titre": "Signe du grandissement",
+   "type": "MÉTHODE",
+   "question": "Que signifie le <b>signe</b> du grandissement ?",
+   "reponse": "γ &lt; 0 : image <b>renversée</b>.<br/>γ &gt; 0 : image <b>droite</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p1-lentilles-09"
+  },
+  {
+   "titre": "|γ| > 1",
+   "type": "MÉTHODE",
+   "question": "Que signifie |γ| &gt; 1 ?",
+   "reponse": "L'image est <b>agrandie</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p1-lentilles-10"
+  },
+  {
+   "titre": "|γ| < 1",
+   "type": "MÉTHODE",
+   "question": "Que signifie |γ| &lt; 1 ?",
+   "reponse": "L'image est <b>réduite</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p1-lentilles-11"
+  },
+  {
+   "titre": "Objet avant le foyer objet",
+   "type": "SITUATION",
+   "question": "Objet placé <b>avant le foyer objet</b> (plus loin de la lentille que F) : nature de l'image ?",
+   "reponse": "L'image est <b>réelle</b> et <b>renversée</b>.",
+   "image": "ch14-lent-12.jpg",
+   "image_cote": "a",
+   "id": "ch14-p1-lentilles-12"
+  },
+  {
+   "titre": "Objet proche du foyer",
+   "type": "SITUATION",
+   "question": "L'objet se rapproche du foyer objet, en restant avant lui. Que devient la taille de l'image ?",
+   "reponse": "L'image est de plus en plus <b>agrandie</b> (et s'éloigne de la lentille).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p1-lentilles-13"
+  },
+  {
+   "titre": "Objet entre le foyer et la lentille",
+   "type": "SITUATION",
+   "question": "Objet placé <b>entre le foyer objet et la lentille</b> : nature de l'image ?",
+   "reponse": "L'image est <b>virtuelle</b>, <b>droite</b> et <b>agrandie</b>.<br/><small>C'est le principe de la loupe.</small>",
+   "image": "ch14-lent-13.jpg",
+   "image_cote": "a",
+   "id": "ch14-p1-lentilles-14"
+  },
+  {
+   "titre": "Objet au foyer objet",
+   "type": "SITUATION",
+   "question": "Objet placé <b>au foyer objet</b> : où se forme l'image ?",
+   "reponse": "À l'<b>infini</b> : les rayons ressortent parallèles.",
+   "image": "ch14-lent-15.jpg",
+   "image_cote": "a",
+   "id": "ch14-p1-lentilles-15"
+  },
+  {
+   "titre": "Relation de conjugaison",
+   "type": "MÉTHODE",
+   "question": "Écrire la <b>relation de conjugaison</b>.",
+   "reponse": "<span class=\"f\"><span class=\"fr\"><span>1</span><span><span style=\"display:inline-block;border-top:1px solid currentColor;padding-top:1px;margin-top:3px;line-height:1.1\">OA'</span></span></span> − <span class=\"fr\"><span>1</span><span><span style=\"display:inline-block;border-top:1px solid currentColor;padding-top:1px;margin-top:3px;line-height:1.1\">OA</span></span></span> = <span class=\"fr\"><span>1</span><span>f'</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p1-lentilles-16"
+  },
+  {
+   "titre": "Valeurs algébriques",
+   "type": "MÉTHODE",
+   "question": "Pourquoi utilise-t-on des <b>valeurs algébriques</b> (avec une barre) ?",
+   "reponse": "Pour tenir compte du <b>sens</b> des distances sur l'axe optique.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p1-lentilles-17"
+  }
+ ]
+}

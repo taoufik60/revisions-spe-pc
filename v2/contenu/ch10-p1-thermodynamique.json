@@ -1,0 +1,195 @@
+{
+ "chapitre": 10,
+ "partie": "Thermodynamique",
+ "cartes": [
+  {
+   "titre": "Énergie interne",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que l'<b>énergie interne</b> U d'un système ?",
+   "reponse": "La somme des énergies <b>microscopiques</b> de ses particules :<br/><span class=\"f\">U = E<sub>c,micro</sub> + E<sub>p,micro</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-01"
+  },
+  {
+   "titre": "Les deux termes de l'énergie interne",
+   "type": "MÉTHODE",
+   "question": "Quelles sont les deux contributions <b>microscopiques</b> à l'énergie interne ?",
+   "reponse": "L'énergie <b>cinétique</b> d'agitation thermique.<br/>L'énergie <b>potentielle</b> d'interaction entre particules.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-02"
+  },
+  {
+   "titre": "Premier principe",
+   "type": "MÉTHODE",
+   "question": "Énoncer le <b>premier principe</b> pour un système immobile qui n'échange pas de matière.",
+   "reponse": "<span class=\"f\">ΔU = W + Q</span><br/><small>W et Q sont positifs si le système <b>reçoit</b> de l'énergie, négatifs s'il en <b>cède</b>.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-03"
+  },
+  {
+   "titre": "ΔU : avec la capacité massique",
+   "type": "MÉTHODE",
+   "question": "Donner ΔU pour un système <b>incompressible</b> de masse m et de capacité thermique massique c.",
+   "reponse": "<span class=\"f\">ΔU = m × c × ΔT</span><br/><small>m en kg ; c en J·kg⁻¹·K⁻¹ ; ΔT en K</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-04"
+  },
+  {
+   "titre": "ΔU : avec la capacité thermique",
+   "type": "MÉTHODE",
+   "question": "Donner ΔU pour un système incompressible de <b>capacité thermique</b> C.",
+   "reponse": "<span class=\"f\">ΔU = C × ΔT</span><br/><small>C = m × c, en J·K⁻¹</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-05"
+  },
+  {
+   "titre": "Capacité thermique massique",
+   "type": "MÉTHODE",
+   "question": "Que représente la <b>capacité thermique massique</b> c ?",
+   "reponse": "L'énergie à fournir pour élever de <b>1 K</b> la température de <b>1 kg</b> du corps.<br/><small>Unité : J·kg⁻¹·K⁻¹</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-06"
+  },
+  {
+   "titre": "Système isolé",
+   "type": "MÉTHODE",
+   "question": "Que vaut ΔU pour un système <b>isolé</b> ?",
+   "reponse": "<span class=\"f\">ΔU = 0</span><br/><small>W = 0 et Q = 0 : aucun échange avec l'extérieur.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-07"
+  },
+  {
+   "titre": "Modes de transfert thermique",
+   "type": "MÉTHODE",
+   "question": "Quels sont les <b>trois modes</b> de transfert thermique ?",
+   "reponse": "<b>Conduction</b> : de proche en proche, sans déplacement de matière.<br/><b>Convection</b> : avec déplacement de matière.<br/><b>Rayonnement</b> : par ondes électromagnétiques.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-08"
+  },
+  {
+   "titre": "Sens du transfert thermique",
+   "type": "MÉTHODE",
+   "question": "Dans quel sens se fait <b>spontanément</b> un transfert thermique ?",
+   "reponse": "Du corps <b>chaud</b> vers le corps <b>froid</b>.<br/><small>C'est irréversible.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-09"
+  },
+  {
+   "titre": "Flux thermique",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que le <b>flux thermique</b> Φ ? Unité ?",
+   "reponse": "<span class=\"f\">Φ = <span class=\"fr\"><span>Q</span><span>Δt</span></span></span><br/>Énergie transférée par unité de temps, en <b>watt</b> (W).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-10"
+  },
+  {
+   "titre": "Résistance thermique",
+   "type": "MÉTHODE",
+   "question": "Comment définit-on la <b>résistance thermique</b> R<sub>th</sub> d'une paroi ?",
+   "reponse": "<span class=\"f\">R<sub>th</sub> = <span class=\"fr\"><span>T<sub>1</sub> − T<sub>2</sub></span><span>Φ</span></span></span><br/><small>en K·W⁻¹ ; plus R<sub>th</sub> est grande, plus la paroi isole.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-11"
+  },
+  {
+   "titre": "Parois en série",
+   "type": "MÉTHODE",
+   "question": "Comment calcule-t-on la résistance thermique d'une paroi à <b>plusieurs couches</b> ?",
+   "reponse": "On <b>additionne</b> les résistances :<br/><span class=\"f\">R<sub>th</sub> = R<sub>1</sub> + R<sub>2</sub> + …</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-12"
+  },
+  {
+   "titre": "Albédo",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que l'<b>albédo</b> terrestre ? Valeur ?",
+   "reponse": "La fraction du rayonnement solaire <b>réfléchie</b> par la Terre.<br/><span class=\"f\">albédo ≈ 0,3</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-13"
+  },
+  {
+   "titre": "Effet de serre",
+   "type": "MÉTHODE",
+   "question": "Expliquer l'<b>effet de serre</b>.",
+   "reponse": "Les gaz à effet de serre <b>absorbent</b> une partie des infrarouges émis par la Terre et en renvoient vers le sol : la surface se <b>réchauffe</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-14"
+  },
+  {
+   "titre": "Gaz à effet de serre",
+   "type": "MÉTHODE",
+   "question": "Citer les principaux <b>gaz à effet de serre</b>.",
+   "reponse": "H₂O (vapeur d'eau), CO₂, CH₄ (méthane).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-15"
+  },
+  {
+   "titre": "Renforcement de l'effet de serre",
+   "type": "MÉTHODE",
+   "question": "Si la fraction α des infrarouges absorbée par l'atmosphère <b>augmente</b>, que devient la température terrestre ?",
+   "reponse": "Moins d'énergie s'échappe vers l'espace : la température de surface <b>augmente</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-16"
+  },
+  {
+   "titre": "Thermostat",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>thermostat</b> ?",
+   "reponse": "Un système qui échange de l'énergie thermique <b>sans que sa température varie</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-17"
+  },
+  {
+   "titre": "Loi de Newton",
+   "type": "MÉTHODE",
+   "question": "Écrire la <b>loi de Newton</b> pour un système en contact avec un thermostat.",
+   "reponse": "<span class=\"f\">Φ = h × S × (T<sub>ext</sub> − T)</span><br/><small>h : coefficient d'échange (W·m⁻²·K⁻¹) ; S : surface d'échange (m²)</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-18"
+  },
+  {
+   "titre": "Refroidissement : équation différentielle",
+   "type": "SITUATION",
+   "question": "Un solide (masse m, capacité c) est au contact d'un thermostat à T<sub>ext</sub>.<br/>Quelle est l'<b>équation différentielle</b> vérifiée par T ?",
+   "reponse": "<span class=\"f\"><span class=\"fr\"><span>dT</span><span>dt</span></span> + <span class=\"fr\"><span>1</span><span>τ</span></span> T = <span class=\"fr\"><span>T<sub>ext</sub></span><span>τ</span></span></span><br/><span class=\"f\">τ = <span class=\"fr\"><span>m × c</span><span>h × S</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-19"
+  },
+  {
+   "titre": "Refroidissement : solution",
+   "type": "MÉTHODE",
+   "question": "Donner la <b>solution</b> T(t) si la température initiale est T<sub>0</sub>.",
+   "reponse": "<span class=\"f\">T(t) = T<sub>ext</sub> + (T<sub>0</sub> − T<sub>ext</sub>) × e<sup>−t/τ</sup></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-20"
+  },
+  {
+   "titre": "Temps caractéristique",
+   "type": "MÉTHODE",
+   "question": "Que traduit le <b>temps caractéristique</b> τ du refroidissement ?",
+   "reponse": "Plus τ est grand, plus le refroidissement est <b>lent</b>.<br/><small>Après 5τ, l'équilibre thermique est pratiquement atteint.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch10-p1-thermodynamique-21"
+  }
+ ]
+}

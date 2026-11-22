@@ -1,0 +1,69 @@
+{
+ "chapitre": 17,
+ "partie": "Effet photovoltaïque",
+ "cartes": [
+  {
+   "titre": "Photoélectrique ou photovoltaïque",
+   "type": "MÉTHODE",
+   "question": "Quelle est la différence entre effet <b>photoélectrique</b> et effet <b>photovoltaïque</b> ?",
+   "reponse": "<b>Photoélectrique</b> : les électrons sont <b>arrachés</b> au matériau.<br/><b>Photovoltaïque</b> : les électrons sont <b>déplacés</b> dans le matériau, ce qui crée un courant.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p2-photovoltaique-01"
+  },
+  {
+   "titre": "Cellule photovoltaïque",
+   "type": "MÉTHODE",
+   "question": "Quelle conversion d'énergie réalise une <b>cellule photovoltaïque</b> ?",
+   "reponse": "Énergie <b>lumineuse</b> → énergie <b>électrique</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p2-photovoltaique-02"
+  },
+  {
+   "titre": "Diode électroluminescente",
+   "type": "MÉTHODE",
+   "question": "Quelle conversion d'énergie réalise une <b>DEL</b> ?",
+   "reponse": "Énergie <b>électrique</b> → énergie <b>lumineuse</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p2-photovoltaique-03"
+  },
+  {
+   "titre": "Puissance lumineuse reçue",
+   "type": "MÉTHODE",
+   "question": "Que représente P<sub>lum</sub> ?",
+   "reponse": "La puissance lumineuse <b>reçue</b> par la cellule.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p2-photovoltaique-04"
+  },
+  {
+   "titre": "Calcul de la puissance lumineuse",
+   "type": "MÉTHODE",
+   "question": "Comment calcule-t-on P<sub>lum</sub> ?",
+   "reponse": "<span class=\"f\">P<sub>lum</sub> = E × S</span><br/><small>E : éclairement (W·m⁻²) ; S : surface (m²)</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p2-photovoltaique-05"
+  },
+  {
+   "titre": "Puissance électrique",
+   "type": "MÉTHODE",
+   "question": "Comment calcule-t-on la puissance électrique fournie P<sub>élec</sub> ?",
+   "reponse": "<span class=\"f\">P<sub>élec</sub> = U × I</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p2-photovoltaique-06"
+  },
+  {
+   "titre": "Rendement d'une cellule",
+   "type": "MÉTHODE",
+   "question": "Donner le <b>rendement</b> η d'une cellule photovoltaïque.",
+   "reponse": "<span class=\"f\">η = <span class=\"fr\"><span>P<sub>élec</sub></span><span>P<sub>lum</sub></span></span> = <span class=\"fr\"><span>U × I</span><span>E × S</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p2-photovoltaique-07"
+  }
+ ]
+}

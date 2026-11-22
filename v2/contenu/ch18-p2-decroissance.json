@@ -1,0 +1,159 @@
+{
+ "chapitre": 18,
+ "partie": "Décroissance radioactive",
+ "cartes": [
+  {
+   "titre": "Variation du nombre de noyaux",
+   "type": "MÉTHODE",
+   "question": "De quoi dépend la variation ΔN du nombre de noyaux radioactifs pendant Δt ?",
+   "reponse": "Du nombre de noyaux N, de la durée Δt et de la constante radioactive λ :<br/><span class=\"f\">ΔN = − λ × N × Δt</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-01"
+  },
+  {
+   "titre": "Équation différentielle",
+   "type": "MÉTHODE",
+   "question": "Quelle est l'<b>équation différentielle</b> vérifiée par N(t) ?",
+   "reponse": "Quand Δt tend vers 0 :<br/><span class=\"f\"><span class=\"fr\"><span>dN</span><span>dt</span></span> + λ × N = 0</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-02"
+  },
+  {
+   "titre": "Loi de décroissance",
+   "type": "MÉTHODE",
+   "question": "Donner la <b>solution</b> de cette équation différentielle.",
+   "reponse": "<span class=\"f\">N(t) = N<sub>0</sub> × e<sup>−λt</sup></span><br/><small>N<sub>0</sub> : nombre de noyaux à t = 0</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-03"
+  },
+  {
+   "titre": "Vérifier la solution",
+   "type": "MÉTHODE",
+   "question": "Vérifier que N(t) = N<sub>0</sub> e<sup>−λt</sup> est solution de <span class=\"fr\"><span>dN</span><span>dt</span></span> + λN = 0.",
+   "reponse": "On dérive :<br/><span class=\"f\"><span class=\"fr\"><span>dN</span><span>dt</span></span> = − λ N<sub>0</sub> e<sup>−λt</sup></span><br/>On remplace :<br/><span class=\"f\">− λ N<sub>0</sub> e<sup>−λt</sup> + λ N<sub>0</sub> e<sup>−λt</sup> = 0</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-04"
+  },
+  {
+   "titre": "Constante radioactive",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que la <b>constante radioactive</b> λ ?",
+   "reponse": "Une constante propre à chaque noyau, en <b>s⁻¹</b>.<br/>Plus λ est grande, plus la décroissance est <b>rapide</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-05"
+  },
+  {
+   "titre": "Demi-vie",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que la <b>demi-vie</b> t<sub>1/2</sub> ?",
+   "reponse": "La durée au bout de laquelle la <b>moitié</b> des noyaux s'est désintégrée :<br/><span class=\"f\">N(t<sub>1/2</sub>) = <span class=\"fr\"><span>N<sub>0</sub></span><span>2</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-06"
+  },
+  {
+   "titre": "Demi-vie et constante radioactive",
+   "type": "MÉTHODE",
+   "question": "Démontrer la relation entre t<sub>1/2</sub> et λ.",
+   "reponse": "On part de :<br/><span class=\"f\"><span class=\"fr\"><span>N<sub>0</sub></span><span>2</span></span> = N<sub>0</sub> e<sup>−λ t<sub>1/2</sub></sup></span><br/>On simplifie par N<sub>0</sub> et on prend le ln :<br/><span class=\"f\">− ln 2 = − λ t<sub>1/2</sub></span><br/>D'où :<br/><span class=\"f\">t<sub>1/2</sub> = <span class=\"fr\"><span>ln 2</span><span>λ</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-07"
+  },
+  {
+   "titre": "Après n demi-vies",
+   "type": "MÉTHODE",
+   "question": "Combien reste-t-il de noyaux après <b>n demi-vies</b> ?",
+   "reponse": "<span class=\"f\">N = <span class=\"fr\"><span>N<sub>0</sub></span><span>2<sup>n</sup></span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-08"
+  },
+  {
+   "titre": "Constante de temps",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que la <b>constante de temps</b> τ ? Quel lien avec λ et t<sub>1/2</sub> ?",
+   "reponse": "<span class=\"f\">τ = <span class=\"fr\"><span>1</span><span>λ</span></span></span><br/><span class=\"f\">t<sub>1/2</sub> = τ × ln 2</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-09"
+  },
+  {
+   "titre": "Fraction restante",
+   "type": "MÉTHODE",
+   "question": "Après k demi-vies, quelle <b>fraction</b> des noyaux initiaux reste-t-il ?",
+   "reponse": "<span class=\"f\"><span class=\"fr\"><span>N</span><span>N<sub>0</sub></span></span> = <span class=\"fr\"><span>1</span><span>2<sup>k</sup></span></span></span><br/><small>À chaque demi-vie, N est divisé par 2.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-10"
+  },
+  {
+   "titre": "Activité",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que l'<b>activité</b> A d'un échantillon ? Unité ?",
+   "reponse": "Le nombre de désintégrations par seconde :<br/><span class=\"f\">A = − <span class=\"fr\"><span>dN</span><span>dt</span></span></span><br/><small>en becquerel (Bq)</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-11"
+  },
+  {
+   "titre": "Activité et nombre de noyaux",
+   "type": "MÉTHODE",
+   "question": "Quelle relation lie A, λ et N ?",
+   "reponse": "<span class=\"f\">A(t) = λ × N(t)</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-12"
+  },
+  {
+   "titre": "Loi de décroissance de l'activité",
+   "type": "MÉTHODE",
+   "question": "Comment l'<b>activité</b> évolue-t-elle au cours du temps ?",
+   "reponse": "<span class=\"f\">A(t) = A<sub>0</sub> × e<sup>−λt</sup></span><br/><small>A<sub>0</sub> = λ × N<sub>0</sub> ; A est divisée par 2 à chaque demi-vie.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-13"
+  },
+  {
+   "titre": "Datation au carbone 14",
+   "type": "MÉTHODE",
+   "question": "Sur quel <b>principe</b> repose la datation au carbone 14 ?",
+   "reponse": "Un être vivant garde une proportion de ¹⁴C <b>constante</b>.<br/>À sa <b>mort</b>, le ¹⁴C n'est plus renouvelé : son activité diminue.<br/>On compare l'activité mesurée A à A<sub>0</sub>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-14"
+  },
+  {
+   "titre": "Calcul de l'âge",
+   "type": "MÉTHODE",
+   "question": "Démontrer l'expression de l'âge t d'un échantillon d'activité A (activité initiale A<sub>0</sub>).",
+   "reponse": "On part de :<br/><span class=\"f\">A = A<sub>0</sub> e<sup>−λt</sup></span><br/>On isole l'exponentielle et on prend le ln :<br/><span class=\"f\">− λt = ln <span class=\"fr\"><span>A</span><span>A<sub>0</sub></span></span></span><br/>Avec λ = <span class=\"fr\"><span>ln 2</span><span>t<sub>1/2</sub></span></span> :<br/><span class=\"f\">t = <span class=\"fr\"><span>t<sub>1/2</sub></span><span>ln 2</span></span> × ln <span class=\"fr\"><span>A<sub>0</sub></span><span>A</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-15"
+  },
+  {
+   "titre": "Choix du noyau pour dater",
+   "type": "MÉTHODE",
+   "question": "Pourquoi utilise-t-on l'uranium 238 plutôt que le carbone 14 pour dater des roches très anciennes ?",
+   "reponse": "La demi-vie de ²³⁸U (environ <b>4,5 milliards d'années</b>) est adaptée aux durées géologiques.<br/>Celle du ¹⁴C (environ <b>5 730 ans</b>) est trop courte.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-16"
+  },
+  {
+   "titre": "Radioprotection",
+   "type": "MÉTHODE",
+   "question": "Citer les principes de <b>radioprotection</b>.",
+   "reponse": "S'<b>éloigner</b> de la source, limiter la <b>durée</b> d'exposition, utiliser des <b>écrans</b> adaptés.<br/><small>Les travailleurs exposés portent un dosimètre.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p2-decroissance-17"
+  }
+ ]
+}

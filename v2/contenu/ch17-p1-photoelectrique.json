@@ -1,0 +1,87 @@
+{
+ "chapitre": 17,
+ "partie": "Effet photoélectrique",
+ "cartes": [
+  {
+   "titre": "Photon",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>photon</b> ?",
+   "reponse": "Une particule de masse et de charge <b>nulles</b>, qui transporte un quantum d'énergie lumineuse et se déplace à la vitesse c.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p1-photoelectrique-01"
+  },
+  {
+   "titre": "Énergie d'un photon",
+   "type": "MÉTHODE",
+   "question": "Donner l'<b>énergie</b> d'un photon en fonction de ν et de λ.",
+   "reponse": "<span class=\"f\">E = h × ν = <span class=\"fr\"><span>h × c</span><span>λ</span></span></span><br/><small>E en J ; h = 6,63 × 10⁻³⁴ J·s ; ν en Hz ; λ en m</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p1-photoelectrique-02"
+  },
+  {
+   "titre": "Émission d'un photon",
+   "type": "MÉTHODE",
+   "question": "Un atome passe du niveau E<sub>2</sub> au niveau E<sub>1</sub> &lt; E<sub>2</sub>. Quelle est l'énergie du photon <b>émis</b> ?",
+   "reponse": "<span class=\"f\">h × ν = E<sub>2</sub> − E<sub>1</sub></span>",
+   "image": "ch17-emission.svg",
+   "image_cote": "a",
+   "id": "ch17-p1-photoelectrique-03"
+  },
+  {
+   "titre": "Absorption d'un photon",
+   "type": "MÉTHODE",
+   "question": "À quelle condition un atome peut-il <b>absorber</b> un photon et passer du niveau E<sub>1</sub> au niveau E<sub>2</sub> ?",
+   "reponse": "Le photon doit avoir <b>exactement</b> l'énergie :<br/><span class=\"f\">h × ν = E<sub>2</sub> − E<sub>1</sub></span>",
+   "image": "ch17-absorption.svg",
+   "image_cote": "a",
+   "id": "ch17-p1-photoelectrique-04"
+  },
+  {
+   "titre": "Effet photoélectrique",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que l'<b>effet photoélectrique</b> ?",
+   "reponse": "L'<b>émission d'électrons</b> par un métal éclairé par un rayonnement de fréquence suffisante.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p1-photoelectrique-05"
+  },
+  {
+   "titre": "Travail d'extraction",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que le <b>travail d'extraction</b> W<sub>ext</sub> ?",
+   "reponse": "L'énergie <b>minimale</b> à fournir pour arracher un électron au métal :<br/><span class=\"f\">W<sub>ext</sub> = h × ν<sub>S</sub></span><br/><small>ν<sub>S</sub> : fréquence seuil</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p1-photoelectrique-06"
+  },
+  {
+   "titre": "Condition de l'effet photoélectrique",
+   "type": "MÉTHODE",
+   "question": "À quelle condition observe-t-on l'effet photoélectrique ?",
+   "reponse": "<span class=\"f\">h × ν ≥ W<sub>ext</sub></span><br/>soit <span class=\"f\">ν ≥ ν<sub>S</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p1-photoelectrique-07"
+  },
+  {
+   "titre": "Bilan énergétique",
+   "type": "MÉTHODE",
+   "question": "Écrire le <b>bilan énergétique</b> de l'effet photoélectrique.",
+   "reponse": "<span class=\"f\">h × ν = W<sub>ext</sub> + E<sub>c</sub></span><br/><small>L'énergie en excès devient l'énergie cinétique de l'électron.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p1-photoelectrique-08"
+  },
+  {
+   "titre": "Énergie cinétique de l'électron",
+   "type": "MÉTHODE",
+   "question": "Exprimer l'<b>énergie cinétique</b> d'un électron arraché.",
+   "reponse": "<span class=\"f\">E<sub>c</sub> = h × ν − W<sub>ext</sub></span><br/><span class=\"f\">E<sub>c</sub> = <span class=\"fr\"><span>1</span><span>2</span></span> m × v²</span><br/><small>m : masse de l'électron (kg) ; v en m·s⁻¹</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch17-p1-photoelectrique-09"
+  }
+ ]
+}

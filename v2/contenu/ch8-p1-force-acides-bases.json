@@ -1,0 +1,267 @@
+{
+ "chapitre": 8,
+ "partie": "Force des acides et des bases",
+ "cartes": [
+  {
+   "titre": "Autoprotolyse de l'eau",
+   "type": "MÉTHODE",
+   "question": "Écrire l'équation de l'<b>autoprotolyse de l'eau</b>.",
+   "reponse": "<span class=\"f\">2 H₂O(l) ⇌ H₃O⁺(aq) + HO⁻(aq)</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-01"
+  },
+  {
+   "titre": "Produit ionique de l'eau",
+   "type": "MÉTHODE",
+   "question": "Donner l'expression du <b>produit ionique de l'eau</b> K<sub>e</sub>.",
+   "reponse": "<span class=\"f\">K<sub>e</sub> = <span class=\"fr\"><span>[H₃O⁺]<sub>éq</sub> × [HO⁻]<sub>éq</sub></span><span>c°²</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-02"
+  },
+  {
+   "titre": "Valeur de Ke",
+   "type": "MÉTHODE",
+   "question": "Que vaut K<sub>e</sub> à <b>25 °C</b> ?",
+   "reponse": "<span class=\"f\">K<sub>e</sub> = 1,0 × 10⁻¹⁴</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-03"
+  },
+  {
+   "titre": "Valeur de pKe",
+   "type": "MÉTHODE",
+   "question": "Que vaut pK<sub>e</sub> à 25 °C ?",
+   "reponse": "<span class=\"f\">pK<sub>e</sub> = 14</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-04"
+  },
+  {
+   "titre": "pH d'une solution neutre",
+   "type": "MÉTHODE",
+   "question": "Quel est le pH d'une <b>solution neutre</b> à 25 °C ?",
+   "reponse": "<span class=\"f\">pH = <span class=\"fr\"><span>pK<sub>e</sub></span><span>2</span></span> = 7,0</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-05"
+  },
+  {
+   "titre": "Acide fort",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>acide fort</b> ?",
+   "reponse": "Un acide dont la réaction avec l'eau est <b>totale</b> (τ = 1).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-06"
+  },
+  {
+   "titre": "Acide faible",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>acide faible</b> ?",
+   "reponse": "Un acide dont la réaction avec l'eau est <b>non totale</b> (τ &lt; 1).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-07"
+  },
+  {
+   "titre": "Base forte",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'une <b>base forte</b> ?",
+   "reponse": "Une base dont la réaction avec l'eau est <b>totale</b> (τ = 1).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-08"
+  },
+  {
+   "titre": "Base faible",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'une <b>base faible</b> ?",
+   "reponse": "Une base dont la réaction avec l'eau est <b>non totale</b> (τ &lt; 1).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-09"
+  },
+  {
+   "titre": "Acide chlorhydrique",
+   "type": null,
+   "question": "Quelles espèces sont dissoutes dans une solution d'<b>acide chlorhydrique</b> ?",
+   "reponse": "<span class=\"f\">H₃O⁺(aq) et Cl⁻(aq)</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-10"
+  },
+  {
+   "titre": "Acide nitrique",
+   "type": null,
+   "question": "Quelles espèces sont dissoutes dans une solution d'<b>acide nitrique</b> ?",
+   "reponse": "<span class=\"f\">H₃O⁺(aq) et NO₃⁻(aq)</span><br/><small>ion oxonium et ion nitrate</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-11"
+  },
+  {
+   "titre": "Acide éthanoïque",
+   "type": null,
+   "question": "Formule de l'<b>acide éthanoïque</b> en solution ? Est-il fort ou faible ?",
+   "reponse": "<span class=\"f\">CH₃COOH(aq)</span><br/>C'est un acide <b>faible</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-12"
+  },
+  {
+   "titre": "Soude",
+   "type": null,
+   "question": "Quelles espèces sont dissoutes dans une solution d'<b>hydroxyde de sodium</b> (soude) ?",
+   "reponse": "<span class=\"f\">Na⁺(aq) et HO⁻(aq)</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-13"
+  },
+  {
+   "titre": "Ammoniac",
+   "type": null,
+   "question": "Formule de l'<b>ammoniac</b> en solution ? Est-ce une base forte ou faible ?",
+   "reponse": "<span class=\"f\">NH₃(aq)</span><br/>C'est une base <b>faible</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-14"
+  },
+  {
+   "titre": "Taux d'avancement final",
+   "type": "MÉTHODE",
+   "question": "Donner l'expression du <b>taux d'avancement final</b> τ.",
+   "reponse": "<span class=\"f\">τ = <span class=\"fr\"><span>x<sub>éq</sub></span><span>x<sub>max</sub></span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-15"
+  },
+  {
+   "titre": "pH d'un acide fort",
+   "type": "MÉTHODE",
+   "question": "Donner le pH d'une solution d'<b>acide fort</b> de concentration apportée C.",
+   "reponse": "<span class=\"f\">pH = − log <span class=\"fr\"><span>C</span><span>c°</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-16"
+  },
+  {
+   "titre": "pH d'une base forte",
+   "type": "MÉTHODE",
+   "question": "Donner le pH d'une solution de <b>base forte</b> de concentration apportée C.",
+   "reponse": "<span class=\"f\">pH = pK<sub>e</sub> + log <span class=\"fr\"><span>C</span><span>c°</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-17"
+  },
+  {
+   "titre": "Constante d'acidité",
+   "type": "MÉTHODE",
+   "question": "Donner l'expression de la <b>constante d'acidité</b> K<sub>A</sub> du couple AH / A⁻.",
+   "reponse": "<span class=\"f\">K<sub>A</sub> = <span class=\"fr\"><span>[A⁻]<sub>éq</sub> × [H₃O⁺]<sub>éq</sub></span><span>[AH]<sub>éq</sub> × c°</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-18"
+  },
+  {
+   "titre": "KA et pKA",
+   "type": "MÉTHODE",
+   "question": "Quelle relation lie K<sub>A</sub> et pK<sub>A</sub> ?",
+   "reponse": "<span class=\"f\">pK<sub>A</sub> = − log K<sub>A</sub></span><br/><span class=\"f\">K<sub>A</sub> = 10<sup>−pK<sub>A</sub></sup></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-19"
+  },
+  {
+   "titre": "pH et pKA",
+   "type": "MÉTHODE",
+   "question": "Quelle relation lie le pH et le pK<sub>A</sub> du couple AH / A⁻ ?",
+   "reponse": "<span class=\"f\">pH = pK<sub>A</sub> + log <span class=\"fr\"><span>[A⁻]<sub>éq</sub></span><span>[AH]<sub>éq</sub></span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-20"
+  },
+  {
+   "titre": "pH à la demi-équivalence",
+   "type": "MÉTHODE",
+   "question": "Que vaut le pH à la <b>demi-équivalence</b> du titrage d'un acide faible par une base forte ?",
+   "reponse": "<span class=\"f\">pH = pK<sub>A</sub></span><br/><small>du couple de l'acide titré</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-21"
+  },
+  {
+   "titre": "Prédominance de AH",
+   "type": "MÉTHODE",
+   "question": "À quelle condition la forme <b>acide</b> AH prédomine-t-elle ?",
+   "reponse": "<span class=\"f\">pH &lt; pK<sub>A</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-22"
+  },
+  {
+   "titre": "Prédominance de A⁻",
+   "type": "MÉTHODE",
+   "question": "À quelle condition la forme <b>basique</b> A⁻ prédomine-t-elle ?",
+   "reponse": "<span class=\"f\">pH &gt; pK<sub>A</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-23"
+  },
+  {
+   "titre": "Solution tampon",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'une <b>solution tampon</b> ?",
+   "reponse": "Une solution dont le pH <b>varie peu</b> lors d'un ajout modéré d'acide, de base, ou d'une dilution modérée.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-24"
+  },
+  {
+   "titre": "Choisir un indicateur coloré",
+   "type": "MÉTHODE",
+   "question": "Comment choisit-on l'<b>indicateur coloré</b> d'un titrage ?",
+   "reponse": "Sa <b>zone de virage</b> doit contenir le pH à l'équivalence.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-25"
+  },
+  {
+   "titre": "Acide α-aminé",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>acide α-aminé</b> ?",
+   "reponse": "Une molécule qui porte un groupe <b>−COOH</b> et un groupe <b>−NH₂</b> sur le <b>même atome de carbone</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-26"
+  },
+  {
+   "titre": "Amphion",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>amphion</b> (zwitterion) ?",
+   "reponse": "La forme d'un acide α-aminé obtenue par transfert interne de H⁺ :<br/><span class=\"f\">⁺H₃N−CHR−COO⁻</span><br/><small>C'est une espèce amphotère.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-27"
+  },
+  {
+   "titre": "pKA et force",
+   "type": "MÉTHODE",
+   "question": "Plus le pK<sub>A</sub> d'un couple est <b>petit</b>, plus…",
+   "reponse": "… l'acide AH est <b>fort</b>, et sa base conjuguée A⁻ est <b>faible</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-28"
+  },
+  {
+   "titre": "Prédominance d'un acide α-aminé",
+   "type": "MÉTHODE",
+   "question": "Combien de <b>domaines de prédominance</b> possède un acide α-aminé ? Pourquoi ?",
+   "reponse": "<b>Trois</b>, car il possède <b>deux</b> pK<sub>A</sub>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch8-p1-force-acides-bases-29"
+  }
+ ]
+}

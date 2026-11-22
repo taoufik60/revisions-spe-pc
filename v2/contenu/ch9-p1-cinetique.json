@@ -1,0 +1,150 @@
+{
+ "chapitre": 9,
+ "partie": "Cinétique chimique",
+ "cartes": [
+  {
+   "titre": "Réaction rapide",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'une réaction <b>rapide</b> ?",
+   "reponse": "Une réaction si courte qu'on ne peut pas la suivre à l'œil nu ni avec les appareils de mesure usuels.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-01"
+  },
+  {
+   "titre": "Effet de la température",
+   "type": "MÉTHODE",
+   "question": "Quel est l'effet de la <b>température</b> sur la vitesse d'une réaction ?",
+   "reponse": "Plus la température est <b>élevée</b>, plus la réaction est <b>rapide</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-02"
+  },
+  {
+   "titre": "Effet de la concentration",
+   "type": "MÉTHODE",
+   "question": "Quel est l'effet de la <b>concentration</b> des réactifs sur la vitesse d'une réaction ?",
+   "reponse": "Plus la concentration d'un réactif est <b>élevée</b>, plus la réaction est <b>rapide</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-03"
+  },
+  {
+   "titre": "Facteurs cinétiques",
+   "type": "MÉTHODE",
+   "question": "Citer les principaux <b>facteurs cinétiques</b>.",
+   "reponse": "Température, concentration des réactifs, catalyseur, surface de contact.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-04"
+  },
+  {
+   "titre": "Catalyseur",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>catalyseur</b> ?",
+   "reponse": "Une espèce qui <b>accélère</b> une réaction, sans apparaître dans l'équation : elle est <b>régénérée</b> à la fin.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-05"
+  },
+  {
+   "titre": "Catalyse homogène et hétérogène",
+   "type": "MÉTHODE",
+   "question": "Quelle différence y a-t-il entre catalyse <b>homogène</b> et catalyse <b>hétérogène</b> ?",
+   "reponse": "<b>Homogène</b> : catalyseur et réactifs dans la <b>même phase</b>.<br/><b>Hétérogène</b> : dans des phases <b>différentes</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-06"
+  },
+  {
+   "titre": "Suivre l'évolution d'une réaction",
+   "type": "MÉTHODE",
+   "question": "Comment peut-on suivre l'évolution d'une réaction en solution aqueuse ?",
+   "reponse": "Par <b>spectrophotométrie</b> (espèce colorée) ou par <b>conductimétrie</b> (ions).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-07"
+  },
+  {
+   "titre": "Temps de demi-réaction",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que le <b>temps de demi-réaction</b> t<sub>1/2</sub> ?",
+   "reponse": "La durée au bout de laquelle l'avancement atteint la <b>moitié</b> de sa valeur finale.<br/><small>Pour une réaction totale : la moitié du réactif limitant est consommée.</small>",
+   "image": "ch9-cin-08.jpg",
+   "image_cote": "a",
+   "id": "ch9-p1-cinetique-08"
+  },
+  {
+   "titre": "Vitesse volumique d'apparition",
+   "type": "MÉTHODE",
+   "question": "Donner la <b>vitesse volumique d'apparition</b> d'un produit P.",
+   "reponse": "<span class=\"f\">v<sub>app</sub>(P) = <span class=\"fr\"><span>d[P]</span><span>dt</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-09"
+  },
+  {
+   "titre": "Unité de la vitesse volumique",
+   "type": "MÉTHODE",
+   "question": "Quelle est l'<b>unité</b> d'une vitesse volumique ?",
+   "reponse": "<span class=\"f\">mol·L⁻¹·s⁻¹</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-10"
+  },
+  {
+   "titre": "Vitesse volumique de disparition",
+   "type": "MÉTHODE",
+   "question": "Donner la <b>vitesse volumique de disparition</b> d'un réactif R.",
+   "reponse": "<span class=\"f\">v<sub>disp</sub>(R) = − <span class=\"fr\"><span>d[R]</span><span>dt</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-11"
+  },
+  {
+   "titre": "Vitesse instantanée sur un graphique",
+   "type": "MÉTHODE",
+   "question": "Comment détermine-t-on la vitesse d'apparition de P à <b>t = 4 min</b> sur ce graphique ?",
+   "reponse": "C'est le <b>coefficient directeur</b> de la tangente à la courbe en t = 4 min :<br/><span class=\"f\">v<sub>app</sub>(P) = <span class=\"fr\"><span>y<sub>B</sub> − y<sub>A</sub></span><span>x<sub>B</sub> − x<sub>A</sub></span></span></span>",
+   "image": "ch9-cin-12.jpg",
+   "image_cote": "q",
+   "id": "ch9-p1-cinetique-12"
+  },
+  {
+   "titre": "Réaction d'ordre 1",
+   "type": "MÉTHODE",
+   "question": "Quand dit-on qu'une réaction est <b>d'ordre 1</b> par rapport au réactif A ?",
+   "reponse": "Quand sa vitesse de disparition est <b>proportionnelle</b> à [A] :<br/><span class=\"f\">v = k × [A]</span><br/><small>k : constante de vitesse (s⁻¹)</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-13"
+  },
+  {
+   "titre": "Équation différentielle : ordre 1",
+   "type": "SITUATION",
+   "question": "La réaction est d'ordre 1 par rapport au réactif R.<br/>Établir l'<b>équation différentielle</b> vérifiée par [R].",
+   "reponse": "Par définition :<br/><span class=\"f\">v = − <span class=\"fr\"><span>d[R]</span><span>dt</span></span></span><br/>Ordre 1 :<br/><span class=\"f\">v = k × [R]</span><br/>On égalise :<br/><span class=\"f\"><span class=\"fr\"><span>d[R]</span><span>dt</span></span> + k × [R] = 0</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-14"
+  },
+  {
+   "titre": "Solution : ordre 1",
+   "type": "MÉTHODE",
+   "question": "Donner la <b>solution</b> de l'équation différentielle d'ordre 1.",
+   "reponse": "<span class=\"f\">[R](t) = [R]<sub>0</sub> × e<sup>−kt</sup></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-15"
+  },
+  {
+   "titre": "Vitesse et avancement",
+   "type": "MÉTHODE",
+   "question": "Donner la vitesse volumique de réaction en fonction de l'<b>avancement</b> x.",
+   "reponse": "<span class=\"f\">v = <span class=\"fr\"><span>1</span><span>V</span></span> × <span class=\"fr\"><span>dx</span><span>dt</span></span></span><br/><small>V : volume de la solution</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch9-p1-cinetique-16"
+  }
+ ]
+}

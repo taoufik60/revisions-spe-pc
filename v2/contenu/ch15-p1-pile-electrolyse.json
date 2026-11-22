@@ -1,0 +1,105 @@
+{
+ "chapitre": 15,
+ "partie": "Piles et électrolyse",
+ "cartes": [
+  {
+   "titre": "Constitution d'une pile",
+   "type": "MÉTHODE",
+   "question": "De quoi est constituée une <b>pile</b> ?",
+   "reponse": "Deux <b>demi-piles</b> (un métal M dans une solution d'ions M<sup>n+</sup>) reliées par un <b>pont salin</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-01"
+  },
+  {
+   "titre": "Électrodes d'une pile",
+   "type": "MÉTHODE",
+   "question": "Quelle réaction a lieu à l'<b>anode</b> d'une pile ? À la <b>cathode</b> ?",
+   "reponse": "<b>Anode</b> (borne −) : <b>oxydation</b>.<br/><b>Cathode</b> (borne +) : <b>réduction</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-02"
+  },
+  {
+   "titre": "Pont salin",
+   "type": "MÉTHODE",
+   "question": "Quel est le rôle du <b>pont salin</b> ?",
+   "reponse": "Il <b>ferme le circuit</b> et assure l'<b>électroneutralité</b> des solutions, grâce au déplacement de ses ions.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-03"
+  },
+  {
+   "titre": "Pile usée",
+   "type": "MÉTHODE",
+   "question": "Quand une pile est-elle <b>usée</b> ?",
+   "reponse": "Quand Q<sub>r</sub> = K : le système est à l'équilibre.<br/><small>Ou quand un réactif est épuisé.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-04"
+  },
+  {
+   "titre": "Force électromotrice",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que la <b>force électromotrice</b> E d'une pile ?",
+   "reponse": "La tension à ses bornes quand elle ne débite <b>pas de courant</b> (à vide), en volts.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-05"
+  },
+  {
+   "titre": "Quantité d'électricité",
+   "type": "MÉTHODE",
+   "question": "Quelles relations donnent la <b>quantité d'électricité</b> Q ?",
+   "reponse": "<span class=\"f\">Q = I × Δt</span><br/><span class=\"f\">Q = n(e⁻) × F</span><br/><small>Q en C ; I en A ; Δt en s ; F = 96 500 C·mol⁻¹</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-06"
+  },
+  {
+   "titre": "Constante de Faraday",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que la <b>constante de Faraday</b> F ?",
+   "reponse": "La charge d'<b>une mole d'électrons</b>, en valeur absolue :<br/><span class=\"f\">F = N<sub>A</sub> × e ≈ 96 500 C·mol⁻¹</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-07"
+  },
+  {
+   "titre": "Pile ou électrolyse",
+   "type": "MÉTHODE",
+   "question": "Quelle est la différence entre une <b>pile</b> et une <b>électrolyse</b> ?",
+   "reponse": "<b>Pile</b> : transformation <b>spontanée</b>, énergie chimique → énergie électrique.<br/><b>Électrolyse</b> : transformation <b>forcée</b> par un générateur, énergie électrique → énergie chimique.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-08"
+  },
+  {
+   "titre": "Électrolyse : déplacement des ions",
+   "type": "MÉTHODE",
+   "question": "Dans un électrolyseur, vers quelle électrode vont les <b>cations</b> ? Les <b>anions</b> ?",
+   "reponse": "<b>Cations</b> → <b>cathode</b> (reliée au − du générateur).<br/><b>Anions</b> → <b>anode</b> (reliée au +).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-09"
+  },
+  {
+   "titre": "Électrolyse : réactions aux électrodes",
+   "type": "MÉTHODE",
+   "question": "Quelle réaction a lieu à la <b>cathode</b> d'une électrolyse ? À l'<b>anode</b> ?",
+   "reponse": "<b>Cathode</b> : <b>réduction</b>.<br/><b>Anode</b> : <b>oxydation</b>.<br/><small>Comme dans une pile.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-10"
+  },
+  {
+   "titre": "Accumulateur",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>accumulateur</b> ?",
+   "reponse": "Une pile <b>rechargeable</b> :<br/><b>décharge</b> : transformation spontanée (pile) ;<br/><b>charge</b> : transformation forcée (électrolyse).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch15-p1-pile-electrolyse-11"
+  }
+ ]
+}

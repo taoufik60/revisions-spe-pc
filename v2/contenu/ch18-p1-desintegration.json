@@ -1,0 +1,132 @@
+{
+ "chapitre": 18,
+ "partie": "Désintégrations radioactives",
+ "cartes": [
+  {
+   "titre": "Notation d'un noyau",
+   "type": "MÉTHODE",
+   "question": "Dans la notation <span class=\"nuc\"><span>A</span><span>Z</span></span>X, que représentent A et Z ?",
+   "reponse": "<b>A</b> : nombre de nucléons (nombre de masse).<br/><b>Z</b> : nombre de protons (numéro atomique).<br/><small>Nombre de neutrons : N = A − Z</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-01"
+  },
+  {
+   "titre": "Isotopes",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que des <b>isotopes</b> ?",
+   "reponse": "Des noyaux de même <b>Z</b>, mais de <b>A</b> différents (nombres de neutrons différents).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-02"
+  },
+  {
+   "titre": "Noyau radioactif",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>noyau radioactif</b> ?",
+   "reponse": "Un noyau <b>instable</b>, qui se transforme spontanément en un autre noyau : c'est une <b>désintégration</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-03"
+  },
+  {
+   "titre": "Caractères d'une désintégration",
+   "type": "MÉTHODE",
+   "question": "Quels sont les trois caractères d'une désintégration radioactive ?",
+   "reponse": "<b>Spontanée</b> : sans intervention extérieure.<br/><b>Aléatoire</b> : on ne peut pas prévoir l'instant.<br/><b>Inéluctable</b> : elle finit par se produire.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-04"
+  },
+  {
+   "titre": "Radioactivité alpha",
+   "type": "MÉTHODE",
+   "question": "Quelle particule est émise lors d'une désintégration <b>α</b> ?",
+   "reponse": "Un <b>noyau d'hélium</b> : <span class=\"nuc\"><span>4</span><span>2</span></span>He",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-05"
+  },
+  {
+   "titre": "Radioactivité bêta moins",
+   "type": "MÉTHODE",
+   "question": "Quelle particule est émise lors d'une désintégration <b>β⁻</b> ?",
+   "reponse": "Un <b>électron</b> : <span class=\"nuc\"><span>0</span><span>−1</span></span>e<br/><small>Le noyau a un excès de neutrons.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-06"
+  },
+  {
+   "titre": "Radioactivité bêta plus",
+   "type": "MÉTHODE",
+   "question": "Quelle particule est émise lors d'une désintégration <b>β⁺</b> ?",
+   "reponse": "Un <b>positon</b> : <span class=\"nuc\"><span>0</span><span>+1</span></span>e<br/><small>Même masse que l'électron, charge opposée. Le noyau a un excès de protons.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-07"
+  },
+  {
+   "titre": "Équation d'une désintégration bêta moins",
+   "type": "MÉTHODE",
+   "question": "Écrire l'équation générale d'une désintégration <b>β⁻</b>.",
+   "reponse": "<span class=\"f\"><span class=\"nuc\"><span>A</span><span>Z</span></span>X → <span class=\"nuc\"><span>A</span><span>Z+1</span></span>Y + <span class=\"nuc\"><span>0</span><span>−1</span></span>e</span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-08"
+  },
+  {
+   "titre": "Lois de conservation",
+   "type": "MÉTHODE",
+   "question": "Quelles lois de conservation utilise-t-on pour écrire une réaction nucléaire ?",
+   "reponse": "Conservation du <b>nombre de nucléons</b> (somme des A).<br/>Conservation de la <b>charge</b> (somme des Z).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-09"
+  },
+  {
+   "titre": "Émission gamma",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que l'<b>émission γ</b> ?",
+   "reponse": "Un <b>photon γ</b> émis par un noyau fils <b>excité</b> qui revient à son état fondamental :<br/><span class=\"f\"><span class=\"nuc\"><span>A</span><span>Z</span></span>Y* → <span class=\"nuc\"><span>A</span><span>Z</span></span>Y + γ</span><br/><small>A et Z ne changent pas.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-10"
+  },
+  {
+   "titre": "Vallée de stabilité",
+   "type": "MÉTHODE",
+   "question": "Sur le diagramme (N, Z), qu'est-ce que la <b>vallée de stabilité</b> ?",
+   "reponse": "La zone des noyaux <b>stables</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-11"
+  },
+  {
+   "titre": "Position et type de désintégration",
+   "type": "MÉTHODE",
+   "question": "Sur le diagramme (N, Z), avec N en ordonnée : quelle désintégration subit un noyau situé <b>au-dessus</b> de la vallée ? <b>En dessous</b> ?",
+   "reponse": "<b>Au-dessus</b> (excès de neutrons) : <b>β⁻</b>.<br/><b>En dessous</b> (excès de protons) : <b>β⁺</b>.<br/><small>Les noyaux très lourds : α.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-12"
+  },
+  {
+   "titre": "Désintégration du polonium 210",
+   "type": "SITUATION",
+   "question": "Le polonium <span class=\"nuc\"><span>210</span><span>84</span></span>Po est radioactif α. Quel est le noyau fils ?",
+   "reponse": "Conservation de A et de Z :<br/><span class=\"f\"><span class=\"nuc\"><span>210</span><span>84</span></span>Po → <span class=\"nuc\"><span>206</span><span>82</span></span>Pb + <span class=\"nuc\"><span>4</span><span>2</span></span>He</span><br/>C'est le <b>plomb 206</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-13"
+  },
+  {
+   "titre": "Désintégration du carbone 14",
+   "type": "SITUATION",
+   "question": "Le carbone <span class=\"nuc\"><span>14</span><span>6</span></span>C est radioactif β⁻. Quel est le noyau fils ?",
+   "reponse": "Conservation : A = 14 et Z = 6 + 1 = 7.<br/>C'est l'<b>azote 14</b> : <span class=\"nuc\"><span>14</span><span>7</span></span>N",
+   "image": null,
+   "image_cote": null,
+   "id": "ch18-p1-desintegration-14"
+  }
+ ]
+}

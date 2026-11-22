@@ -1,0 +1,87 @@
+{
+ "chapitre": 3,
+ "partie": "Pictogrammes de sécurité",
+ "cartes": [
+  {
+   "titre": "Pictogramme n° 1",
+   "type": null,
+   "question": "Que signifie ce pictogramme ? Quelles précautions prendre ?",
+   "reponse": "<b>Inflammable</b><br/>S'enflamme facilement (flamme, étincelle, chaleur).<br/><small>EPI : blouse en coton.<br/>Précaution : loin de toute flamme ou source de chaleur.</small>",
+   "image": "ch3-picto-01.jpg",
+   "image_cote": "q",
+   "id": "ch3-p2-pictogrammes-01"
+  },
+  {
+   "titre": "Pictogramme n° 2",
+   "type": null,
+   "question": "Que signifie ce pictogramme ? Quelles précautions prendre ?",
+   "reponse": "<b>Comburant</b><br/>Favorise la combustion d'un produit inflammable.<br/><small>EPI : aucun spécifique.<br/>Précaution : ne pas stocker près de produits inflammables.</small>",
+   "image": "ch3-picto-02.jpg",
+   "image_cote": "q",
+   "id": "ch3-p2-pictogrammes-02"
+  },
+  {
+   "titre": "Pictogramme n° 3",
+   "type": null,
+   "question": "Que signifie ce pictogramme ? Quelles précautions prendre ?",
+   "reponse": "<b>Toxique</b><br/>Intoxication grave par inhalation, ingestion ou contact.<br/><small>EPI : lunettes, gants, blouse, hotte.<br/>Précaution : éviter tout contact et toute inhalation.</small>",
+   "image": "ch3-picto-03.jpg",
+   "image_cote": "q",
+   "id": "ch3-p2-pictogrammes-03"
+  },
+  {
+   "titre": "Pictogramme n° 4",
+   "type": null,
+   "question": "Que signifie ce pictogramme ? Quelles précautions prendre ?",
+   "reponse": "<b>Corrosif</b><br/>Attaque les matériaux, brûle la peau et les yeux.<br/><small>EPI : lunettes, gants, blouse.<br/>Précaution : éviter tout contact avec la peau, les yeux, les vêtements.</small>",
+   "image": "ch3-picto-04.jpg",
+   "image_cote": "q",
+   "id": "ch3-p2-pictogrammes-04"
+  },
+  {
+   "titre": "Pictogramme n° 5",
+   "type": null,
+   "question": "Que signifie ce pictogramme ? Quelles précautions prendre ?",
+   "reponse": "<b>Nocif / irritant</b><br/>Irritation, allergie, vertiges ou somnolence.<br/><small>EPI : lunettes, gants, blouse, hotte.<br/>Précaution : éviter le contact et l'inhalation.</small>",
+   "image": "ch3-picto-05.jpg",
+   "image_cote": "q",
+   "id": "ch3-p2-pictogrammes-05"
+  },
+  {
+   "titre": "Pictogramme n° 6",
+   "type": null,
+   "question": "Que signifie ce pictogramme ? Quelles précautions prendre ?",
+   "reponse": "<b>Dangereux pour l'environnement</b><br/>Toxique pour les êtres vivants et les écosystèmes.<br/><small>EPI : aucun spécifique.<br/>Précaution : ne pas jeter à l'évier ni dans la nature.</small>",
+   "image": "ch3-picto-06.jpg",
+   "image_cote": "q",
+   "id": "ch3-p2-pictogrammes-06"
+  },
+  {
+   "titre": "Pictogramme n° 7",
+   "type": null,
+   "question": "Que signifie ce pictogramme ? Quelles précautions prendre ?",
+   "reponse": "<b>Explosif</b><br/>Peut exploser sous l'effet d'un choc, d'un frottement ou de la chaleur.<br/><small>EPI : aucun spécifique.<br/>Précaution : éviter chocs et chaleur.</small>",
+   "image": "ch3-picto-07.jpg",
+   "image_cote": "q",
+   "id": "ch3-p2-pictogrammes-07"
+  },
+  {
+   "titre": "Pictogramme n° 8",
+   "type": null,
+   "question": "Que signifie ce pictogramme ? Quelles précautions prendre ?",
+   "reponse": "<b>Dangereux pour la santé</b><br/>Effets graves à long terme (cancer, asthme, toxicité pour le fœtus…).<br/><small>EPI : lunettes, gants, blouse, hotte.<br/>Précaution : éviter inhalation et contact.</small>",
+   "image": "ch3-picto-08.jpg",
+   "image_cote": "q",
+   "id": "ch3-p2-pictogrammes-08"
+  },
+  {
+   "titre": "Pictogramme n° 9",
+   "type": null,
+   "question": "Que signifie ce pictogramme ? Quelles précautions prendre ?",
+   "reponse": "<b>Gaz sous pression</b><br/>Peut exploser à la chaleur ou brûler par le froid.<br/><small>EPI : lunettes, blouse, gants isolants.<br/>Précaution : ne pas exposer à la chaleur.</small>",
+   "image": "ch3-picto-09.jpg",
+   "image_cote": "q",
+   "id": "ch3-p2-pictogrammes-09"
+  }
+ ]
+}

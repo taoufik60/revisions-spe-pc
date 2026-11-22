@@ -1,0 +1,114 @@
+{
+ "chapitre": 14,
+ "partie": "Lunette astronomique",
+ "cartes": [
+  {
+   "titre": "Schéma de la lunette",
+   "type": "MÉTHODE",
+   "question": "Dessiner et annoter le schéma d'une <b>lunette astronomique afocale</b>, puis vérifier.",
+   "reponse": "Objectif L<sub>1</sub>, oculaire L<sub>2</sub>, F'<sub>1</sub> = F<sub>2</sub>, image intermédiaire A<sub>1</sub>B<sub>1</sub>, angles θ et θ'.",
+   "image": "ch14-lun-01.jpg",
+   "image_cote": "a",
+   "id": "ch14-p2-lunette-01"
+  },
+  {
+   "titre": "Lunette afocale : position des foyers",
+   "type": "MÉTHODE",
+   "question": "Où doit se trouver le foyer objet de l'oculaire F<sub>2</sub> pour que la lunette soit <b>afocale</b> ?",
+   "reponse": "Il est <b>confondu</b> avec F'<sub>1</sub>, le foyer image de l'objectif.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p2-lunette-02"
+  },
+  {
+   "titre": "Rôle de l'objectif",
+   "type": "MÉTHODE",
+   "question": "Quel est le rôle de l'<b>objectif</b> ?",
+   "reponse": "Il forme une <b>image intermédiaire</b> A<sub>1</sub>B<sub>1</sub> de l'objet lointain.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p2-lunette-03"
+  },
+  {
+   "titre": "Système afocal",
+   "type": "MÉTHODE",
+   "question": "Pourquoi dit-on que la lunette est un système <b>afocal</b> ?",
+   "reponse": "L'objet et l'image sont tous les deux à l'<b>infini</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p2-lunette-04"
+  },
+  {
+   "titre": "Grossissement : définition",
+   "type": "MÉTHODE",
+   "question": "Donner le <b>grossissement</b> G en fonction des angles.",
+   "reponse": "<span class=\"f\">G = <span class=\"fr\"><span>θ'</span><span>θ</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p2-lunette-05"
+  },
+  {
+   "titre": "Grossissement : avec les focales",
+   "type": "MÉTHODE",
+   "question": "Donner G en fonction des distances focales f'<sub>1</sub> et f'<sub>2</sub>.",
+   "reponse": "<span class=\"f\">G = <span class=\"fr\"><span>f'<sub>1</sub></span><span>f'<sub>2</sub></span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p2-lunette-06"
+  },
+  {
+   "titre": "Image intermédiaire",
+   "type": "MÉTHODE",
+   "question": "Où se forme l'<b>image intermédiaire</b> A<sub>1</sub>B<sub>1</sub> ?",
+   "reponse": "Dans le <b>plan focal image</b> de l'objectif L<sub>1</sub>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p2-lunette-07"
+  },
+  {
+   "titre": "Unité de la vergence",
+   "type": "MÉTHODE",
+   "question": "Quelle est l'unité de la <b>vergence</b> ?",
+   "reponse": "La <b>dioptrie</b> (δ).<br/><span class=\"f\">V = <span class=\"fr\"><span>1</span><span>f'</span></span></span><br/><small>f' en m</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p2-lunette-08"
+  },
+  {
+   "titre": "Intérêt pour l'œil",
+   "type": "MÉTHODE",
+   "question": "Quel est l'avantage d'un système afocal pour l'<b>œil</b> ?",
+   "reponse": "L'œil observe <b>sans accommoder</b>, donc sans fatigue.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p2-lunette-09"
+  },
+  {
+   "titre": "Diamètre apparent",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que le <b>diamètre apparent</b> θ d'un objet ?",
+   "reponse": "L'<b>angle</b> sous lequel on voit l'objet.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p2-lunette-10"
+  },
+  {
+   "titre": "Condition pour grossir",
+   "type": "MÉTHODE",
+   "question": "Quelle relation entre f'<sub>1</sub> et f'<sub>2</sub> permet de grossir l'objet ?",
+   "reponse": "<span class=\"f\">f'<sub>1</sub> &gt; f'<sub>2</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch14-p2-lunette-11"
+  },
+  {
+   "titre": "Démontrer G = f'₁ / f'₂",
+   "type": "MÉTHODE",
+   "question": "Démontrer que le grossissement d'une lunette afocale vaut <span class=\"fr\"><span>f'<sub>1</sub></span><span>f'<sub>2</sub></span></span>.",
+   "reponse": "Angles petits : tan θ ≈ θ.<br/>Dans L<sub>1</sub> :<br/><span class=\"f\">θ = <span class=\"fr\"><span>A<sub>1</sub>B<sub>1</sub></span><span>f'<sub>1</sub></span></span></span><br/>Dans L<sub>2</sub> :<br/><span class=\"f\">θ' = <span class=\"fr\"><span>A<sub>1</sub>B<sub>1</sub></span><span>f'<sub>2</sub></span></span></span><br/>On fait le rapport :<br/><span class=\"f\">G = <span class=\"fr\"><span>θ'</span><span>θ</span></span> = <span class=\"fr\"><span>f'<sub>1</sub></span><span>f'<sub>2</sub></span></span></span>",
+   "image": "ch14-lun-01.jpg",
+   "image_cote": "q",
+   "id": "ch14-p2-lunette-12"
+  }
+ ]
+}

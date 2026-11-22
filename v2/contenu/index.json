@@ -45,6 +45,11 @@
      "slug": "ch3-p1-titrages",
      "titre": "Titrages",
      "n": 16
+    },
+    {
+     "slug": "ch3-p2-pictogrammes",
+     "titre": "Pictogrammes de sécurité",
+     "n": 9
     }
    ]
   },
@@ -82,6 +87,211 @@
      "slug": "ch5-p4-etude-energetique",
      "titre": "Étude énergétique",
      "n": 12
+    }
+   ]
+  },
+  {
+   "num": 6,
+   "titre": "Mouvement des planètes et satellites",
+   "parties": [
+    {
+     "slug": "ch6-p1-kepler",
+     "titre": "Lois de Kepler et satellites",
+     "n": 16
+    }
+   ]
+  },
+  {
+   "num": 7,
+   "titre": "Évolution spontanée d'un système",
+   "parties": [
+    {
+     "slug": "ch7-p1-evolution-spontanee",
+     "titre": "Évolution spontanée",
+     "n": 17
+    }
+   ]
+  },
+  {
+   "num": 8,
+   "titre": "Force des acides et des bases",
+   "parties": [
+    {
+     "slug": "ch8-p1-force-acides-bases",
+     "titre": "Force des acides et des bases",
+     "n": 29
+    }
+   ]
+  },
+  {
+   "num": 9,
+   "titre": "Cinétique chimique",
+   "parties": [
+    {
+     "slug": "ch9-p1-cinetique",
+     "titre": "Cinétique chimique",
+     "n": 16
+    },
+    {
+     "slug": "ch9-p2-ordre-1",
+     "titre": "Prouver un ordre 1",
+     "n": 5
+    }
+   ]
+  },
+  {
+   "num": 10,
+   "titre": "Thermodynamique",
+   "parties": [
+    {
+     "slug": "ch10-p1-thermodynamique",
+     "titre": "Thermodynamique",
+     "n": 21
+    }
+   ]
+  },
+  {
+   "num": 11,
+   "titre": "Chimie organique",
+   "parties": [
+    {
+     "slug": "ch11-p1-synthese",
+     "titre": "Optimiser une synthèse",
+     "n": 18
+    },
+    {
+     "slug": "ch11-p2-etapes-synthese",
+     "titre": "Les étapes d'une synthèse",
+     "n": 18
+    }
+   ]
+  },
+  {
+   "num": 12,
+   "titre": "Son et effet Doppler",
+   "parties": [
+    {
+     "slug": "ch12-p1-ondes-sonores",
+     "titre": "Ondes sonores",
+     "n": 13
+    },
+    {
+     "slug": "ch12-p2-effet-doppler",
+     "titre": "Effet Doppler",
+     "n": 7
+    },
+    {
+     "slug": "ch12-p3-demonstration-doppler",
+     "titre": "Démonstration de l'effet Doppler",
+     "n": 8
+    }
+   ]
+  },
+  {
+   "num": 13,
+   "titre": "Diffraction et interférences",
+   "parties": [
+    {
+     "slug": "ch13-p1-diffraction",
+     "titre": "Diffraction",
+     "n": 9
+    },
+    {
+     "slug": "ch13-p2-interferences",
+     "titre": "Interférences",
+     "n": 9
+    }
+   ]
+  },
+  {
+   "num": 14,
+   "titre": "Lunette astronomique",
+   "parties": [
+    {
+     "slug": "ch14-p1-lentilles",
+     "titre": "Rappels sur les lentilles",
+     "n": 17
+    },
+    {
+     "slug": "ch14-p2-lunette",
+     "titre": "Lunette astronomique",
+     "n": 12
+    }
+   ]
+  },
+  {
+   "num": 15,
+   "titre": "Piles et électrolyse",
+   "parties": [
+    {
+     "slug": "ch15-p1-pile-electrolyse",
+     "titre": "Piles et électrolyse",
+     "n": 11
+    }
+   ]
+  },
+  {
+   "num": 16,
+   "titre": "Circuit RC",
+   "parties": [
+    {
+     "slug": "ch16-p1-circuit-rc",
+     "titre": "Circuit RC",
+     "n": 17
+    }
+   ]
+  },
+  {
+   "num": 17,
+   "titre": "Effet photoélectrique",
+   "parties": [
+    {
+     "slug": "ch17-p1-photoelectrique",
+     "titre": "Effet photoélectrique",
+     "n": 9
+    },
+    {
+     "slug": "ch17-p2-photovoltaique",
+     "titre": "Effet photovoltaïque",
+     "n": 7
+    }
+   ]
+  },
+  {
+   "num": 18,
+   "titre": "Radioactivité",
+   "parties": [
+    {
+     "slug": "ch18-p1-desintegration",
+     "titre": "Désintégrations radioactives",
+     "n": 14
+    },
+    {
+     "slug": "ch18-p2-decroissance",
+     "titre": "Décroissance radioactive",
+     "n": 17
+    }
+   ]
+  },
+  {
+   "num": 19,
+   "titre": "Mécanique des fluides",
+   "parties": [
+    {
+     "slug": "ch19-p1-fluides",
+     "titre": "Mécanique des fluides",
+     "n": 15
+    }
+   ]
+  },
+  {
+   "num": 20,
+   "titre": "Modélisation microscopique",
+   "parties": [
+    {
+     "slug": "ch20-p1-mecanismes",
+     "titre": "Mécanismes réactionnels",
+     "n": 17
     }
    ]
   }

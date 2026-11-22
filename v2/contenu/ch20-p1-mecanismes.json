@@ -1,0 +1,159 @@
+{
+ "chapitre": 20,
+ "partie": "Mécanismes réactionnels",
+ "cartes": [
+  {
+   "titre": "Mouvement des entités",
+   "type": "MÉTHODE",
+   "question": "À l'échelle microscopique, comment se déplacent les entités d'un système ?",
+   "reponse": "De façon <b>permanente</b>, <b>aléatoire</b> et <b>désordonnée</b> : c'est l'agitation thermique.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-01"
+  },
+  {
+   "titre": "Choc efficace",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>choc efficace</b> ?",
+   "reponse": "Un choc entre entités qui produit de <b>nouvelles entités</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-02"
+  },
+  {
+   "titre": "Chocs efficaces et vitesse",
+   "type": "MÉTHODE",
+   "question": "Quel lien y a-t-il entre la fréquence des chocs efficaces et la <b>vitesse</b> de réaction ?",
+   "reponse": "Plus les chocs efficaces sont <b>fréquents</b>, plus la réaction est <b>rapide</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-03"
+  },
+  {
+   "titre": "Température microscopique",
+   "type": "MÉTHODE",
+   "question": "À l'échelle microscopique, que traduit la <b>température</b> ?",
+   "reponse": "L'<b>agitation</b> des entités : plus elle est élevée, plus elles bougent vite.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-04"
+  },
+  {
+   "titre": "Effet de la température",
+   "type": "MÉTHODE",
+   "question": "Interpréter au niveau microscopique l'effet d'une <b>hausse de température</b>.",
+   "reponse": "Entités plus rapides → chocs efficaces plus fréquents → réaction plus <b>rapide</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-05"
+  },
+  {
+   "titre": "Effet de la concentration",
+   "type": "MÉTHODE",
+   "question": "Interpréter au niveau microscopique l'effet d'une <b>hausse de concentration</b>.",
+   "reponse": "Entités plus nombreuses → chocs efficaces plus fréquents → réaction plus <b>rapide</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-06"
+  },
+  {
+   "titre": "Acte élémentaire",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>acte élémentaire</b> ?",
+   "reponse": "Une réaction qui se fait en <b>une seule étape</b>, lors d'un choc entre entités.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-07"
+  },
+  {
+   "titre": "Mécanisme réactionnel",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que le <b>mécanisme réactionnel</b> d'une réaction ?",
+   "reponse": "La <b>suite d'actes élémentaires</b> qui explique la réaction.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-08"
+  },
+  {
+   "titre": "Intermédiaire réactionnel",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>intermédiaire réactionnel</b> ?",
+   "reponse": "Une entité <b>formée</b> dans un acte élémentaire puis <b>consommée</b> dans un autre : elle n'apparaît pas dans l'équation de la réaction.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-09"
+  },
+  {
+   "titre": "Action d'un catalyseur",
+   "type": "MÉTHODE",
+   "question": "Comment un catalyseur <b>accélère</b>-t-il une réaction ?",
+   "reponse": "Il <b>modifie le mécanisme</b> : une étape lente est remplacée par des étapes plus rapides.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-10"
+  },
+  {
+   "titre": "Catalyseur et équation",
+   "type": "MÉTHODE",
+   "question": "Pourquoi un catalyseur n'apparaît-il pas dans l'<b>équation</b> de la réaction ?",
+   "reponse": "Il est <b>consommé</b> puis <b>régénéré</b> au cours du mécanisme.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-11"
+  },
+  {
+   "titre": "Catalyseur ou intermédiaire",
+   "type": "MÉTHODE",
+   "question": "Quelle est la différence entre un <b>catalyseur</b> et un <b>intermédiaire réactionnel</b> ?",
+   "reponse": "<b>Catalyseur</b> : consommé, <b>puis</b> régénéré.<br/><b>Intermédiaire</b> : formé, <b>puis</b> consommé.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-12"
+  },
+  {
+   "titre": "Site donneur",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>site donneur</b> de doublet d'électrons ? Citer les trois cas.",
+   "reponse": "Un site <b>riche</b> en électrons :<br/>un doublet non liant, une liaison double, ou l'atome δ⁻ d'une liaison polarisée.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-13"
+  },
+  {
+   "titre": "Site accepteur",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'un <b>site accepteur</b> de doublet d'électrons ? Citer les cas.",
+   "reponse": "Un site <b>pauvre</b> en électrons :<br/>une charge +, l'atome δ⁺ d'une liaison polarisée, ou une lacune électronique.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-14"
+  },
+  {
+   "titre": "Liaison polarisée",
+   "type": "MÉTHODE",
+   "question": "Quand une liaison covalente est-elle <b>polarisée</b> ?",
+   "reponse": "Quand les deux atomes ont des <b>électronégativités</b> nettement différentes (écart d'environ 0,4 ou plus).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-15"
+  },
+  {
+   "titre": "Charges partielles",
+   "type": "MÉTHODE",
+   "question": "Dans une liaison polarisée, où place-t-on δ⁺ et δ⁻ ?",
+   "reponse": "δ⁻ sur l'atome le <b>plus électronégatif</b>, δ⁺ sur l'autre.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-16"
+  },
+  {
+   "titre": "Flèche courbe",
+   "type": "MÉTHODE",
+   "question": "Que représente une <b>flèche courbe</b> ? D'où part-elle ?",
+   "reponse": "Le <b>déplacement d'un doublet d'électrons</b>.<br/>Elle part d'un <b>site donneur</b> et va vers un <b>site accepteur</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch20-p1-mecanismes-17"
+  }
+ ]
+}

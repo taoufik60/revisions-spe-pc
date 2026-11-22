@@ -1,0 +1,87 @@
+{
+ "chapitre": 13,
+ "partie": "Diffraction",
+ "cartes": [
+  {
+   "titre": "Écart angulaire",
+   "type": "MÉTHODE",
+   "question": "Quelle relation lie l'écart angulaire θ, la longueur d'onde λ et la largeur a de la fente ?",
+   "reponse": "<span class=\"f\">θ = <span class=\"fr\"><span>λ</span><span>a</span></span></span><br/><small>θ en radian ; λ et a en m</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p1-diffraction-01"
+  },
+  {
+   "titre": "Petits angles",
+   "type": "MÉTHODE",
+   "question": "Pour un angle petit, quelle approximation utilise-t-on ?",
+   "reponse": "<span class=\"f\">tan θ ≈ θ</span><br/><small>θ en radian</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p1-diffraction-02"
+  },
+  {
+   "titre": "θ et la tache centrale",
+   "type": "MÉTHODE",
+   "question": "Exprimer θ à partir de la largeur L de la tache centrale et de la distance D.",
+   "reponse": "Dans le triangle rectangle :<br/><span class=\"f\">tan θ = <span class=\"fr\"><span>L</span><span>2D</span></span></span><br/>Pour θ petit :<br/><span class=\"f\">θ = <span class=\"fr\"><span>L</span><span>2D</span></span></span>",
+   "image": "ch13-diff-03.jpg",
+   "image_cote": "q",
+   "id": "ch13-p1-diffraction-03"
+  },
+  {
+   "titre": "Largeur de la tache centrale",
+   "type": "MÉTHODE",
+   "question": "En déduire la largeur <b>L</b> de la tache centrale.",
+   "reponse": "On égalise les deux expressions de θ :<br/><span class=\"f\"><span class=\"fr\"><span>L</span><span>2D</span></span> = <span class=\"fr\"><span>λ</span><span>a</span></span></span><br/>On isole L :<br/><span class=\"f\">L = <span class=\"fr\"><span>2λD</span><span>a</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p1-diffraction-04"
+  },
+  {
+   "titre": "Fente deux fois plus fine",
+   "type": "MÉTHODE",
+   "question": "Si on divise par deux la largeur a de la fente, que devient θ ?",
+   "reponse": "θ est <b>multiplié par deux</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p1-diffraction-05"
+  },
+  {
+   "titre": "Unité de l'écart angulaire",
+   "type": "MÉTHODE",
+   "question": "Dans ces formules, en quelle unité exprime-t-on θ ?",
+   "reponse": "En <b>radian</b> (rad).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p1-diffraction-06"
+  },
+  {
+   "titre": "Diffraction bien visible",
+   "type": "MÉTHODE",
+   "question": "Quand la diffraction est-elle <b>bien visible</b> ?",
+   "reponse": "Quand la taille a de l'ouverture est du <b>même ordre de grandeur</b> que λ (ou plus petite).",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p1-diffraction-07"
+  },
+  {
+   "titre": "Éloigner l'écran",
+   "type": "MÉTHODE",
+   "question": "Que devient la tache centrale si on <b>éloigne l'écran</b> ?",
+   "reponse": "Sa largeur L <b>augmente</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p1-diffraction-08"
+  },
+  {
+   "titre": "Fente verticale",
+   "type": "MÉTHODE",
+   "question": "Une <b>fente verticale</b> donne une figure étalée selon quel axe ?",
+   "reponse": "Selon l'axe <b>horizontal</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch13-p1-diffraction-09"
+  }
+ ]
+}

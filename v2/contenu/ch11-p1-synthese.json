@@ -1,0 +1,168 @@
+{
+ "chapitre": 11,
+ "partie": "Optimiser une synthèse",
+ "cartes": [
+  {
+   "titre": "Accélérer une synthèse",
+   "type": "MÉTHODE",
+   "question": "Sur quels <b>facteurs cinétiques</b> peut-on jouer pour accélérer une synthèse ?",
+   "reponse": "La <b>température</b>, la <b>concentration</b> des réactifs, et un <b>catalyseur</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-01"
+  },
+  {
+   "titre": "Catalyseur d'une estérification",
+   "type": "MÉTHODE",
+   "question": "Quel <b>catalyseur</b> utilise-t-on pour une estérification ?",
+   "reponse": "Un <b>acide</b>, par exemple l'acide sulfurique.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-02"
+  },
+  {
+   "titre": "Chauffer sans perte",
+   "type": "MÉTHODE",
+   "question": "Quel <b>montage</b> permet de chauffer sans perdre les espèces volatiles ?",
+   "reponse": "Le <b>chauffage à reflux</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-03"
+  },
+  {
+   "titre": "Principe du reflux",
+   "type": "MÉTHODE",
+   "question": "Comment le montage à reflux évite-t-il les pertes ?",
+   "reponse": "Les vapeurs sont <b>condensées</b> dans le réfrigérant et <b>retombent</b> dans le ballon.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-04"
+  },
+  {
+   "titre": "Rendement d'une synthèse",
+   "type": "MÉTHODE",
+   "question": "Comment définit-on le <b>rendement</b> d'une synthèse ?",
+   "reponse": "<span class=\"f\">η = <span class=\"fr\"><span>n<sub>exp</sub></span><span>n<sub>max</sub></span></span></span><br/><small>n<sub>max</sub> : quantité obtenue si la réaction était totale</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-05"
+  },
+  {
+   "titre": "Favoriser le sens direct",
+   "type": "MÉTHODE",
+   "question": "Pour former plus d'ester, faut-il augmenter ou diminuer Q<sub>r</sub> ?",
+   "reponse": "<b>Diminuer</b> Q<sub>r</sub>, pour avoir Q<sub>r</sub> &lt; K : le système évolue dans le sens direct.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-06"
+  },
+  {
+   "titre": "Diminuer Qr",
+   "type": "MÉTHODE",
+   "question": "Comment peut-on <b>diminuer</b> Q<sub>r</sub> ?",
+   "reponse": "Mettre un réactif en <b>excès</b>, ou <b>éliminer</b> un produit au fur et à mesure.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-07"
+  },
+  {
+   "titre": "Réactif en excès",
+   "type": "MÉTHODE",
+   "question": "Quel réactif met-on <b>en excès</b> pour améliorer le rendement ?",
+   "reponse": "Le <b>moins cher</b> ou le <b>moins polluant</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-08"
+  },
+  {
+   "titre": "Modification de chaîne",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'une <b>modification de chaîne</b> ?",
+   "reponse": "Une transformation qui <b>allonge</b> ou <b>raccourcit</b> la chaîne carbonée.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-09"
+  },
+  {
+   "titre": "Modification de groupe caractéristique",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce qu'une <b>modification de groupe caractéristique</b> ?",
+   "reponse": "Une transformation qui <b>change un groupe caractéristique</b>, sans modifier la chaîne carbonée.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-10"
+  },
+  {
+   "titre": "Addition",
+   "type": "MÉTHODE",
+   "question": "Comment appelle-t-on une réaction où deux molécules <b>s'unissent</b> pour n'en former qu'une ?",
+   "reponse": "Une <b>addition</b>.<br/><small>Polyaddition si elle forme un polymère.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-11"
+  },
+  {
+   "titre": "Élimination",
+   "type": "MÉTHODE",
+   "question": "Comment appelle-t-on une réaction où une molécule <b>perd</b> des atomes pour former une liaison multiple ?",
+   "reponse": "Une <b>élimination</b>.<br/><small>La molécule se scinde en deux : par exemple un alcène et de l'eau.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-12"
+  },
+  {
+   "titre": "Substitution",
+   "type": "MÉTHODE",
+   "question": "Comment appelle-t-on une réaction où un atome ou un groupe d'atomes est <b>remplacé</b> par un autre ?",
+   "reponse": "Une <b>substitution</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-13"
+  },
+  {
+   "titre": "Protéger une fonction",
+   "type": "MÉTHODE",
+   "question": "Quel est le <b>but</b> de la protection d'une fonction ?",
+   "reponse": "L'empêcher de <b>réagir</b> pendant qu'on transforme une <b>autre partie</b> de la molécule.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-14"
+  },
+  {
+   "titre": "Réaction de protection",
+   "type": "MÉTHODE",
+   "question": "Quelle propriété doit avoir la réaction de protection ?",
+   "reponse": "Elle doit être <b>réversible</b>, pour pouvoir <b>déprotéger</b> la fonction ensuite.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-15"
+  },
+  {
+   "titre": "Dipeptides sans protection",
+   "type": "MÉTHODE",
+   "question": "Sans protection, combien de <b>dipeptides</b> obtient-on avec deux acides aminés différents ?",
+   "reponse": "<b>Quatre</b> : Gly-Leu, Leu-Gly, Gly-Gly, Leu-Leu.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-16"
+  },
+  {
+   "titre": "Chimie verte",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que la <b>chimie verte</b> ?",
+   "reponse": "Une chimie qui cherche à limiter la <b>pollution</b>, les <b>déchets</b> et la <b>consommation d'énergie</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-17"
+  },
+  {
+   "titre": "Économie d'atomes",
+   "type": "MÉTHODE",
+   "question": "Que mesure l'<b>économie d'atomes</b> d'une synthèse ?",
+   "reponse": "La proportion des atomes des réactifs qu'on retrouve dans le <b>produit voulu</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch11-p1-synthese-18"
+  }
+ ]
+}
