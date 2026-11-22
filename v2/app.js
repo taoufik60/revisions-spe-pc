@@ -202,10 +202,11 @@ function vExamen() {
   <div class="mx" style="display:flex;justify-content:space-between;align-items:center"><span class="label" style="margin:0">1. Choisis tes chapitres</span><button class="link-discret" style="text-decoration:none;color:var(--gen);font-weight:700" id="tout">${sel.length === ch.length ? 'Tout décocher' : 'Tout cocher'}</button></div>
   <div class="mx" style="display:flex;flex-direction:column;gap:8px">${rows}</div>
   <span class="label">2. Choisis ton entraînement</span>
-  ${sel.length ? big('gen', `#/cartes/examen/${sel.map(c => c.num).join(',')}`, ICON.cards, 'Flashcards', `${nb} cartes, les plus fragiles d'abord, par séries de ${SERIE_EXAMEN}, chapitres mélangés`) + big('genmid off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')
+  ${sel.length ? big('gen compact', `#/cartes/examen/${sel.map(c => c.num).join(',')}`, ICON.cards, 'Flashcards', `${nb} cartes, les plus fragiles d'abord, par séries de ${SERIE_EXAMEN}, chapitres mélangés`) + big('genmid compact off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')
     : '<p class="note">Coche au moins un chapitre.</p>'}`, 'accueil');
-  APP.querySelectorAll('[data-tog]').forEach(b => b.addEventListener('click', () => { const n = +b.dataset.tog; S.examenSel.has(n) ? S.examenSel.delete(n) : S.examenSel.add(n); vExamen(); }));
-  document.getElementById('tout').addEventListener('click', () => { S.examenSel = sel.length === ch.length ? new Set() : new Set(ch.map(c => c.num)); vExamen(); });
+  const garder = f => { const sc = APP.querySelector('.scroll'), y = window.scrollY, ys = sc ? sc.scrollTop : 0; f(); vExamen(); window.scrollTo(0, y); const sc2 = APP.querySelector('.scroll'); if (sc2) sc2.scrollTop = ys; };
+  APP.querySelectorAll('[data-tog]').forEach(b => b.addEventListener('click', () => garder(() => { const n = +b.dataset.tog; S.examenSel.has(n) ? S.examenSel.delete(n) : S.examenSel.add(n); })));
+  document.getElementById('tout').addEventListener('click', () => garder(() => { S.examenSel = sel.length === ch.length ? new Set() : new Set(ch.map(c => c.num)); }));
 }
 
 /* ---------- séance de cartes ---------- */
