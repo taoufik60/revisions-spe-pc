@@ -77,7 +77,7 @@ const parFragilite = cs => cs.slice().sort((a, b) => fragilite(a.id) - fragilite
 function etape(id) {
   const s = S.suivi[id];
   if (!s) return 'nouvelle';
-  if (s.a_consolider || s.boite <= 1) return 'decouverte';
+  if (s.boite <= 1) return 'decouverte';   // un « Non » ne fait reculer que d'une étape
   return s.boite === 2 ? 'cours' : s.boite === 3 ? 'retenue' : 'maitrisee';
 }
 const ETAPES = [['maitrisee', 'maîtrisée', 'maîtrisées', 100], ['retenue', 'bien retenue', 'bien retenues', 72], ['cours', 'en cours', 'en cours', 48], ['decouverte', 'découverte', 'découvertes', 26]];
@@ -204,7 +204,7 @@ function vChapitre(n) {
   localStorage.setItem('pclab_chap', c.num);
   const parts = c.parties.map((p, i) => {
     const ids = idsPart(p), r = compte(ids), vues = p.n - r.nouvelle;
-    const meta = vues ? `${p.n} cartes · ${resume(r)}` : `${p.n} cartes · pas encore commencé`;
+    const meta = vues ? `${p.n} cartes` : `${p.n} cartes · pas encore commencé`;
     return `<a class="item mx" href="#/partie/${p.slug}"><span class="num">${i + 1}</span><span class="body"><span class="tt">${esc(p.titre)}</span><span class="meta"><span>${meta}</span>${r.due ? `<span class="due">${r.due} à revoir</span>` : ''}</span>${barre(r, p.n)}</span>${ICON.chev}</a>`;
   }).join('');
   page(`<div class="top" style="padding-bottom:58px"><div class="top-row"><a class="back" href="#/accueil">${ICON.back}Accueil</a>${BADGE}</div><h1>Travailler un chapitre</h1></div>
@@ -217,7 +217,7 @@ function vPartie(slug) {
   const { c, p } = info, i = c.parties.indexOf(p) + 1, r = compte(idsPart(p)), vues = p.n - r.nouvelle;
   const sub = (c.parties.length > 1 ? `Partie ${i} / ${c.parties.length} · ` : '') + `Ch. ${c.num} ${esc(c.titre)}`;
   page(head(`#/chapitre/${c.num}`, `Chapitre ${c.num}`, esc(p.titre), sub) + `<div style="height:4px"></div>
-  ${(() => { const se = seriesPartie(p); return big('ch compact', `#/cartes/partie/${slug}`, ICON.cards, 'Flashcards', se.nb > 1 ? `${p.n} cartes en ${se.nb} séries · prochaine : série ${se.k + 1} (${se.ids.length} cartes)` : `${p.n} cartes · ${vues ? resume(r) : 'pas encore commencé'}${r.due ? ` · ${r.due} à revoir` : ''}`); })()}
+  ${(() => { const se = seriesPartie(p); return big('ch compact', `#/cartes/partie/${slug}`, ICON.cards, 'Flashcards', se.nb > 1 ? `${p.n} cartes en ${se.nb} séries · prochaine : série ${se.k + 1} (${se.ids.length} cartes)` : `${p.n} cartes${vues ? '' : ' · pas encore commencé'}${r.due ? ` · ${r.due} à revoir` : ''}`); })()}
   ${big('mid compact off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')}
   <a class="link-discret" href="#/consulter/${slug}">Consulter les cartes</a>`, 'accueil');
 }
@@ -387,12 +387,12 @@ async function vProgression() {
   const leg = (col, n, l) => `<span style="flex:1;display:flex;flex-direction:column;align-items:center"><b style="font-size:24px;color:${col}">${n}</b><small style="font-size:12px;color:var(--muted);text-align:center">${l}</small></span>`;
   const chs = ch.map(c => {
     const ids = idsChap(c), rc = compte(ids), open = !!S.progOpen[c.num];
-    const parts = open ? c.parties.map(p => { const rp = compte(idsPart(p)), vues = p.n - rp.nouvelle; return `<div style="padding:12px 0;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:6px"><b style="font-size:15px">${esc(p.titre)}</b>${barre(rp, p.n, 8)}<small style="color:var(--muted)">${vues ? resume(rp) : `${p.n} cartes, pas encore commencé`}</small></div>`; }).join('') : '';
+    const parts = open ? c.parties.map(p => { const rp = compte(idsPart(p)), vues = p.n - rp.nouvelle; return `<div style="padding:12px 0;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:6px"><b style="font-size:15px">${esc(p.titre)}</b>${barre(rp, p.n, 8)}${vues ? '' : `<small style="color:var(--muted)">Pas encore commencé</small>`}</div>`; }).join('') : '';
     return `<div class="panel mx" style="padding:4px 16px;gap:0"><button data-p="${c.num}" style="display:flex;align-items:center;gap:12px;min-height:64px;border:none;background:none;padding:10px 0;text-align:left;width:100%;color:var(--ink)"><span class="num" style="background:var(--ch);color:#fff;font-size:13px">Ch.&#160;${c.num}</span><span style="flex:1;display:flex;flex-direction:column;gap:6px"><b style="font-size:16px">${esc(c.titre)}</b>${barre(rc, ids.length, 8)}</span><span>${open ? '▴' : '▾'}</span></button>${parts}</div>`;
   }).join('');
   page(`<div class="top home"><div><h1>Ma progression</h1>${seances !== null ? `<p>Cette semaine : ${seances} séance${seances > 1 ? 's' : ''}</p>` : ''}</div>${BADGE}</div>
-  <div class="panel mx"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:17px;color:var(--title)">Mes flashcards</b><span style="font-size:14px;color:var(--muted)"><b style="color:var(--ink)">${all.length - r.nouvelle}</b> / ${all.length} cartes vues</span></div>
-  ${barre(r, all.length || 1, 12)}<div class="etapes-leg">${ETAPES.map(([k, , pl]) => `<span><i style="background:${coulEtape(k)}"></i><b>${r[k]}</b><small>${pl}</small></span>`).join('')}</div></div>
+  <div class="panel mx"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:17px;color:var(--title)">Mes flashcards</b></div>
+  ${barre(r, all.length || 1, 12)}<div class="etapes-leg">${ETAPES.slice().reverse().map(([k, s1]) => `<span><i style="background:${coulEtape(k)}"></i><small>${s1[0].toUpperCase() + s1.slice(1)}</small></span>`).join('')}</div></div>
   ${chs}`, 'progression');
   APP.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { surPlace(() => { S.progOpen[b.dataset.p] = !S.progOpen[b.dataset.p]; vProgression(); }); });
 }
