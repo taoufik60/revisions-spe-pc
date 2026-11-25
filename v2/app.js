@@ -73,16 +73,26 @@ function etat(id) {
 const aRevoir = id => { const s = S.suivi[id]; return !!s && s.prochaine <= auj(); };
 const fragilite = id => { const s = S.suivi[id]; if (!s) return 2; return (s.a_consolider ? 0 : 1) * 10 + s.boite; };
 const parFragilite = cs => cs.slice().sort((a, b) => fragilite(a.id) - fragilite(b.id) || (S.suivi[a.id]?.prochaine || '').localeCompare(S.suivi[b.id]?.prochaine || ''));
+/* Étapes affichées à l'élève : Découverte → En cours → Bien retenue → Maîtrisée */
+function etape(id) {
+  const s = S.suivi[id];
+  if (!s) return 'nouvelle';
+  if (s.a_consolider || s.boite <= 1) return 'decouverte';
+  return s.boite === 2 ? 'cours' : s.boite === 3 ? 'retenue' : 'maitrisee';
+}
+const ETAPES = [['maitrisee', 'maîtrisée', 'maîtrisées', 100], ['retenue', 'bien retenue', 'bien retenues', 72], ['cours', 'en cours', 'en cours', 48], ['decouverte', 'découverte', 'découvertes', 26]];
+const coulEtape = k => `color-mix(in srgb, var(--ch) ${ETAPES.find(e => e[0] === k)[3]}%, var(--card))`;
 function compte(ids) {
-  const r = { acquise: 0, encours: 0, consolider: 0, nouvelle: 0, due: 0 };
-  ids.forEach(id => { r[etat(id)]++; if (aRevoir(id)) r.due++; });
+  const r = { acquise: 0, encours: 0, consolider: 0, nouvelle: 0, due: 0, decouverte: 0, cours: 0, retenue: 0, maitrisee: 0 };
+  ids.forEach(id => { r[etat(id)]++; const e = etape(id); if (e !== 'nouvelle') r[e]++; if (aRevoir(id)) r.due++; });
   return r;
 }
+const resume = r => ETAPES.filter(([k]) => r[k]).map(([k, s1, pl]) => `${r[k]} ${r[k] > 1 ? pl : s1}`).join(' · ');
 const idsPart = p => Array.from({ length: p.n }, (_, i) => `${p.slug}-${String(i + 1).padStart(2, '0')}`);
 const idsChap = c => c.parties.flatMap(idsPart);
 const barre = (r, n, h = 6) => {
   const seg = (k, col) => r[k] ? `<span style="width:${(100 * r[k] / n).toFixed(1)}%;background:${col}"></span>` : '';
-  return `<span class="bar" style="height:${h}px">${seg('acquise', '#2E8B57')}${seg('encours', '#E0A030')}${seg('consolider', '#D2553F')}</span>`;
+  return `<span class="bar" style="height:${h}px">${ETAPES.map(([k]) => seg(k, coulEtape(k))).join('')}</span>`;
 };
 
 /* ---------- enregistrement d'une réponse ---------- */
@@ -194,7 +204,7 @@ function vChapitre(n) {
   localStorage.setItem('pclab_chap', c.num);
   const parts = c.parties.map((p, i) => {
     const ids = idsPart(p), r = compte(ids), vues = p.n - r.nouvelle;
-    const meta = vues ? `${r.acquise} / ${p.n} cartes acquises` : `${p.n} cartes · pas encore commencé`;
+    const meta = vues ? `${p.n} cartes · ${resume(r)}` : `${p.n} cartes · pas encore commencé`;
     return `<a class="item mx" href="#/partie/${p.slug}"><span class="num">${i + 1}</span><span class="body"><span class="tt">${esc(p.titre)}</span><span class="meta"><span>${meta}</span>${r.due ? `<span class="due">${r.due} à revoir</span>` : ''}</span>${barre(r, p.n)}</span>${ICON.chev}</a>`;
   }).join('');
   page(`<div class="top" style="padding-bottom:58px"><div class="top-row"><a class="back" href="#/accueil">${ICON.back}Accueil</a>${BADGE}</div><h1>Travailler un chapitre</h1></div>
@@ -207,7 +217,7 @@ function vPartie(slug) {
   const { c, p } = info, i = c.parties.indexOf(p) + 1, r = compte(idsPart(p)), vues = p.n - r.nouvelle;
   const sub = (c.parties.length > 1 ? `Partie ${i} / ${c.parties.length} · ` : '') + `Ch. ${c.num} ${esc(c.titre)}`;
   page(head(`#/chapitre/${c.num}`, `Chapitre ${c.num}`, esc(p.titre), sub) + `<div style="height:4px"></div>
-  ${(() => { const se = seriesPartie(p); return big('ch compact', `#/cartes/partie/${slug}`, ICON.cards, 'Flashcards', se.nb > 1 ? `${p.n} cartes en ${se.nb} séries · prochaine : série ${se.k + 1} (${se.ids.length} cartes)` : `${p.n} cartes · ${vues ? `${r.acquise} acquises` : 'pas encore commencé'}${r.due ? ` · ${r.due} à revoir` : ''}`); })()}
+  ${(() => { const se = seriesPartie(p); return big('ch compact', `#/cartes/partie/${slug}`, ICON.cards, 'Flashcards', se.nb > 1 ? `${p.n} cartes en ${se.nb} séries · prochaine : série ${se.k + 1} (${se.ids.length} cartes)` : `${p.n} cartes · ${vues ? resume(r) : 'pas encore commencé'}${r.due ? ` · ${r.due} à revoir` : ''}`); })()}
   ${big('mid compact off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')}
   <a class="link-discret" href="#/consulter/${slug}">Consulter les cartes</a>`, 'accueil');
 }
@@ -292,7 +302,7 @@ function drawCarte() {
     }
     const suite = ser && ser.k + 1 < ser.nb ? tailles(ser.st.ordre.length)[ser.k + 1] : 0;
     page(top + `<div class="done"><span style="width:72px;height:72px;border-radius:999px;background:#DDF1E4;display:flex;align-items:center;justify-content:center"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1D6B3E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></span>
-    <p style="margin:0;font-size:24px;font-weight:800;color:var(--title)">${ser ? `Série ${ser.k + 1} / ${ser.nb} terminée !` : 'Paquet terminé !'}</p><p style="margin:0;color:var(--muted)">${s.total} cartes · ${s.retries} repassée(s)</p><p style="margin:0;font-size:14px;color:var(--muted)">Les cartes ratées reviendront demain.</p>
+    <p style="margin:0;font-size:24px;font-weight:800;color:var(--title)">${ser ? `Série ${ser.k + 1} / ${ser.nb} terminée !` : 'Paquet terminé !'}</p><p style="margin:0;font-size:17px;font-weight:700;color:var(--ink)">${s.total - s.hard.size} carte${s.total - s.hard.size > 1 ? 's' : ''} réussie${s.total - s.hard.size > 1 ? 's' : ''} sur ${s.total} !</p><p style="margin:0;font-size:14px;color:var(--muted)">Les cartes ratées reviendront demain.</p>
     ${nh ? `<button class="btn-main ${s.color}" style="width:100%;margin-top:10px" id="hard">Revoir mes ${nh} cartes difficiles</button>` : '<p style="margin:0;font-weight:700;color:#1D6B3E">Aucune carte difficile : bravo !</p>'}
     ${suite ? `<button class="btn-main ch" style="width:100%" id="serieSuiv">Continuer avec la série ${ser.k + 2} (${suite} cartes)</button><a class="link-discret" href="${s.back}" style="text-decoration:none;font-weight:700">M'arrêter là</a>` : ''}
     ${s.kind === 'examen' && S.examPool && S.examPool.pool.some(x => !S.examPool.faites.has(x.id)) ? `<button class="btn-main gen" style="width:100%" id="suivante">Série suivante (${Math.min(SERIE_EXAMEN, S.examPool.pool.filter(x => !S.examPool.faites.has(x.id)).length)} cartes)</button>` : ''}
@@ -377,14 +387,12 @@ async function vProgression() {
   const leg = (col, n, l) => `<span style="flex:1;display:flex;flex-direction:column;align-items:center"><b style="font-size:24px;color:${col}">${n}</b><small style="font-size:12px;color:var(--muted);text-align:center">${l}</small></span>`;
   const chs = ch.map(c => {
     const ids = idsChap(c), rc = compte(ids), open = !!S.progOpen[c.num];
-    const parts = open ? c.parties.map(p => { const rp = compte(idsPart(p)), vues = p.n - rp.nouvelle; return `<div style="padding:12px 0;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:6px"><b style="font-size:15px">${esc(p.titre)}</b>${barre(rp, p.n, 8)}<small style="color:var(--muted)">${vues ? `<b style="color:#2E8B57">${rp.acquise} acquises</b> · ${rp.encours} en cours · ${rp.consolider} à consolider` : `${p.n} cartes, pas encore commencé`}</small></div>`; }).join('') : '';
+    const parts = open ? c.parties.map(p => { const rp = compte(idsPart(p)), vues = p.n - rp.nouvelle; return `<div style="padding:12px 0;border-top:1px solid var(--line2);display:flex;flex-direction:column;gap:6px"><b style="font-size:15px">${esc(p.titre)}</b>${barre(rp, p.n, 8)}<small style="color:var(--muted)">${vues ? resume(rp) : `${p.n} cartes, pas encore commencé`}</small></div>`; }).join('') : '';
     return `<div class="panel mx" style="padding:4px 16px;gap:0"><button data-p="${c.num}" style="display:flex;align-items:center;gap:12px;min-height:64px;border:none;background:none;padding:10px 0;text-align:left;width:100%;color:var(--ink)"><span class="num" style="background:var(--ch);color:#fff;font-size:13px">Ch.&#160;${c.num}</span><span style="flex:1;display:flex;flex-direction:column;gap:6px"><b style="font-size:16px">${esc(c.titre)}</b>${barre(rc, ids.length, 8)}</span><span>${open ? '▴' : '▾'}</span></button>${parts}</div>`;
   }).join('');
   page(`<div class="top home"><div><h1>Ma progression</h1>${seances !== null ? `<p>Cette semaine : ${seances} séance${seances > 1 ? 's' : ''}</p>` : ''}</div>${BADGE}</div>
-  <div class="panel mx"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:17px;color:var(--title)">Mes flashcards</b><span style="font-size:14px;color:var(--muted)"><b style="color:var(--ink)">${r.acquise}</b> / ${all.length} acquises</span></div>
-  ${barre(r, all.length || 1, 12)}<div style="display:flex;gap:6px">${leg('#2E8B57', r.acquise, 'acquises')}${leg('#E0A030', r.encours, 'en cours')}${leg('#D2553F', r.consolider, 'à consolider')}${leg('#7C8597', r.nouvelle, 'pas encore vues')}</div>
-  <details><summary style="color:var(--ch);font-weight:700;font-size:14px;cursor:pointer;min-height:36px">Comment une carte devient acquise ?</summary><div style="background:var(--bg);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.5;display:flex;flex-direction:column;gap:6px;margin-top:6px">
-  <span><b style="color:#D2553F">À consolider</b> : tu as répondu « Non » la dernière fois. Elle revient dès demain.</span><span><b style="color:#E0A030">En cours</b> : tu l'as réussie, elle revient dans 3 puis 7 jours.</span><span><b style="color:#2E8B57">Acquise</b> : tu l'as réussie plusieurs fois, à une semaine d'écart ou plus. Elle revient dans 15 puis 30 jours pour ne pas l'oublier.</span></div></details></div>
+  <div class="panel mx"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:17px;color:var(--title)">Mes flashcards</b><span style="font-size:14px;color:var(--muted)"><b style="color:var(--ink)">${all.length - r.nouvelle}</b> / ${all.length} cartes vues</span></div>
+  ${barre(r, all.length || 1, 12)}<div class="etapes-leg">${ETAPES.map(([k, , pl]) => `<span><i style="background:${coulEtape(k)}"></i><b>${r[k]}</b><small>${pl}</small></span>`).join('')}</div></div>
   ${chs}`, 'progression');
   APP.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { surPlace(() => { S.progOpen[b.dataset.p] = !S.progOpen[b.dataset.p]; vProgression(); }); });
 }

@@ -188,7 +188,7 @@ async function vProfGroupe() {
   <div class="kpis mx">
     ${kpi(`${actifs}<small>/${n}</small>`, 'élèves ont révisé ces 7 derniers jours')}
     ${kpi(`${parSem[2].atteint}<small>/${n}</small>`, `ont atteint l'objectif la semaine dernière (${pluriel(obj, 'séance')})`)}
-    ${kpi(`${pct(acquises, n * totalOuvert)}<small> %</small>`, 'des cartes des chapitres ouverts sont acquises')}
+    ${kpi(`${pct(acquises, n * totalOuvert)}<small> %</small>`, 'des cartes des chapitres ouverts sont maîtrisées')}
   </div>
   <section class="panel mx"><b class="ptitre">Objectif de la semaine atteint</b><p class="petit">Nombre d'élèves ayant fait au moins ${pluriel(obj, 'séance')} (une séance = un jour avec au moins 5 cartes).</p>
     <div class="barres">${parSem.map((s, i) => `<div class="barre-col"><div class="barre-val">${s.atteint}</div><div class="barre" style="height:${Math.max(4, pct(s.atteint, n))}%"></div><div class="barre-lab">${noms[i]}</div></div>`).join('')}</div>
@@ -204,7 +204,7 @@ const kpi = (v, t) => `<div class="kpi"><div class="kpi-v">${v}</div><div class=
 
 function exporterCSV() {
   const ch = chapOuverts();
-  const ent = ['Identifiant', 'Prénom', 'Statut', 'Dernière révision', 'Séances cette semaine', 'Séances sem. -1', 'Séances sem. -2', 'Séances sem. -3', 'Cartes vues', 'Cartes acquises', 'Cartes à consolider', ...ch.map(c => `Ch. ${c.num} acquis (%)`)];
+  const ent = ['Identifiant', 'Prénom', 'Statut', 'Dernière révision', 'Séances cette semaine', 'Séances sem. -1', 'Séances sem. -2', 'Séances sem. -3', 'Cartes vues', 'Cartes maîtrisées', 'Cartes à consolider', ...ch.map(c => `Ch. ${c.num} maîtrisé (%)`)];
   const lignes = P.el.map(e => {
     const st = statut(e), s = P.suivi.filter(x => x.eleve_id === e.eleve_id);
     return [e.identifiant, e.prenom || '', LIB[st.c], e.derniere ? new Date(e.derniere).toLocaleDateString('fr-FR') : '', e.s0, e.s1, e.s2, e.s3, e.vues, e.acquises, e.a_consolider,
@@ -262,10 +262,10 @@ async function vProfEleve(id) {
       <div class="mini-barres">${sem.map(([k, l]) => `<div class="barre-col"><div class="barre-val">${e[k]}</div><div class="barre ${e[k] >= obj ? '' : 'faible'}" style="height:${Math.max(4, Math.min(100, pct(e[k], Math.max(obj, 5))))}%"></div><div class="barre-lab">${l}</div></div>`).join('')}</div>
       <p class="petit">Séances par semaine (objectif : ${obj}). Dernière révision : ${e.derniere ? dateFr(e.derniere) : 'jamais'}.</p></section>
     <section class="panel"><b class="ptitre">Cartes</b>
-      ${kpi(e.acquises, 'cartes acquises')}${kpi(e.a_consolider, 'cartes à consolider')}${kpi(e.vues, 'cartes déjà vues')}</section>
+      ${kpi(e.acquises, 'cartes maîtrisées')}${kpi(e.a_consolider, 'cartes à consolider')}${kpi(e.vues, 'cartes déjà vues')}</section>
   </div>
   <section class="panel mx"><b class="ptitre">Maîtrise par chapitre</b>
-    <p class="petit legende"><span class="l acq"></span>acquises <span class="l cours"></span>en cours <span class="l cons"></span>à consolider</p>
+    <p class="petit legende"><span class="l acq"></span>maîtrisées <span class="l cours"></span>en cours <span class="l cons"></span>à consolider</p>
     ${lignesChap || '<p class="petit">Aucun chapitre ouvert.</p>'}</section>
   <section class="panel mx"><b class="ptitre">Ses cartes à consolider${aCons.length ? ` (${aCons.length})` : ''}</b>
     ${cartes.length ? cartes.filter(Boolean).map(c => `<div class="ligne-carte"><span class="chn-mini">Ch. ${chapDe(c.id).num}</span>${esc(c.titre)}</div>`).join('') : '<p class="petit">Aucune carte à consolider.</p>'}
@@ -305,7 +305,7 @@ async function vProfChapitres() {
   const ch = chapOuverts();
   pageProf(head('#/prof', 'Accueil', 'Les chapitres', `${esc(classe().nom)} · chapitres ouverts aux élèves`) + `
   <div class="mx liste-ch">${ch.map(c => { const st = statsChap(c); return `<a class="item" href="#/prof/chapitre/${c.num}"><span class="num">Ch.&#160;${c.num}</span>
-    <span class="body"><span class="tt">${esc(c.titre)}</span><span class="meta">${st.acq} % acquis par la classe · ${st.rep ? `${st.non} % de « Non »` : 'pas encore travaillé'}</span>
+    <span class="body"><span class="tt">${esc(c.titre)}</span><span class="meta">${st.acq} % maîtrisé par la classe · ${st.rep ? `${st.non} % de « Non »` : 'pas encore travaillé'}</span>
     <span class="prog"><span style="width:${st.acq}%"></span></span></span>${ICON.chev}</a>`; }).join('') || '<p class="note">Aucun chapitre ouvert pour le moment.</p>'}</div>
   <a class="row-link mx" href="#/prof/reglages/chapitres"><span><b>Ouvrir ou fermer des chapitres</b><small>${pluriel(ch.length, 'chapitre ouvert', 'chapitres ouverts')} sur ${S.idx.chapitres.length}</small></span>${ICON.chev}</a>`, 'chapitres');
 }
@@ -323,7 +323,7 @@ async function vProfChapitre(num) {
     return `<div class="maitrise"><div class="m-lab">${esc(p.titre)}</div><div class="m-barre"><span class="acq" style="width:${pct(acq, P.el.length * p.n)}%"></span></div><div class="m-val">${pct(acq, P.el.length * p.n)} %</div></div>`;
   }).join('');
   pageProf(head('#/prof/chapitres', 'Les chapitres', `Ch. ${c.num} · ${esc(c.titre)}`, `${st.nCartes} cartes`) + `
-  <div class="kpis mx">${kpi(`${st.acq}<small> %</small>`, 'des cartes acquises par la classe')}${kpi(`${st.non}<small> %</small>`, 'de réponses « Non »')}${kpi(st.cons, 'cartes à consolider (tous élèves)')}</div>
+  <div class="kpis mx">${kpi(`${st.acq}<small> %</small>`, 'des cartes maîtrisées par la classe')}${kpi(`${st.non}<small> %</small>`, 'de réponses « Non »')}${kpi(st.cons, 'cartes à consolider (tous élèves)')}</div>
   <section class="panel mx"><b class="ptitre">À reprendre en classe</b><p class="petit">Les cartes les plus ratées. Touchez « Projeter » pour l'afficher en grand.</p>
     ${ratees.length ? ratees.map((r, i) => `<div class="ligne-ratee"><div class="lr-txt"><b>${esc(cartes[i]?.titre || r.carte_id)}</b><small>${esc(partInfo(slugDe(r.carte_id))?.p.titre || '')} · ${pct(r.non, r.reponses)} % de « Non » · ${pluriel(r.consolider, 'élève', 'élèves')} à consolider</small></div>
       <a class="btn-sec petit-btn" href="#/prof/projection/${c.num}/${encodeURIComponent(r.carte_id)}">${IC.proj} Projeter</a></div>`).join('') : '<p class="petit">Pas encore assez de réponses sur ce chapitre.</p>'}</section>
