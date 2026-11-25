@@ -297,3 +297,6 @@ nav.tabs.t4 { grid-template-columns: repeat(4, 1fr); }
 .etapes-leg i { width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--line); }
 .etapes-leg b { font-size: 22px; color: var(--ink); }
 .etapes-leg small { font-size: 12px; color: var(--muted); line-height: 1.2; }
+/* Couleurs des étapes de mémorisation (distinctes, de l'ambre au vert) */
+:root { --et-decouverte: #9AA6B8; --et-cours: #E3A33B; --et-retenue: #6FBF8F; --et-maitrisee: #2A8A57; }
+[data-mode="dark"] { --et-decouverte: #7D889B; --et-cours: #E8AE4F; --et-retenue: #6CC08E; --et-maitrisee: #3BA56C; }

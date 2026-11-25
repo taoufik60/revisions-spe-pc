@@ -81,7 +81,7 @@ function etape(id) {
   return s.boite === 2 ? 'cours' : s.boite === 3 ? 'retenue' : 'maitrisee';
 }
 const ETAPES = [['maitrisee', 'maîtrisée', 'maîtrisées', 100], ['retenue', 'bien retenue', 'bien retenues', 72], ['cours', 'en cours', 'en cours', 48], ['decouverte', 'découverte', 'découvertes', 26]];
-const coulEtape = k => `color-mix(in srgb, var(--ch) ${ETAPES.find(e => e[0] === k)[3]}%, var(--card))`;
+const coulEtape = k => `var(--et-${k})`;
 function compte(ids) {
   const r = { acquise: 0, encours: 0, consolider: 0, nouvelle: 0, due: 0, decouverte: 0, cours: 0, retenue: 0, maitrisee: 0 };
   ids.forEach(id => { r[etat(id)]++; const e = etape(id); if (e !== 'nouvelle') r[e]++; if (aRevoir(id)) r.due++; });
