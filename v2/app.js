@@ -88,7 +88,7 @@ function compte(ids) {
   return r;
 }
 const resume = r => ETAPES.filter(([k]) => r[k]).map(([k, s1, pl]) => `${r[k]} ${r[k] > 1 ? pl : s1}`).join(' · ');
-const idsPart = p => Array.from({ length: p.n }, (_, i) => `${p.slug}-${String(i + 1).padStart(2, '0')}`);
+const idsPart = p => p.ordre ? p.ordre.map(k => `${p.slug}-${k}`) : Array.from({ length: p.n }, (_, i) => `${p.slug}-${String(i + 1).padStart(2, '0')}`);
 const idsChap = c => c.parties.flatMap(idsPart);
 const barre = (r, n, h = 6) => {
   const seg = (k, col) => r[k] ? `<span style="width:${(100 * r[k] / n).toFixed(1)}%;background:${col}"></span>` : '';

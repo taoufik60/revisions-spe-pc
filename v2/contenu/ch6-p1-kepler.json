@@ -24,19 +24,10 @@
    "titre": "Troisième loi de Kepler",
    "type": "MÉTHODE",
    "question": "Énoncer la <b>3<sup>e</sup> loi de Kepler</b> (loi des périodes).",
-   "reponse": "Pour tous les corps en orbite autour d'un <b>même astre</b> :<br/><span class=\"f\"><span class=\"fr\"><span>T²</span><span>a³</span></span> = k</span><br/><small>T : période de révolution (s) ; a : demi-grand axe (m) ; k : constante</small>",
+   "reponse": "Pour tous les corps en orbite autour d'un <b>même astre</b> :<br/><span class=\"f\"><span class=\"fr\"><span>T²</span><span>a³</span></span> = k</span><br/><small>T : période de révolution (s) ; a : demi-grand axe (m) ; k : constante qui ne dépend que de la masse de l'astre central.<br/>Orbite circulaire : a = R (rayon de l'orbite).</small>",
    "image": null,
    "image_cote": null,
    "id": "ch6-p1-kepler-03"
-  },
-  {
-   "titre": "Repère de Frenet",
-   "type": "MÉTHODE",
-   "question": "Qu'est-ce que le <b>repère de Frenet</b> ?",
-   "reponse": "Un repère <b>mobile</b>, lié au point M :<br/><span class=\"vec\">u</span><sub>t</sub> tangent à la trajectoire, dans le sens du mouvement ;<br/><span class=\"vec\">u</span><sub>n</sub> perpendiculaire, vers le centre du cercle.",
-   "image": "cine-frenet.svg",
-   "image_cote": "a",
-   "id": "ch6-p1-kepler-04"
   },
   {
    "titre": "Force de gravitation : valeur",
@@ -51,19 +42,28 @@
    "titre": "Force de gravitation : vecteur",
    "type": "MÉTHODE",
    "question": "Donner l'<b>expression vectorielle</b> de la force de gravitation exercée par A sur B.",
-   "reponse": "<span class=\"f\"><span class=\"vec\">F</span><sub>A/B</sub> = − G <span class=\"fr\"><span>m × M</span><span>d²</span></span> <span class=\"vec\">u</span></span><br/><span class=\"f\"><span class=\"vec\">F</span><sub>A/B</sub> = G <span class=\"fr\"><span>m × M</span><span>d²</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/><small><span class=\"vec\">u</span> : vecteur unitaire de A vers B ; <span class=\"vec\">u</span><sub>n</sub> : de B vers A</small>",
+   "reponse": "<span class=\"f\"><span class=\"vec\">F</span><sub>A/B</sub> = − G <span class=\"fr\"><span>m × M</span><span>d²</span></span> <span class=\"vec\">u</span></span><br/><small><span class=\"vec\">u</span> : vecteur unitaire orienté de A vers B.<br/>Le signe − : la force est dirigée vers A (elle est attractive).</small>",
    "image": "ch6-kepler-force.svg",
    "image_cote": "a",
    "id": "ch6-p1-kepler-06"
   },
   {
-   "titre": "Accélération d'une planète",
-   "type": "SITUATION",
-   "question": "Une planète P (masse M<sub>P</sub>) décrit une orbite circulaire de rayon R autour du Soleil (masse M<sub>S</sub>), dans le référentiel héliocentrique supposé galiléen.<br/>Établir l'expression de son <b>vecteur accélération</b>.",
-   "reponse": "On applique la 2<sup>e</sup> loi de Newton :<br/><span class=\"f\">M<sub>P</sub> <span class=\"vec\">a</span> = <span class=\"vec\">F</span><sub>S/P</sub></span><br/>Avec :<br/><span class=\"f\"><span class=\"vec\">F</span><sub>S/P</sub> = G <span class=\"fr\"><span>M<sub>P</sub> × M<sub>S</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>On simplifie par M<sub>P</sub> :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>G × M<sub>S</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span>",
+   "titre": "Repère de Frenet",
+   "type": "MÉTHODE",
+   "question": "Qu'est-ce que le <b>repère de Frenet</b> ?",
+   "reponse": "Un repère <b>mobile</b>, lié au point M :<br/><span class=\"vec\">u</span><sub>t</sub> tangent à la trajectoire, dans le sens du mouvement ;<br/><span class=\"vec\">u</span><sub>n</sub> perpendiculaire, vers le centre du cercle.",
+   "image": "cine-frenet.svg",
+   "image_cote": "a",
+   "id": "ch6-p1-kepler-04"
+  },
+  {
+   "titre": "Vecteur vitesse dans le repère de Frenet",
+   "type": "MÉTHODE",
+   "question": "Comment s'écrit le <b>vecteur vitesse</b> dans le repère de Frenet ?",
+   "reponse": "<span class=\"f\"><span class=\"vec\">v</span> = v <span class=\"vec\">u</span><sub>t</sub></span><br/><small>La vitesse est toujours tangente à la trajectoire.</small>",
    "image": null,
    "image_cote": null,
-   "id": "ch6-p1-kepler-07"
+   "id": "ch6-p1-kepler-12"
   },
   {
    "titre": "Accélération : mouvement circulaire",
@@ -84,51 +84,6 @@
    "id": "ch6-p1-kepler-09"
   },
   {
-   "titre": "Satellite : mouvement uniforme",
-   "type": "SITUATION",
-   "question": "Un satellite (masse m) décrit une orbite circulaire de rayon R autour de la Terre (masse M<sub>T</sub>), dans le référentiel géocentrique supposé galiléen.<br/>Montrer que son mouvement est <b>uniforme</b>.",
-   "reponse": "Seule force : la gravitation, portée par <span class=\"vec\">u</span><sub>n</sub>.<br/>2<sup>e</sup> loi de Newton :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Dans le repère de Frenet, la coordonnée sur <span class=\"vec\">u</span><sub>t</sub> est nulle :<br/><span class=\"f\"><span class=\"fr\"><span>dv</span><span>dt</span></span> = 0</span><br/>Donc v est constante : le mouvement est <b>uniforme</b>.",
-   "image": null,
-   "image_cote": null,
-   "id": "ch6-p1-kepler-10"
-  },
-  {
-   "titre": "Satellite : expression de la vitesse",
-   "type": "SITUATION",
-   "question": "Même satellite, en mouvement circulaire uniforme.<br/>Établir l'expression de sa <b>vitesse</b> v.",
-   "reponse": "On égalise les coordonnées sur <span class=\"vec\">u</span><sub>n</sub> :<br/><span class=\"f\"><span class=\"fr\"><span>v²</span><span>R</span></span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span></span><br/>On isole v :<br/><span class=\"f\">v = <span class=\"rac\"><span><span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span></span></span>",
-   "image": null,
-   "image_cote": null,
-   "id": "ch6-p1-kepler-11"
-  },
-  {
-   "titre": "Vecteur vitesse dans le repère de Frenet",
-   "type": "MÉTHODE",
-   "question": "Comment s'écrit le <b>vecteur vitesse</b> dans le repère de Frenet ?",
-   "reponse": "<span class=\"f\"><span class=\"vec\">v</span> = v <span class=\"vec\">u</span><sub>t</sub></span><br/><small>La vitesse est toujours tangente à la trajectoire.</small>",
-   "image": null,
-   "image_cote": null,
-   "id": "ch6-p1-kepler-12"
-  },
-  {
-   "titre": "Période de révolution",
-   "type": "MÉTHODE",
-   "question": "Comment calcule-t-on la <b>période de révolution</b> T d'un satellite en orbite circulaire de rayon R ?",
-   "reponse": "T est la durée d'<b>un tour</b> :<br/><span class=\"f\">T = <span class=\"fr\"><span>2πR</span><span>v</span></span></span>",
-   "image": null,
-   "image_cote": null,
-   "id": "ch6-p1-kepler-13"
-  },
-  {
-   "titre": "Troisième loi de Kepler : démonstration",
-   "type": "SITUATION",
-   "question": "Pour un satellite en orbite circulaire de rayon R autour de la Terre, établir l'expression de <span class=\"fr\"><span>T²</span><span>R³</span></span>.",
-   "reponse": "On part de :<br/><span class=\"f\">T = <span class=\"fr\"><span>2πR</span><span>v</span></span></span> et <span class=\"f\">v² = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span><br/>On élève T au carré et on remplace v² :<br/><span class=\"f\">T² = <span class=\"fr\"><span>4π²R²</span><span>v²</span></span> = <span class=\"fr\"><span>4π²R³</span><span>G × M<sub>T</sub></span></span></span><br/>D'où :<br/><span class=\"f\"><span class=\"fr\"><span>T²</span><span>R³</span></span> = <span class=\"fr\"><span>4π²</span><span>G × M<sub>T</sub></span></span></span>",
-   "image": null,
-   "image_cote": null,
-   "id": "ch6-p1-kepler-14"
-  },
-  {
    "titre": "Accélération radiale et centripète",
    "type": "MÉTHODE",
    "question": "En mouvement circulaire uniforme, quels sont les <b>deux adjectifs</b> qui décrivent le vecteur accélération ?",
@@ -138,10 +93,73 @@
    "id": "ch6-p1-kepler-15"
   },
   {
+   "titre": "Satellite : vecteur accélération",
+   "type": "SITUATION",
+   "question": "Un satellite (masse m) décrit une orbite circulaire de rayon R autour de la Terre (masse M<sub>T</sub>), dans le référentiel géocentrique supposé galiléen.<br/>Il n'est soumis qu'à la force exercée par la Terre :<br/><span class=\"f\"><span class=\"vec\">F</span> = G <span class=\"fr\"><span>m × M<sub>T</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Établir l'expression de son <b>vecteur accélération</b>.",
+   "reponse": "2<sup>e</sup> loi de Newton :<br/><span class=\"f\">m <span class=\"vec\">a</span> = <span class=\"vec\">F</span></span><br/><span class=\"f\">m <span class=\"vec\">a</span> = G <span class=\"fr\"><span>m × M<sub>T</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>On simplifie par m :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch6-p1-kepler-07"
+  },
+  {
+   "titre": "Satellite : mouvement uniforme",
+   "type": "SITUATION",
+   "question": "Même satellite. On a établi :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Dans le repère de Frenet :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>dv</span><span>dt</span></span> <span class=\"vec\">u</span><sub>t</sub> + <span class=\"fr\"><span>v²</span><span>R</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Montrer que son mouvement est <b>uniforme</b>.",
+   "reponse": "On identifie les coordonnées sur <span class=\"vec\">u</span><sub>t</sub> :<br/><span class=\"vec\">a</span> n'a pas de composante sur <span class=\"vec\">u</span><sub>t</sub>, donc<br/><span class=\"f\"><span class=\"fr\"><span>dv</span><span>dt</span></span> = 0</span><br/>v est constante : le mouvement est <b>uniforme</b>.",
+   "image": null,
+   "image_cote": null,
+   "id": "ch6-p1-kepler-10"
+  },
+  {
+   "titre": "Satellite : expression de la vitesse",
+   "type": "SITUATION",
+   "question": "Même satellite, en mouvement circulaire uniforme. On a :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span> et <span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>v²</span><span>R</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Établir l'expression de sa <b>vitesse</b> v.",
+   "reponse": "On égalise les coordonnées sur <span class=\"vec\">u</span><sub>n</sub> :<br/><span class=\"f\"><span class=\"fr\"><span>v²</span><span>R</span></span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span></span><br/>On multiplie par R :<br/><span class=\"f\">v² = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span><br/>Une vitesse est positive :<br/><span class=\"f\">v = <span class=\"rac\"><span><span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch6-p1-kepler-11"
+  },
+  {
+   "titre": "Période de révolution",
+   "type": "MÉTHODE",
+   "question": "Comment calcule-t-on la période de révolution T d'un satellite en mouvement circulaire uniforme (rayon R, vitesse v) ?",
+   "reponse": "T est la durée d'<b>un tour</b> :<br/><span class=\"f\">T = <span class=\"fr\"><span>2πR</span><span>v</span></span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch6-p1-kepler-13"
+  },
+  {
+   "titre": "Troisième loi de Kepler : démonstration",
+   "type": "SITUATION",
+   "question": "Même satellite. On admet :<br/><span class=\"f\">v = <span class=\"rac\"><span><span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span></span></span> et <span class=\"f\">T = <span class=\"fr\"><span>2πR</span><span>v</span></span></span><br/>Établir l'expression de <span class=\"fr\"><span>T²</span><span>R³</span></span>.",
+   "reponse": "On élève T au carré :<br/><span class=\"f\">T² = <span class=\"fr\"><span>4π²R²</span><span>v²</span></span></span><br/>On remplace v² par <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span> :<br/><span class=\"f\">T² = <span class=\"fr\"><span>4π²R² × R</span><span>G × M<sub>T</sub></span></span> = <span class=\"fr\"><span>4π²R³</span><span>G × M<sub>T</sub></span></span></span><br/>D'où :<br/><span class=\"f\"><span class=\"fr\"><span>T²</span><span>R³</span></span> = <span class=\"fr\"><span>4π²</span><span>G × M<sub>T</sub></span></span></span><br/><small>C'est la 3<sup>e</sup> loi de Kepler : la constante ne dépend que de M<sub>T</sub>.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch6-p1-kepler-14"
+  },
+  {
+   "titre": "Influence de la masse du satellite",
+   "type": "SITUATION",
+   "question": "Même satellite. On a établi :<br/><span class=\"f\">v = <span class=\"rac\"><span><span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span></span></span> et <span class=\"f\"><span class=\"fr\"><span>T²</span><span>R³</span></span> = <span class=\"fr\"><span>4π²</span><span>G × M<sub>T</sub></span></span></span><br/>La vitesse et la période dépendent-elles de la <b>masse m</b> du satellite ?",
+   "reponse": "<b>Non</b> : m n'apparaît pas dans ces expressions.<br/><small>Elle s'est simplifiée dans la 2<sup>e</sup> loi de Newton. v et T ne dépendent que de M<sub>T</sub> et de R.</small>",
+   "id": "ch6-p1-kepler-18",
+   "image": null,
+   "image_cote": null
+  },
+  {
+   "titre": "Rayon de l’orbite et altitude",
+   "type": "MÉTHODE",
+   "question": "Un satellite évolue à l'altitude h au-dessus du sol. La Terre a pour rayon R<sub>T</sub>. Quel est le rayon R de son orbite ?",
+   "reponse": "<span class=\"f\">R = R<sub>T</sub> + h</span><br/><small>R se mesure depuis le centre de la Terre. Tout en mètres.</small>",
+   "id": "ch6-p1-kepler-17",
+   "image": null,
+   "image_cote": null
+  },
+  {
    "titre": "Satellite géostationnaire",
    "type": "MÉTHODE",
    "question": "Qu'est-ce qu'un satellite <b>géostationnaire</b> ?",
-   "reponse": "Un satellite <b>immobile</b> dans le référentiel terrestre, toujours à la verticale du même point.<br/><small>Dans le référentiel géocentrique : orbite circulaire dans le plan de l'équateur, période T = 24 h (plus exactement 23 h 56 min).</small>",
+   "reponse": "Un satellite <b>immobile</b> dans le référentiel terrestre, toujours à la verticale du même point.<br/><small>Dans le référentiel géocentrique : orbite circulaire dans le plan de l'équateur, parcourue dans le même sens que la rotation de la Terre, période T = 24 h (plus exactement 23 h 56 min).</small>",
    "image": null,
    "image_cote": null,
    "id": "ch6-p1-kepler-16"
