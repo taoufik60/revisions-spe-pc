@@ -104,7 +104,7 @@
   {
    "titre": "Satellite : mouvement uniforme",
    "type": "SITUATION",
-   "question": "Même satellite. On a établi :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Dans le repère de Frenet :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>dv</span><span>dt</span></span> <span class=\"vec\">u</span><sub>t</sub> + <span class=\"fr\"><span>v²</span><span>R</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Montrer que son mouvement est <b>uniforme</b>.",
+   "question": "Un satellite (masse m) décrit une orbite circulaire de rayon R autour de la Terre (masse M<sub>T</sub>), dans le référentiel géocentrique supposé galiléen.<br/>Données :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Dans le repère de Frenet :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>dv</span><span>dt</span></span> <span class=\"vec\">u</span><sub>t</sub> + <span class=\"fr\"><span>v²</span><span>R</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Montrer que son mouvement est <b>uniforme</b>.",
    "reponse": "On identifie les coordonnées sur <span class=\"vec\">u</span><sub>t</sub> :<br/><span class=\"vec\">a</span> n'a pas de composante sur <span class=\"vec\">u</span><sub>t</sub>, donc<br/><span class=\"f\"><span class=\"fr\"><span>dv</span><span>dt</span></span> = 0</span><br/>v est constante : le mouvement est <b>uniforme</b>.",
    "image": null,
    "image_cote": null,
@@ -113,7 +113,7 @@
   {
    "titre": "Satellite : expression de la vitesse",
    "type": "SITUATION",
-   "question": "Même satellite, en mouvement circulaire uniforme. On a :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span> et <span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>v²</span><span>R</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Établir l'expression de sa <b>vitesse</b> v.",
+   "question": "Un satellite (masse m) a un mouvement circulaire uniforme de rayon R autour de la Terre (masse M<sub>T</sub>), dans le référentiel géocentrique supposé galiléen.<br/>Données :<br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span> <span class=\"vec\">u</span><sub>n</sub></span> et <span class=\"f\"><span class=\"vec\">a</span> = <span class=\"fr\"><span>v²</span><span>R</span></span> <span class=\"vec\">u</span><sub>n</sub></span><br/>Établir l'expression de sa <b>vitesse</b> v.",
    "reponse": "On égalise les coordonnées sur <span class=\"vec\">u</span><sub>n</sub> :<br/><span class=\"f\"><span class=\"fr\"><span>v²</span><span>R</span></span> = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R²</span></span></span><br/>On multiplie par R :<br/><span class=\"f\">v² = <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span><br/>Une vitesse est positive :<br/><span class=\"f\">v = <span class=\"rac\"><span><span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span></span></span>",
    "image": null,
    "image_cote": null,
@@ -131,7 +131,7 @@
   {
    "titre": "Troisième loi de Kepler : démonstration",
    "type": "SITUATION",
-   "question": "Même satellite. On admet :<br/><span class=\"f\">v = <span class=\"rac\"><span><span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span></span></span> et <span class=\"f\">T = <span class=\"fr\"><span>2πR</span><span>v</span></span></span><br/>Établir l'expression de <span class=\"fr\"><span>T²</span><span>R³</span></span>.",
+   "question": "Un satellite (masse m) décrit une orbite circulaire de rayon R autour de la Terre (masse M<sub>T</sub>), dans le référentiel géocentrique supposé galiléen.<br/>Données :<br/><span class=\"f\">v = <span class=\"rac\"><span><span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span></span></span> et <span class=\"f\">T = <span class=\"fr\"><span>2πR</span><span>v</span></span></span><br/>Établir l'expression de <span class=\"fr\"><span>T²</span><span>R³</span></span>.",
    "reponse": "On élève T au carré :<br/><span class=\"f\">T² = <span class=\"fr\"><span>4π²R²</span><span>v²</span></span></span><br/>On remplace v² par <span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span> :<br/><span class=\"f\">T² = <span class=\"fr\"><span>4π²R² × R</span><span>G × M<sub>T</sub></span></span> = <span class=\"fr\"><span>4π²R³</span><span>G × M<sub>T</sub></span></span></span><br/>D'où :<br/><span class=\"f\"><span class=\"fr\"><span>T²</span><span>R³</span></span> = <span class=\"fr\"><span>4π²</span><span>G × M<sub>T</sub></span></span></span><br/><small>C'est la 3<sup>e</sup> loi de Kepler : la constante ne dépend que de M<sub>T</sub>.</small>",
    "image": null,
    "image_cote": null,
@@ -140,7 +140,7 @@
   {
    "titre": "Influence de la masse du satellite",
    "type": "SITUATION",
-   "question": "Même satellite. On a établi :<br/><span class=\"f\">v = <span class=\"rac\"><span><span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span></span></span> et <span class=\"f\"><span class=\"fr\"><span>T²</span><span>R³</span></span> = <span class=\"fr\"><span>4π²</span><span>G × M<sub>T</sub></span></span></span><br/>La vitesse et la période dépendent-elles de la <b>masse m</b> du satellite ?",
+   "question": "Un satellite (masse m) décrit une orbite circulaire de rayon R autour de la Terre (masse M<sub>T</sub>), dans le référentiel géocentrique supposé galiléen.<br/>Données :<br/><span class=\"f\">v = <span class=\"rac\"><span><span class=\"fr\"><span>G × M<sub>T</sub></span><span>R</span></span></span></span></span> et <span class=\"f\"><span class=\"fr\"><span>T²</span><span>R³</span></span> = <span class=\"fr\"><span>4π²</span><span>G × M<sub>T</sub></span></span></span><br/>La vitesse et la période dépendent-elles de la <b>masse m</b> du satellite ?",
    "reponse": "<b>Non</b> : m n'apparaît pas dans ces expressions.<br/><small>Elle s'est simplifiée dans la 2<sup>e</sup> loi de Newton. v et T ne dépendent que de M<sub>T</sub> et de R.</small>",
    "id": "ch6-p1-kepler-18",
    "image": null,

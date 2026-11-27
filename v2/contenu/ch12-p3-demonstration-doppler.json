@@ -5,7 +5,7 @@
   {
    "titre": "Première émission",
    "type": "SITUATION",
-   "question": "Une ambulance émet une onde de période T<sub>E</sub> et s'approche à la vitesse v<sub>E</sub> d'un récepteur immobile.<br/>Où est-elle lors de la <b>première émission</b> (t<sub>1</sub> = 0) ?",
+   "question": "Une ambulance émet une onde sonore de période T<sub>E</sub> et s'approche à la vitesse v<sub>E</sub> d'un récepteur immobile. À la première émission (t<sub>1</sub> = 0), elle est à la distance D du récepteur. Le son se propage à la célérité c.<br/>Où est-elle lors de la <b>première émission</b> ?",
    "reponse": "À la <b>distance D</b> du récepteur.",
    "image": "ch12-doppler-demo.svg",
    "image_cote": "q",
@@ -14,34 +14,34 @@
   {
    "titre": "Réception de la première onde",
    "type": "SITUATION",
-   "question": "À quelle date t<sub>2</sub> la première onde est-elle <b>reçue</b> ?",
+   "question": "Une ambulance émet une onde sonore de période T<sub>E</sub> et s'approche à la vitesse v<sub>E</sub> d'un récepteur immobile. À la première émission (t<sub>1</sub> = 0), elle est à la distance D du récepteur. Le son se propage à la célérité c.<br/>À quelle date t<sub>2</sub> la première onde est-elle <b>reçue</b> ?",
    "reponse": "<span class=\"f\">t<sub>2</sub> = <span class=\"fr\"><span>D</span><span>c</span></span></span>",
-   "image": null,
-   "image_cote": null,
+   "image": "ch12-doppler-demo.svg",
+   "image_cote": "q",
    "id": "ch12-p3-demonstration-doppler-02"
   },
   {
    "titre": "Deuxième émission",
    "type": "SITUATION",
-   "question": "À quelle date t<sub>3</sub> la deuxième onde est-elle <b>émise</b> ?",
+   "question": "Une ambulance émet une onde sonore de période T<sub>E</sub> et s'approche à la vitesse v<sub>E</sub> d'un récepteur immobile. À la première émission (t<sub>1</sub> = 0), elle est à la distance D du récepteur. Le son se propage à la célérité c.<br/>À quelle date t<sub>3</sub> la deuxième onde est-elle <b>émise</b> ?",
    "reponse": "<span class=\"f\">t<sub>3</sub> = T<sub>E</sub></span>",
-   "image": null,
-   "image_cote": null,
+   "image": "ch12-doppler-demo.svg",
+   "image_cote": "q",
    "id": "ch12-p3-demonstration-doppler-03"
   },
   {
    "titre": "Distance parcourue",
    "type": "SITUATION",
-   "question": "Quelle distance l'ambulance parcourt-elle entre les deux émissions ?",
+   "question": "Une ambulance émet une onde sonore de période T<sub>E</sub> et s'approche à la vitesse v<sub>E</sub> d'un récepteur immobile. À la première émission (t<sub>1</sub> = 0), elle est à la distance D du récepteur. Le son se propage à la célérité c.<br/>Quelle distance l'ambulance parcourt-elle entre les deux émissions ?",
    "reponse": "<span class=\"f\">d = v<sub>E</sub> × T<sub>E</sub></span>",
-   "image": null,
-   "image_cote": null,
+   "image": "ch12-doppler-demo.svg",
+   "image_cote": "q",
    "id": "ch12-p3-demonstration-doppler-04"
   },
   {
    "titre": "Nouvelle distance",
    "type": "SITUATION",
-   "question": "À quelle distance du récepteur est-elle lors de la <b>deuxième émission</b> ?",
+   "question": "Une ambulance émet une onde sonore de période T<sub>E</sub> et s'approche à la vitesse v<sub>E</sub> d'un récepteur immobile. À la première émission (t<sub>1</sub> = 0), elle est à la distance D du récepteur. Le son se propage à la célérité c.<br/>À quelle distance du récepteur est-elle lors de la <b>deuxième émission</b> ?",
    "reponse": "<span class=\"f\">D − v<sub>E</sub> × T<sub>E</sub></span>",
    "image": "ch12-doppler-demo.svg",
    "image_cote": "a",
@@ -50,28 +50,28 @@
   {
    "titre": "Réception de la deuxième onde",
    "type": "SITUATION",
-   "question": "À quelle date t<sub>4</sub> la deuxième onde est-elle <b>reçue</b> ?",
+   "question": "Une ambulance émet une onde sonore de période T<sub>E</sub> et s'approche à la vitesse v<sub>E</sub> d'un récepteur immobile. À la première émission (t<sub>1</sub> = 0), elle est à la distance D du récepteur. Le son se propage à la célérité c.<br/>Données : la deuxième onde est émise à t<sub>3</sub> = T<sub>E</sub>, à la distance D − v<sub>E</sub> × T<sub>E</sub> du récepteur.<br/>À quelle date t<sub>4</sub> est-elle <b>reçue</b> ?",
    "reponse": "Date d'émission + durée du trajet :<br/><span class=\"f\">t<sub>4</sub> = T<sub>E</sub> + <span class=\"fr\"><span>D − v<sub>E</sub> × T<sub>E</sub></span><span>c</span></span></span>",
-   "image": null,
-   "image_cote": null,
+   "image": "ch12-doppler-demo.svg",
+   "image_cote": "q",
    "id": "ch12-p3-demonstration-doppler-06"
   },
   {
    "titre": "Période reçue",
    "type": "SITUATION",
-   "question": "Quelle est la <b>période</b> T<sub>R</sub> mesurée par le récepteur ?",
+   "question": "Une ambulance émet une onde sonore de période T<sub>E</sub> et s'approche à la vitesse v<sub>E</sub> d'un récepteur immobile. À la première émission (t<sub>1</sub> = 0), elle est à la distance D du récepteur. Le son se propage à la célérité c.<br/>Données : la première onde est reçue à t<sub>2</sub> = <span class=\"fr\"><span>D</span><span>c</span></span>, la deuxième à t<sub>4</sub> = T<sub>E</sub> + <span class=\"fr\"><span>D − v<sub>E</sub> × T<sub>E</sub></span><span>c</span></span>.<br/>Quelle est la <b>période</b> T<sub>R</sub> mesurée par le récepteur ?",
    "reponse": "On calcule t<sub>4</sub> − t<sub>2</sub> :<br/><span class=\"f\">T<sub>R</sub> = T<sub>E</sub> × <span class=\"fr\"><span>c − v<sub>E</sub></span><span>c</span></span></span>",
-   "image": null,
-   "image_cote": null,
+   "image": "ch12-doppler-demo.svg",
+   "image_cote": "q",
    "id": "ch12-p3-demonstration-doppler-07"
   },
   {
    "titre": "Fréquence reçue",
    "type": "SITUATION",
-   "question": "En déduire la <b>fréquence reçue</b> f<sub>R</sub>.",
+   "question": "Une ambulance émet une onde sonore de période T<sub>E</sub> et s'approche à la vitesse v<sub>E</sub> d'un récepteur immobile. À la première émission (t<sub>1</sub> = 0), elle est à la distance D du récepteur. Le son se propage à la célérité c.<br/>Données : le récepteur mesure la période T<sub>R</sub> = T<sub>E</sub> × <span class=\"fr\"><span>c − v<sub>E</sub></span><span>c</span></span>.<br/>En déduire la <b>fréquence reçue</b> f<sub>R</sub>.",
    "reponse": "On utilise f = <span class=\"fr\"><span>1</span><span>T</span></span> :<br/><span class=\"f\">f<sub>R</sub> = f<sub>E</sub> × <span class=\"fr\"><span>c</span><span>c − v<sub>E</sub></span></span></span>",
-   "image": null,
-   "image_cote": null,
+   "image": "ch12-doppler-demo.svg",
+   "image_cote": "q",
    "id": "ch12-p3-demonstration-doppler-08"
   }
  ]

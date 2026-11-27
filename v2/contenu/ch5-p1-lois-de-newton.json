@@ -1,1 +1,114 @@
-{"chapitre":5,"partie":"Lois de Newton","cartes":[{"titre":"Référentiel","type":null,"question":"Dans quel type de <b>référentiel</b> applique-t-on les lois de Newton ? Lequel choisit-on près de la Terre ?","reponse":"Un référentiel <b>galiléen</b>.<br/><small>Pour un mouvement de courte durée : le référentiel <b>terrestre</b>, supposé galiléen.</small>","image":null,"image_cote":null,"id":"ch5-p1-lois-de-newton-01"},{"titre":"Système","type":null,"question":"À quel point réduit-on le <b>système</b> pour étudier son mouvement ?","reponse":"À son <b>centre de masse G</b><br/><small>qui porte toute la masse du système.</small>","image":null,"image_cote":null,"id":"ch5-p1-lois-de-newton-02"},{"titre":"Poids","type":null,"question":"Donner l'expression du <b>poids</b> et ses caractéristiques.","reponse":"<span class=\"f\"><span class=\"vec\">P</span> = m <span class=\"vec\">g</span></span><br/><small>vertical, vers le bas<br/>P = m g : P en <b>N</b>, m en <b>kg</b>, g en <b>N·kg⁻¹</b></small>","image":"newton-poids.svg","image_cote":"a","id":"ch5-p1-lois-de-newton-03"},{"titre":"1re loi de Newton","type":null,"question":"Énoncer la <b>1<sup>re</sup> loi de Newton</b> (principe d'inertie).","reponse":"Dans un référentiel galiléen :<br/><span class=\"f\">Σ <span class=\"vec\">F</span> = <span class=\"vec\">0</span></span><br/><small>⇔ G est <b>immobile</b> ou en <b>mouvement rectiligne uniforme</b>.</small>","image":null,"image_cote":null,"id":"ch5-p1-lois-de-newton-04"},{"titre":"Vitesse constante","type":null,"question":"Un système se déplace en ligne droite <b>à vitesse constante</b>. Que peut-on dire des forces ?","reponse":"Elles <b>se compensent</b> :<br/><span class=\"f\">Σ <span class=\"vec\">F</span> = <span class=\"vec\">0</span></span>","image":null,"image_cote":null,"id":"ch5-p1-lois-de-newton-05"},{"titre":"2e loi de Newton","type":null,"question":"Énoncer la <b>2<sup>e</sup> loi de Newton</b>.","reponse":"Dans un référentiel galiléen :<br/><span class=\"f\">Σ <span class=\"vec\">F</span> = m <span class=\"vec\">a</span></span><br/><small>F en <b>N</b>, m en <b>kg</b>, a en <b>m·s⁻²</b></small>","image":null,"image_cote":null,"id":"ch5-p1-lois-de-newton-06"},{"titre":"Sens de l'accélération","type":null,"question":"Le vecteur <span class=\"vec\">a</span> a-t-il toujours le <b>sens du mouvement</b> ?","reponse":"<b>Non</b> : <span class=\"vec\">a</span> a le sens de <b>Σ <span class=\"vec\">F</span></b>.<br/><small>Un mobile qui ralentit a un <span class=\"vec\">a</span> de sens opposé à <span class=\"vec\">v</span>.</small>","image":"newton-freinage.svg","image_cote":"a","id":"ch5-p1-lois-de-newton-07"},{"titre":"Lire aₓ sur la courbe vₓ(t)","type":null,"question":"Comment trouver <b>a<sub>x</sub></b> à partir de la courbe <b>v<sub>x</sub>(t)</b> ?","reponse":"<span class=\"f\">a<sub>x</sub> = <span class=\"fr\"><span>dv<sub>x</sub></span><span>dt</span></span></span><br/><small>C'est le <b>coefficient directeur</b> de la courbe v<sub>x</sub>(t).</small>","image":"newton-courbe.svg","image_cote":"a","id":"ch5-p1-lois-de-newton-08"},{"titre":"Méthode d'une étude mécanique","type":null,"question":"Quelles sont les <b>étapes</b> d'une étude mécanique ?","reponse":"1. Système<br/>2. Référentiel<br/>3. Repère<br/>4. Bilan des forces<br/>5. 2<sup>e</sup> loi de Newton<br/>6. Projection sur les axes","image":null,"image_cote":null,"id":"ch5-p1-lois-de-newton-09"},{"titre":"Chute libre","type":null,"question":"<b>Chute libre</b> : le système n'est soumis qu'à son poids. <small>Référentiel terrestre supposé galiléen.</small><br/> Que donne la <b>2<sup>e</sup> loi de Newton</b> ?","reponse":"<span class=\"f\">m <span class=\"vec\">a</span> = m <span class=\"vec\">g</span></span><br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"vec\">g</span></span><br/><small>L'accélération ne dépend pas de la masse.</small>","image":null,"image_cote":null,"id":"ch5-p1-lois-de-newton-10"},{"titre":"Tension d'un câble","type":null,"question":"Une grue soulève un bloc de masse m avec une accélération a<sub>z</sub> vers le haut. <small>Référentiel terrestre supposé galiléen, axe (Oz) vertical vers le haut.</small><br/> Exprimer la <b>tension T</b> du câble.","reponse":"Sur l'axe Oz :<br/><span class=\"f\">T − m g = m a<sub>z</sub></span><br/><span class=\"f\">T = m (g + a<sub>z</sub>)</span>","image":"newton-grue.svg","image_cote":"q","id":"ch5-p1-lois-de-newton-11"},{"titre":"3e loi de Newton","type":null,"question":"Énoncer la <b>3<sup>e</sup> loi de Newton</b>.","reponse":"<span class=\"f\"><span class=\"vec\">F</span><sub>A/B</sub> = − <span class=\"vec\">F</span><sub>B/A</sub></span><br/><small>même direction, même valeur, sens opposés</small>","image":"newton-terre-lune.svg","image_cote":"a","id":"ch5-p1-lois-de-newton-12"}]}
+{
+ "chapitre": 5,
+ "partie": "Lois de Newton",
+ "cartes": [
+  {
+   "titre": "Référentiel",
+   "type": null,
+   "question": "Dans quel type de <b>référentiel</b> applique-t-on les lois de Newton ? Lequel choisit-on près de la Terre ?",
+   "reponse": "Un référentiel <b>galiléen</b>.<br/><small>Pour un mouvement de courte durée : le référentiel <b>terrestre</b>, supposé galiléen.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch5-p1-lois-de-newton-01"
+  },
+  {
+   "titre": "Système",
+   "type": null,
+   "question": "À quel point réduit-on le <b>système</b> pour étudier son mouvement ?",
+   "reponse": "À son <b>centre de masse G</b><br/><small>qui porte toute la masse du système.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch5-p1-lois-de-newton-02"
+  },
+  {
+   "titre": "Poids",
+   "type": null,
+   "question": "Donner l'expression du <b>poids</b> et ses caractéristiques.",
+   "reponse": "<span class=\"f\"><span class=\"vec\">P</span> = m <span class=\"vec\">g</span></span><br/><small>vertical, vers le bas<br/>P = m g : P en <b>N</b>, m en <b>kg</b>, g en <b>N·kg⁻¹</b></small>",
+   "image": "newton-poids.svg",
+   "image_cote": "a",
+   "id": "ch5-p1-lois-de-newton-03"
+  },
+  {
+   "titre": "1re loi de Newton",
+   "type": null,
+   "question": "Énoncer la <b>1<sup>re</sup> loi de Newton</b> (principe d'inertie).",
+   "reponse": "Dans un référentiel galiléen :<br/><span class=\"f\">Σ <span class=\"vec\">F</span> = <span class=\"vec\">0</span></span><br/><small>⇔ G est <b>immobile</b> ou en <b>mouvement rectiligne uniforme</b>.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch5-p1-lois-de-newton-04"
+  },
+  {
+   "titre": "Vitesse constante",
+   "type": null,
+   "question": "Un système se déplace en ligne droite <b>à vitesse constante</b>. Que peut-on dire des forces ?",
+   "reponse": "Elles <b>se compensent</b> :<br/><span class=\"f\">Σ <span class=\"vec\">F</span> = <span class=\"vec\">0</span></span>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch5-p1-lois-de-newton-05"
+  },
+  {
+   "titre": "2e loi de Newton",
+   "type": null,
+   "question": "Énoncer la <b>2<sup>e</sup> loi de Newton</b>.",
+   "reponse": "Dans un référentiel galiléen :<br/><span class=\"f\">Σ <span class=\"vec\">F</span> = m <span class=\"vec\">a</span></span><br/><small>F en <b>N</b>, m en <b>kg</b>, a en <b>m·s⁻²</b></small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch5-p1-lois-de-newton-06"
+  },
+  {
+   "titre": "Sens de l'accélération",
+   "type": null,
+   "question": "Le vecteur <span class=\"vec\">a</span> a-t-il toujours le <b>sens du mouvement</b> ?",
+   "reponse": "<b>Non</b> : <span class=\"vec\">a</span> a le sens de <b>Σ <span class=\"vec\">F</span></b>.<br/><small>Un mobile qui ralentit a un <span class=\"vec\">a</span> de sens opposé à <span class=\"vec\">v</span>.</small>",
+   "image": "newton-freinage.svg",
+   "image_cote": "a",
+   "id": "ch5-p1-lois-de-newton-07"
+  },
+  {
+   "titre": "Lire aₓ sur la courbe vₓ(t)",
+   "type": null,
+   "question": "Comment trouver <b>a<sub>x</sub></b> à partir de la courbe <b>v<sub>x</sub>(t)</b> ?",
+   "reponse": "<span class=\"f\">a<sub>x</sub> = <span class=\"fr\"><span>dv<sub>x</sub></span><span>dt</span></span></span><br/><small>C'est le <b>coefficient directeur</b> de la courbe v<sub>x</sub>(t).</small>",
+   "image": "newton-courbe.svg",
+   "image_cote": "a",
+   "id": "ch5-p1-lois-de-newton-08"
+  },
+  {
+   "titre": "Méthode d'une étude mécanique",
+   "type": null,
+   "question": "Quelles sont les <b>étapes</b> d'une étude mécanique ?",
+   "reponse": "1. Système<br/>2. Référentiel<br/>3. Repère<br/>4. Bilan des forces<br/>5. 2<sup>e</sup> loi de Newton<br/>6. Projection sur les axes",
+   "image": null,
+   "image_cote": null,
+   "id": "ch5-p1-lois-de-newton-09"
+  },
+  {
+   "titre": "Chute libre",
+   "type": null,
+   "question": "<b>Chute libre</b> : le système n'est soumis qu'à son poids. <small>Référentiel terrestre supposé galiléen.</small><br/> Que donne la <b>2<sup>e</sup> loi de Newton</b> ?",
+   "reponse": "<span class=\"f\">m <span class=\"vec\">a</span> = m <span class=\"vec\">g</span></span><br/><span class=\"f\"><span class=\"vec\">a</span> = <span class=\"vec\">g</span></span><br/><small>L'accélération ne dépend pas de la masse.</small>",
+   "image": null,
+   "image_cote": null,
+   "id": "ch5-p1-lois-de-newton-10"
+  },
+  {
+   "titre": "Tension d'un câble",
+   "type": null,
+   "question": "Une grue soulève un bloc de masse m avec une accélération a<sub>z</sub> vers le haut. Forces : poids et tension du câble (frottements négligés). <small>Référentiel terrestre supposé galiléen, axe (Oz) vertical vers le haut.</small><br/> Exprimer la <b>tension T</b> du câble.",
+   "reponse": "Sur l'axe Oz :<br/><span class=\"f\">T − m g = m a<sub>z</sub></span><br/><span class=\"f\">T = m (g + a<sub>z</sub>)</span>",
+   "image": "newton-grue.svg",
+   "image_cote": "q",
+   "id": "ch5-p1-lois-de-newton-11"
+  },
+  {
+   "titre": "3e loi de Newton",
+   "type": null,
+   "question": "Énoncer la <b>3<sup>e</sup> loi de Newton</b>.",
+   "reponse": "<span class=\"f\"><span class=\"vec\">F</span><sub>A/B</sub> = − <span class=\"vec\">F</span><sub>B/A</sub></span><br/><small>même direction, même valeur, sens opposés</small>",
+   "image": "newton-terre-lune.svg",
+   "image_cote": "a",
+   "id": "ch5-p1-lois-de-newton-12"
+  }
+ ]
+}
