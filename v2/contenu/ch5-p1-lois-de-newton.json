@@ -96,7 +96,7 @@
    "titre": "Tension d'un câble",
    "type": null,
    "question": "Une grue soulève un bloc de masse m avec une accélération a<sub>z</sub> vers le haut. Forces : poids et tension du câble (frottements négligés). <small>Référentiel terrestre supposé galiléen, axe (Oz) vertical vers le haut.</small><br/> Exprimer la <b>tension T</b> du câble.",
-   "reponse": "Sur l'axe Oz :<br/><span class=\"f\">T − m g = m a<sub>z</sub></span><br/><span class=\"f\">T = m (g + a<sub>z</sub>)</span>",
+   "reponse": "2<sup>e</sup> loi de Newton :<br/><span class=\"f\"><span class=\"vec\">P</span> + <span class=\"vec\">T</span> = m <span class=\"vec\">a</span></span><br/>On projette sur (Oz), orienté vers le haut :<br/><small>P<sub>z</sub> = − m g (vers le bas) ; T<sub>z</sub> = + T (vers le haut)</small><br/><span class=\"f\">− m g + T = m a<sub>z</sub></span><br/>On isole T :<br/><span class=\"f\">T = m (g + a<sub>z</sub>)</span>",
    "image": "newton-grue.svg",
    "image_cote": "q",
    "id": "ch5-p1-lois-de-newton-11"
