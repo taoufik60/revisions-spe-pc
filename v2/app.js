@@ -243,14 +243,18 @@ async function vRevisions() {
 function vExamen() {
   const ch = chapitres();
   if (!S.examenSel) S.examenSel = new Set(ch.slice(-3).map(c => c.num));
-  const sel = ch.filter(c => S.examenSel.has(c.num)), nb = sel.reduce((s, c) => s + idsChap(c).length, 0);
-  const rows = ch.map(c => `<button class="check ${S.examenSel.has(c.num) ? 'on' : ''}" data-tog="${c.num}"><span class="box">${S.examenSel.has(c.num) ? ICON.ok : ''}</span><span style="flex:1;display:flex;flex-direction:column"><b style="font-size:15px">Ch. ${c.num} · ${esc(c.titre)}</b><small style="color:var(--muted)">${idsChap(c).length} cartes</small></span></button>`).join('');
+  const vues = c => idsChap(c).filter(id => S.suivi[id]).length;
+  const sel = ch.filter(c => S.examenSel.has(c.num)), nb = sel.reduce((s, c) => s + vues(c), 0);
+  const nouveaux = sel.filter(c => !vues(c));
+  const rows = ch.map(c => `<button class="check ${S.examenSel.has(c.num) ? 'on' : ''}" data-tog="${c.num}"><span class="box">${S.examenSel.has(c.num) ? ICON.ok : ''}</span><span style="flex:1;display:flex;flex-direction:column"><b style="font-size:15px">Ch. ${c.num} · ${esc(c.titre)}</b><small style="color:var(--muted)">${vues(c) ? `${vues(c)} carte${vues(c) > 1 ? 's' : ''} déjà vue${vues(c) > 1 ? 's' : ''}` : 'Pas encore commencé'}</small></span></button>`).join('');
+  const avis = nouveaux.length ? `<div class="mx" style="padding:12px 14px;border-radius:12px;background:var(--card,#fff);border:1px solid var(--line,#dde);font-size:14px;line-height:1.45">${nouveaux.length > 1 ? `Tu n'as pas encore travaillé les chapitres ${nouveaux.map(c => c.num).join(', ').replace(/, (\d+)$/, ' et $1')}.` : `Tu n'as pas encore travaillé le chapitre ${nouveaux[0].num}.`} Commence par <a href="#/chapitre/${nouveaux[0].num}" style="color:var(--chTxt,var(--ch));font-weight:700">Travailler un chapitre</a>.</div>` : '';
   page(head('#/revisions', 'Révisions générales', 'Préparer un examen', 'DS, bac blanc ou bac') + `
   <div class="mx" style="display:flex;justify-content:space-between;align-items:center"><span class="label" style="margin:0">1. Choisis tes chapitres</span><button class="link-discret" style="text-decoration:none;color:var(--gen);font-weight:700" id="tout">${sel.length === ch.length ? 'Tout décocher' : 'Tout cocher'}</button></div>
   <div class="mx" style="display:flex;flex-direction:column;gap:8px">${rows}</div>
   <span class="label">2. Choisis ton entraînement</span>
-  ${sel.length ? big('gen compact', `#/cartes/examen/${sel.map(c => c.num).join(',')}`, ICON.cards, 'Flashcards', `${nb} cartes, les plus fragiles d'abord, par séries de ${SERIE_EXAMEN}, chapitres mélangés`) + big('genmid compact off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')
-    : '<p class="note">Coche au moins un chapitre.</p>'}`, 'accueil');
+  ${avis}
+  ${nb ? big('gen compact', `#/cartes/examen/${sel.map(c => c.num).join(',')}`, ICON.cards, 'Flashcards', `${nb} cartes, les plus fragiles d'abord, par séries de ${SERIE_EXAMEN}, chapitres mélangés`) + big('genmid compact off', '#', ICON.qcm, 'QCM', 'Bientôt disponible')
+    : sel.length ? '' : '<p class="note">Coche au moins un chapitre.</p>'}`, 'accueil');
   const garder = f => { const sc = APP.querySelector('.scroll'), y = window.scrollY, ys = sc ? sc.scrollTop : 0; f(); vExamen(); window.scrollTo(0, y); const sc2 = APP.querySelector('.scroll'); if (sc2) sc2.scrollTop = ys; };
   APP.querySelectorAll('[data-tog]').forEach(b => b.addEventListener('click', () => garder(() => { const n = +b.dataset.tog; S.examenSel.has(n) ? S.examenSel.delete(n) : S.examenSel.add(n); })));
   document.getElementById('tout').addEventListener('click', () => garder(() => { S.examenSel = sel.length === ch.length ? new Set() : new Set(ch.map(c => c.num)); }));
@@ -278,7 +282,7 @@ async function vCartes(kind, arg) {
     title = 'Mes cartes du jour'; sub = 'Tous chapitres'; back = '#/revisions'; backLabel = 'Révisions'; color = 'gen';
   } else if (kind === 'examen') {
     const nums = arg.split(',').map(Number);
-    const pool = (await Promise.all(nums.map(loadChap))).flat();
+    const pool = (await Promise.all(nums.map(loadChap))).flat().filter(x => S.suivi[x.id]);
     cards = melanger(parFragilite(pool).slice(0, SERIE_EXAMEN));
     S.examPool = { pool, faites: new Set(cards.map(x => x.id)) };
     title = 'Préparer un examen'; sub = 'Ch. ' + nums.join(', '); back = '#/examen'; backLabel = 'Examen'; color = 'gen';
