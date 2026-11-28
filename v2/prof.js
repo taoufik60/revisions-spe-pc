@@ -25,6 +25,9 @@ function pageProf(html, tab) {
   APP.innerHTML = `<div class="scroll">${html}</div>` + (tab === false ? '' : navProf(tab));
   window.scrollTo(0, 0);
 }
+/* garde la position de la page quand on redessine après un clic */
+const frais = () => P.el && Date.now() - P.charge < 60000;
+const surPlaceP = async f => { const y = window.scrollY, sc = APP.querySelector('.scroll'), ys = sc ? sc.scrollTop : 0; await f(); window.scrollTo(0, y); const sc2 = APP.querySelector('.scroll'); if (sc2) sc2.scrollTop = ys; };
 const attente = () => pageProf('<div style="flex:1;display:flex;align-items:center;justify-content:center;min-height:60vh"><span class="spin"></span></div>', false);
 const classe = () => P.classes.find(c => c.id === P.classeId);
 const nomEl = e => e.prenom ? `${esc(e.prenom)} <small class="ident">${esc(e.identifiant)}</small>` : esc(e.identifiant);
@@ -251,7 +254,7 @@ function exporterCSV() {
    ===================================================================== */
 async function vProfEleves(filtre) {
   if (filtre) P.filtre = filtre;
-  attente(); await charger();
+  if (!frais()) attente(); await charger();
   const filtres = [['tous', 'Tous'], ['relancer', 'À suivre'], ['decroches', 'Décrochés'], ['reguliers', 'Réguliers']];
   const ok = e => { const c = statut(e).c; return P.filtre === 'tous' || (P.filtre === 'relancer' && c !== 'vert') || (P.filtre === 'decroches' && c === 'rouge') || (P.filtre === 'reguliers' && c === 'vert'); };
   const q = P.cherche.toLowerCase();
@@ -265,7 +268,7 @@ async function vProfEleves(filtre) {
     <span class="body"><span class="tt">${nomEl(e)}</span><span class="meta">${esc(st.t)}${tempsSemaine(e.eleve_id) ? ` · ${duree(tempsSemaine(e.eleve_id))} cette semaine` : ''}</span></span>
     <span class="jauge" title="Séances cette semaine"><b>${e.s0}</b>/${obj}</span>${ICON.chev}</a>`).join('') || '<p class="note">Aucun élève dans cette catégorie.</p>'}</div>
   <p class="note">Le chiffre à droite : séances cette semaine / objectif.</p>`, 'eleves');
-  APP.querySelectorAll('[data-f]').forEach(b => b.onclick = () => surPlace(() => vProfEleves(b.dataset.f)));
+  APP.querySelectorAll('[data-f]').forEach(b => b.onclick = () => surPlaceP(() => vProfEleves(b.dataset.f)));
   const c = document.getElementById('cherche');
   c.oninput = () => { P.cherche = c.value; clearTimeout(c._t); c._t = setTimeout(async () => { await vProfEleves(); const n = document.getElementById('cherche'); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }, 250); };
 }
@@ -494,7 +497,7 @@ async function vProfReglages(sous) {
 }
 
 async function vRegChapitres() {
-  attente(); await charger();
+  if (!frais()) attente(); await charger();
   if (!P.regOuv) P.regOuv = new Set();
   const tout = S.idxComplet || S.idx;
   const rows = tout.chapitres.map(c => {
@@ -511,9 +514,9 @@ async function vRegChapitres() {
     const n = +b.dataset.ch, on = !P.cc.has(n);
     const { error } = await sb.from('classe_chapitres').upsert({ classe_id: P.classeId, chapter_id: n, active: on, activated_at: on ? new Date().toISOString() : null });
     if (error) return toast('Enregistrement impossible.');
-    on ? P.cc.add(n) : P.cc.delete(n); surPlace(vRegChapitres);
+    on ? P.cc.add(n) : P.cc.delete(n); surPlaceP(vRegChapitres);
   });
-  APP.querySelectorAll('[data-dep]').forEach(b => b.onclick = () => { const n = +b.dataset.dep; P.regOuv.has(n) ? P.regOuv.delete(n) : P.regOuv.add(n); surPlace(vRegChapitres); });
+  APP.querySelectorAll('[data-dep]').forEach(b => b.onclick = () => { const n = +b.dataset.dep; P.regOuv.has(n) ? P.regOuv.delete(n) : P.regOuv.add(n); surPlaceP(vRegChapitres); });
   APP.querySelectorAll('[data-part]').forEach(b => b.onclick = async () => {
     if (!P.partiesOK) return toast('Collez d\'abord le script mise_a_jour_3.sql dans Supabase.');
     const slug = b.dataset.part, masquer = !P.masq.has(slug);
@@ -522,7 +525,7 @@ async function vRegChapitres() {
     const q = sb.from('classe_parties_masquees');
     const { error } = masquer ? await q.insert({ classe_id: P.classeId, slug }) : await q.delete().eq('classe_id', P.classeId).eq('slug', slug);
     if (error) return toast('Enregistrement impossible.');
-    masquer ? P.masq.add(slug) : P.masq.delete(slug); masquerParties(P.masq); surPlace(vRegChapitres);
+    masquer ? P.masq.add(slug) : P.masq.delete(slug); masquerParties(P.masq); surPlaceP(vRegChapitres);
   });
 }
 
