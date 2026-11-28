@@ -4,6 +4,7 @@
 
 const P = { classes: [], classeId: null, el: null, cartes: null, cc: null, suivi: null, charge: 0, filtre: 'tous', cherche: '', proj: null };
 const IC = {
+  horloge: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   groupe: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></svg>',
   eleves: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.6c3 .1 5.5 1.9 5.5 5.4"/></svg>',
   reglages: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
@@ -69,11 +70,33 @@ async function charger(force) {
       if (data.length < 1000) break; from += 1000;
     }
   }
+  P.act = [];
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await sb.rpc('prof_activite', { p_classe: id }).range(from, from + 999);
+    if (error || !data) break; P.act.push(...data);
+    if (data.length < 1000) break;
+  }
   P.charge = Date.now();
   return true;
 }
 const chapOuverts = () => S.idx.chapitres.filter(c => P.cc.has(c.num));
 const objectif = () => classe()?.objectif_seances || 3;
+
+/* ---------- activité et temps de travail ---------- */
+const duree = sec => { const m = Math.round(sec / 60); return m < 60 ? `${m} min` : `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')}`; };
+const lundiDe = j => { const d = new Date(j + 'T12:00:00Z'), w = (d.getUTCDay() + 6) % 7; d.setUTCDate(d.getUTCDate() - w); return d.toISOString().slice(0, 10); };
+const jourPlus = (j, n) => { const d = new Date(j + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const jourFr = (j, opt = { weekday: 'long', day: 'numeric', month: 'long' }) => new Date(j + 'T12:00:00Z').toLocaleDateString('fr-FR', { ...opt, timeZone: 'UTC' });
+const heureFr = t => new Date(t).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' }).replace(':', ' h ');
+const tempsDe = id => (P.act || []).filter(t => t.eleve_id === id);
+const somme = (l, k = 'secondes') => l.reduce((a, t) => a + t[k], 0);
+const tempsSemaine = id => { const l = lundiDe(auj()); return somme(tempsDe(id).filter(t => t.jour >= l)); };
+/* résumé d'une journée pour un élève */
+function jourEleve(id, j) {
+  const l = (P.act || []).filter(t => t.eleve_id === id && t.jour === j);
+  if (!l.length) return null;
+  return { sec: somme(l), cartes: somme(l, 'cartes'), chaps: [...new Set(l.map(t => t.chapitre))].filter(Boolean).sort((a, b) => a - b), der: l.map(t => t.derniere).sort().pop() };
+}
 
 /* ---------- statut d'un élève (phrase simple + couleur) ---------- */
 function statut(e) {
@@ -108,6 +131,8 @@ async function vProfAccueil() {
   const top = cartesRatees()[0], carteTop = top ? await carteDe(top.carte_id) : null;
   const choixClasse = P.classes.length > 1 ? `<select id="selClasse" class="sel-classe" aria-label="Classe">${P.classes.map(c => `<option value="${c.id}" ${c.id === P.classeId ? 'selected' : ''}>${esc(c.nom)}</option>`).join('')}</select>` : `<span class="pill-classe">${esc(cl.nom)}</span>`;
   const lignes = [];
+  const a0 = auj(), duJour = P.el.map(e => jourEleve(e.eleve_id, a0)).filter(Boolean);
+  if (n) lignes.push(`<a class="alerte" href="#/prof/activite/jour"><span class="dot ${duJour.length ? 'vert' : 'orange'}"></span><span>Aujourd'hui : <b>${duJour.length} / ${n}</b> ont travaillé${duJour.length ? ` · ${duree(somme(duJour, 'sec'))} au total` : ''}</span>${ICON.chev}</a>`);
   if (!n) lignes.push(`<a class="alerte" href="#/prof/reglages/comptes"><span class="dot orange"></span><span>Aucun compte élève : <b>créez les comptes</b> de la classe.</span>${ICON.chev}</a>`);
   else {
     lignes.push(rouge + orange
@@ -125,6 +150,7 @@ async function vProfAccueil() {
   <div class="tuiles mx">
     ${tuile('gen', '#/prof/groupe', IC.groupe, 'Le groupe', 'Régularité et progression de la classe')}
     ${tuile('gen', '#/prof/eleves', IC.eleves, 'Les élèves', n ? `${pluriel(n, 'élève')}, ${rouge + orange} à suivre` : 'Aucun élève')}
+    ${tuile('gen', '#/prof/activite/jour', IC.horloge, 'Activité', 'Qui a travaillé, combien de temps')}
     ${tuile('ch', '#/prof/chapitres', ICON.book, 'Les chapitres', `${pluriel(P.cc.size, 'chapitre ouvert', 'chapitres ouverts')}`)}
   </div>
   <a class="link-discret" href="#/accueil" style="align-self:center">Voir l'application comme un élève</a>`, 'accueil');
@@ -236,7 +262,7 @@ async function vProfEleves(filtre) {
   <div class="mx outils"><label class="field" style="flex:1">${ICON.search}<input id="cherche" placeholder="Chercher un élève" value="${esc(P.cherche)}"></label></div>
   <div class="chips mx">${filtres.map(([k, l]) => `<button class="chip ${P.filtre === k ? 'on' : ''}" data-f="${k}">${l}</button>`).join('')}</div>
   <div class="mx liste-el">${liste.map(({ e, st }) => `<a class="item el" href="#/prof/eleve/${e.eleve_id}"><span class="dot ${st.c}" title="${LIB[st.c]}"></span>
-    <span class="body"><span class="tt">${nomEl(e)}</span><span class="meta">${esc(st.t)}</span></span>
+    <span class="body"><span class="tt">${nomEl(e)}</span><span class="meta">${esc(st.t)}${tempsSemaine(e.eleve_id) ? ` · ${duree(tempsSemaine(e.eleve_id))} cette semaine` : ''}</span></span>
     <span class="jauge" title="Séances cette semaine"><b>${e.s0}</b>/${obj}</span>${ICON.chev}</a>`).join('') || '<p class="note">Aucun élève dans cette catégorie.</p>'}</div>
   <p class="note">Le chiffre à droite : séances cette semaine / objectif.</p>`, 'eleves');
   APP.querySelectorAll('[data-f]').forEach(b => b.onclick = () => surPlace(() => vProfEleves(b.dataset.f)));
@@ -268,6 +294,7 @@ async function vProfEleve(id) {
     <section class="panel"><b class="ptitre">Cartes</b>
       ${kpi(e.acquises, 'cartes maîtrisées')}${kpi(e.a_consolider, 'cartes à consolider')}${kpi(e.vues, 'cartes déjà vues')}</section>
   </div>
+  <a class="row-link mx" href="#/prof/temps/${e.eleve_id}"><span><b>Temps de travail</b><small>${duree(tempsSemaine(id))} cette semaine · ${duree(somme(tempsDe(id)))} depuis le début</small></span>${ICON.chev}</a>
   <section class="panel mx"><b class="ptitre">Maîtrise par chapitre</b>
     <p class="petit legende"><span class="l acq"></span>maîtrisées <span class="l cours"></span>en cours <span class="l cons"></span>à consolider</p>
     ${lignesChap || '<p class="petit">Aucun chapitre ouvert.</p>'}</section>
@@ -292,6 +319,81 @@ async function vProfEleve(id) {
     if (error) return toast('Impossible de créer un nouveau code.');
     alert(`Nouveau code de ${nomElTxt(e)} : ${data}\n\nNotez-le maintenant : il ne sera plus affiché.`);
   };
+}
+
+/* =====================================================================
+   ACTIVITÉ : qui a travaillé, combien de temps
+   ===================================================================== */
+async function vProfActivite(onglet = 'jour', date) {
+  attente(); await charger();
+  const a = auj(), n = P.el.length;
+  const ong = [['jour', 'Jour'], ['semaine', 'Semaine'], ['total', 'Depuis le début']];
+  const tabs = `<div class="chips mx">${ong.map(([k, l]) => `<a class="chip ${onglet === k ? 'on' : ''}" href="#/prof/activite/${k}">${l}</a>`).join('')}</div>`;
+  const nav = (prec, suiv, lib) => `<div class="nav-jour mx"><a class="btn-nav" href="${prec}" aria-label="Précédent">‹</a><b>${lib}</b>${suiv ? `<a class="btn-nav" href="${suiv}" aria-label="Suivant">›</a>` : '<span class="btn-nav off">›</span>'}</div>`;
+  const ligne = (e, meta, droite) => `<a class="item el" href="#/prof/eleve/${e.eleve_id}"><span class="body"><span class="tt">${nomEl(e)}</span><span class="meta"><span>${meta}</span></span></span><span class="jauge">${droite}</span>${ICON.chev}</a>`;
+  let corps = '';
+  if (onglet === 'semaine') {
+    const l = lundiDe(date || a), jours = Array.from({ length: 7 }, (_, i) => jourPlus(l, i));
+    const lib = l === lundiDe(a) ? 'Cette semaine' : `Semaine du ${jourFr(l, { day: 'numeric', month: 'long' })}`;
+    const rows = P.el.map(e => { const t = tempsDe(e.eleve_id).filter(x => x.jour >= l && x.jour <= jours[6]); return { e, sec: somme(t), cartes: somme(t, 'cartes'), j: jours.map(j => somme(t.filter(x => x.jour === j))) }; }).sort((x, y) => y.sec - x.sec);
+    const actifs = rows.filter(r => r.sec), max = Math.max(900, ...rows.flatMap(r => r.j));
+    const mini = r => `<span class="mini7" title="Lundi → dimanche">${r.j.map(v => `<span style="height:${v ? Math.max(12, pct(v, max)) : 4}%" class="${v ? '' : 'vide'}"></span>`).join('')}</span>`;
+    corps = nav(`#/prof/activite/semaine/${jourPlus(l, -7)}`, l < lundiDe(a) ? `#/prof/activite/semaine/${jourPlus(l, 7)}` : '', lib) + `
+    <div class="kpis mx">${kpi(`${actifs.length}<small>/${n}</small>`, 'élèves ont travaillé')}${kpi(duree(somme(rows, 'sec')), 'de travail au total')}${kpi(actifs.length ? duree(somme(actifs, 'sec') / actifs.length) : '–', 'en moyenne par élève actif')}</div>
+    <div class="mx liste-el">${rows.map(r => ligne(r.e, r.sec ? `${pluriel(r.cartes, 'carte')} · ${mini(r)}` : 'Pas de travail cette semaine', r.sec ? `<b>${duree(r.sec)}</b>` : '–')).join('') || '<p class="note">Aucun élève.</p>'}</div>
+    <p class="note">Les petites barres : chaque jour du lundi au dimanche.</p>`;
+  } else if (onglet === 'total') {
+    const rows = P.el.map(e => { const t = tempsDe(e.eleve_id); return { e, sec: somme(t), cartes: somme(t, 'cartes') }; }).sort((x, y) => y.sec - x.sec);
+    const parChap = {}; (P.act || []).forEach(x => parChap[x.chapitre] = (parChap[x.chapitre] || 0) + x.secondes);
+    const chs = S.idx.chapitres.filter(c => parChap[c.num]), maxC = Math.max(1, ...chs.map(c => parChap[c.num]));
+    corps = `<div class="kpis mx">${kpi(duree(somme(rows, 'sec')), 'de travail pour la classe')}${kpi(n ? duree(somme(rows, 'sec') / n) : '–', 'en moyenne par élève')}</div>
+    <div class="mx liste-el">${rows.map(r => ligne(r.e, r.sec ? pluriel(r.cartes, 'carte faite', 'cartes faites') : 'Pas encore de travail', r.sec ? `<b>${duree(r.sec)}</b>` : '–')).join('') || '<p class="note">Aucun élève.</p>'}</div>
+    <section class="panel mx"><b class="ptitre">Par chapitre</b><p class="petit">Temps total de la classe depuis le début.</p>
+      ${chs.length ? chs.map(c => `<div class="maitrise"><div class="m-lab"><b>Ch. ${c.num}</b> ${esc(c.titre)}</div><div class="m-barre"><span class="acq" style="width:${pct(parChap[c.num], maxC)}%"></span></div><div class="m-val" style="white-space:nowrap">${duree(parChap[c.num])}</div></div>`).join('') : '<p class="petit">Aucune activité pour le moment.</p>'}</section>`;
+  } else {
+    onglet = 'jour';
+    const j = date && date <= a ? date : a;
+    const lib = j === a ? "Aujourd'hui" : j === jourPlus(a, -1) ? 'Hier' : jourFr(j).replace(/^./, c => c.toUpperCase());
+    const rows = P.el.map(e => ({ e, r: jourEleve(e.eleve_id, j) }));
+    const oui = rows.filter(x => x.r).sort((x, y) => y.r.sec - x.r.sec), non = rows.filter(x => !x.r);
+    corps = nav(`#/prof/activite/jour/${jourPlus(j, -1)}`, j < a ? `#/prof/activite/jour/${jourPlus(j, 1)}` : '', lib) + `
+    <div class="kpis mx">${kpi(`${oui.length}<small>/${n}</small>`, 'élèves ont travaillé')}${kpi(duree(somme(oui.map(x => x.r), 'sec')), 'de travail au total')}</div>
+    <div class="mx liste-el">${oui.map(({ e, r }) => ligne(e, `${pluriel(r.cartes, 'carte')}${r.chaps.length ? ` · Ch. ${r.chaps.join(', ')}` : ''} · ${heureFr(r.der)}`, `<b>${duree(r.sec)}</b>`)).join('') || '<p class="note">Personne n\'a travaillé ce jour-là.</p>'}</div>
+    ${non.length && oui.length ? `<details class="panel mx repli"><summary><b>${pluriel(non.length, "élève n'a", "élèves n'ont")} pas travaillé</b></summary><div class="noms">${non.map(({ e }) => `<a href="#/prof/eleve/${e.eleve_id}">${e.prenom ? esc(e.prenom) : esc(e.identifiant)}</a>`).join('')}</div></details>` : ''}
+    <p class="note">À droite : temps de travail. L'heure est celle de la dernière carte.</p>`;
+  }
+  pageProf(head('#/prof', 'Accueil', 'Activité', esc(classe().nom)) + tabs + corps + `<p class="note">Temps calculé à partir des réponses : chaque carte compte jusqu'à la suivante, 2 minutes au plus ; les pauses ne sont pas comptées.</p>`, 'accueil');
+}
+
+/* ---------- temps de travail d'un élève ---------- */
+async function vProfTemps(id) {
+  attente(); await charger();
+  const e = P.el.find(x => x.eleve_id === id); if (!e) return vProfEleves();
+  const t = tempsDe(id), a = auj(), l = lundiDe(a);
+  const parJour = {}; t.forEach(x => parJour[x.jour] = (parJour[x.jour] || 0) + x.secondes);
+  const total = somme(t);
+  const jours = Array.from({ length: 14 }, (_, i) => jourPlus(a, i - 13));
+  const maxJ = Math.max(600, ...jours.map(j => parJour[j] || 0));
+  const nomJ = j => jourFr(j, { weekday: 'narrow' }) + '<br>' + +j.slice(8);
+  const debut = lundiDe([...(P.act || []).map(x => x.jour), '2026-09-01'].sort()[0]);
+  const semaines = []; for (let w = debut; w <= l; w = jourPlus(w, 7)) semaines.push(w);
+  const sem = w => somme(t.filter(x => lundiDe(x.jour) === w));
+  const n = P.el.length || 1;
+  const moyClasse = w => somme((P.act || []).filter(x => lundiDe(x.jour) === w)) / n;
+  const maxS = Math.max(900, ...semaines.map(w => Math.max(sem(w), moyClasse(w))));
+  const parChap = {}; t.forEach(x => parChap[x.chapitre] = (parChap[x.chapitre] || 0) + x.secondes);
+  const chs = S.idx.chapitres.filter(c => parChap[c.num] || P.cc.has(c.num));
+  const maxC = Math.max(1, ...chs.map(c => parChap[c.num] || 0));
+  pageProf(head(`#/prof/eleve/${id}`, e.prenom ? esc(e.prenom) : esc(e.identifiant), 'Temps de travail', e.prenom ? esc(e.identifiant) : '') + `
+  <div class="kpis mx">${kpi(duree(parJour[a] || 0), 'aujourd\'hui')}${kpi(duree(somme(t.filter(x => x.jour >= l))), 'cette semaine')}${kpi(duree(total), 'depuis le début')}</div>
+  <section class="panel mx"><b class="ptitre">Par jour</b><p class="petit">Les 14 derniers jours, en minutes. Aujourd'hui à droite.</p>
+    <div class="barres jours">${jours.map(j => `<div class="barre-col"><div class="barre-val">${parJour[j] ? Math.round(parJour[j] / 60) : ''}</div><div class="barre" style="height:${parJour[j] ? Math.max(4, pct(parJour[j], maxJ)) : 0}%"></div><div class="barre-lab">${nomJ(j)}</div></div>`).join('')}</div></section>
+  <section class="panel mx"><b class="ptitre">Par semaine</b><p class="petit">En minutes, depuis le début de l'année. Le trait pointillé : moyenne de la classe.</p>
+    <div class="defile"><div class="barres semaines" style="min-width:${semaines.length * 46}px">${semaines.map(w => `<div class="barre-col"><div class="barre-val">${sem(w) ? Math.round(sem(w) / 60) : ''}</div><div class="barre-zone"><div class="barre" style="height:${sem(w) ? Math.max(3, pct(sem(w), maxS)) : 0}%"></div><div class="moy" style="bottom:${pct(moyClasse(w), maxS)}%"></div></div><div class="barre-lab">${+w.slice(8)}/${+w.slice(5, 7)}</div></div>`).join('')}</div></div></section>
+  <section class="panel mx"><b class="ptitre">Par chapitre</b><p class="petit">Temps passé depuis le début.</p>
+    ${chs.length ? chs.map(c => `<div class="maitrise"><div class="m-lab"><b>Ch. ${c.num}</b> ${esc(c.titre)}</div><div class="m-barre"><span class="acq" style="width:${pct(parChap[c.num] || 0, maxC)}%"></span></div><div class="m-val" style="white-space:nowrap">${duree(parChap[c.num] || 0)}</div></div>`).join('') : '<p class="petit">Aucune activité pour le moment.</p>'}</section>
+  <p class="note">Temps calculé à partir des réponses : chaque carte compte jusqu'à la suivante, 2 minutes au plus ; les pauses ne sont pas comptées.</p>`, 'eleves');
+  const df = APP.querySelector('.defile'); if (df) requestAnimationFrame(() => requestAnimationFrame(() => { df.scrollLeft = df.scrollWidth; }));
 }
 
 /* =====================================================================
@@ -490,6 +592,8 @@ ROUTES.prof = async (sous, a, b) => {
     case 'chapitre': return vProfChapitre(a);
     case 'projection': return vProfProjection(a, b);
     case 'reglages': return vProfReglages(a);
+    case 'activite': return vProfActivite(a, b);
+    case 'temps': return vProfTemps(a);
     default: return vProfAccueil();
   }
 };

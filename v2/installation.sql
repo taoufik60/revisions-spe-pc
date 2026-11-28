@@ -280,6 +280,28 @@ create policy parties_eleve on classe_parties_masquees for select to authenticat
 grant select, insert, delete on classe_parties_masquees to authenticated;
 revoke all on classe_parties_masquees from anon;
 
+-- Activité des élèves (page « Activité » du prof) : par élève, jour et chapitre,
+-- temps de travail estimé, nombre de cartes faites et heure de la dernière réponse.
+-- Temps : chaque réponse compte pour le temps écoulé jusqu'à la suivante, 2 minutes au plus ;
+-- après une pause de plus de 5 minutes (ou en fin de séance), on compte 20 secondes.
+create or replace function prof_activite(p_classe uuid)
+returns table (eleve_id uuid, jour date, chapitre int, secondes int, cartes int, derniere timestamptz)
+language sql stable security definer set search_path = public as $$
+  with r as (
+    select x.eleve_id, x.carte_id, x.cree_le,
+           lead(x.cree_le) over (partition by x.eleve_id order by x.cree_le) as suivante
+      from carte_reponses x join eleves e on e.id = x.eleve_id
+     where e.classe_id = p_classe and est_prof_de(p_classe))
+  select eleve_id, (cree_le at time zone 'Europe/Paris')::date,
+         coalesce(substring(carte_id from '^ch(\d+)-')::int, 0),
+         sum(case when suivante is null or suivante - cree_le > interval '5 minutes' then 20
+                  else least(extract(epoch from suivante - cree_le), 120) end)::int,
+         count(*)::int, max(cree_le)
+    from r group by 1, 2, 3;
+$$;
+revoke all on function prof_activite(uuid) from public, anon;
+grant execute on function prof_activite(uuid) to authenticated;
+
 grant select, insert, update, delete on classes, eleves, classe_chapitres to authenticated;
 grant select on carte_suivi, carte_reponses to authenticated;
 revoke all on profs, classes, eleves, classe_chapitres, carte_suivi, carte_reponses from anon;

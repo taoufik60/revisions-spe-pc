@@ -308,3 +308,28 @@ nav.tabs.t4 { grid-template-columns: repeat(4, 1fr); }
 /* Couleurs des étapes de mémorisation (distinctes, de l'ambre au vert) */
 :root { --et-decouverte: #9AA6B8; --et-cours: #E3A33B; --et-retenue: #6FBF8F; --et-maitrisee: #2A8A57; }
 [data-mode="dark"] { --et-decouverte: #7D889B; --et-cours: #E8AE4F; --et-retenue: #6CC08E; --et-maitrisee: #3BA56C; }
+
+/* Activité et temps de travail */
+.barres.jours { gap: 4px; height: 130px; }
+.barres.jours .barre-lab { font-size: 11px; min-height: 2.6em; }
+.barres.jours .barre-val { font-size: 12px; }
+.defile { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.barres.semaines { gap: 6px; height: 160px; }
+.barre-zone { position: relative; flex: 1; width: 100%; max-width: 70px; display: flex; align-items: flex-end; }
+.barre-zone .barre { width: 100%; }
+.moy { position: absolute; left: -3px; right: -3px; border-top: 2px dashed var(--muted2); }
+.barres.semaines .barre-col { justify-content: flex-end; }
+.barres.semaines .barre-lab { font-size: 11px; min-height: 1.4em; }
+a.chip { display: inline-flex; align-items: center; text-decoration: none; }
+.nav-jour { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 16px; }
+.btn-nav { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--card); border: 1px solid var(--line); color: var(--ink); font-size: 24px; line-height: 1; text-decoration: none; }
+.btn-nav.off { opacity: .35; }
+.mini7 { display: inline-flex; align-items: flex-end; gap: 2px; height: 16px; vertical-align: middle; margin-left: 4px; }
+.mini7 span { width: 6px; border-radius: 2px; background: var(--gen); }
+.mini7 span.vide { background: var(--line); }
+.repli summary { cursor: pointer; list-style: none; }
+.repli summary::-webkit-details-marker { display: none; }
+.repli summary::after { content: ' ▾'; color: var(--muted2); }
+.repli[open] summary::after { content: ' ▴'; }
+.noms { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.noms a { color: var(--ink); font-size: 14px; }
