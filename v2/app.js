@@ -50,6 +50,13 @@ const surPlace = f => { const y = window.scrollY; f(); window.scrollTo(0, y); };
 const big = (cls, href, icon, title, sub, extra = '') => `<a class="big ${cls} mx" href="${href}" ${extra}><span class="row"><span class="ic">${icon}</span><span class="t">${title}</span><span class="go">${ICON.go}</span></span>${sub ? `<span class="s">${sub}</span>` : ''}</a>`;
 
 /* ---------- contenu ---------- */
+/* parties masquées par le prof pour la classe : on les retire de l'index affiché */
+function masquerParties(masq) {
+  S.masquees = masq;
+  const c0 = S.idxComplet || S.idx;
+  S.idxComplet = c0;
+  S.idx = { ...c0, chapitres: c0.chapitres.map(c => ({ ...c, parties: c.parties.filter(p => !masq.has(p.slug)) })).filter(c => c.parties.length) };
+}
 const chapitres = () => S.idx.chapitres.filter(c => S.apercu || S.ouverts.includes(c.num));
 const chap = n => S.idx.chapitres.find(c => c.num === +n);
 const partInfo = slug => { for (const c of S.idx.chapitres) for (const p of c.parties) if (p.slug === slug) return { c, p }; return null; };
@@ -263,7 +270,9 @@ function vExamen() {
 /* ---------- séance de cartes ---------- */
 async function vCartes(kind, arg) {
   let cards = [], title = '', sub = '', back = '#/accueil', backLabel = 'Accueil', color = 'ch';
+  if ((kind === 'chapitre' || (kind === 'difficiles' && arg !== 'tous')) && !chap(arg)) return vAccueil();
   if (kind === 'partie') {
+    if (!partInfo(arg)) return vAccueil();
     const { c, p } = partInfo(arg), tout = await loadPart(arg), se = seriesPartie(p);
     cards = se.ids.map(id => tout.find(x => x.id === id)).filter(Boolean);
     title = p.titre; sub = se.nb > 1 ? `Série ${se.k + 1} / ${se.nb}` : (c.parties.length > 1 ? `Partie ${c.parties.indexOf(p) + 1} / ${c.parties.length}` : `Ch. ${c.num}`);
@@ -281,7 +290,7 @@ async function vCartes(kind, arg) {
     cards = entrelacer(parFragilite((await loadAll()).filter(x => aRevoir(x.id))).slice(0, MAX_RETARD));
     title = 'Mes cartes du jour'; sub = 'Tous chapitres'; back = '#/revisions'; backLabel = 'Révisions'; color = 'gen';
   } else if (kind === 'examen') {
-    const nums = arg.split(',').map(Number);
+    const nums = arg.split(',').map(Number).filter(n => chap(n));
     const pool = (await Promise.all(nums.map(loadChap))).flat().filter(x => S.suivi[x.id]);
     cards = melanger(parFragilite(pool).slice(0, SERIE_EXAMEN));
     S.examPool = { pool, faites: new Set(cards.map(x => x.id)) };
@@ -352,6 +361,7 @@ function drawCarte() {
 
 /* ---------- consulter ---------- */
 async function vConsulter(slug) {
+  if (!partInfo(slug)) return vAccueil();
   const { p } = partInfo(slug), cards = await loadPart(slug);
   if (!S.consult || S.consult.slug !== slug) S.consult = { slug, q: '', open: 0, shown: false };
   const k = S.consult, norm = x => x.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/<[^>]+>/g, ' ');
@@ -522,7 +532,7 @@ async function demarrer() {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) return vLogin();
   const [idxR, elR] = await Promise.all([fetch('contenu/index.json').then(r => r.json()), sb.from('eleves').select('*').eq('user_id', session.user.id).maybeSingle()]);
-  S.idx = idxR; S.eleve = elR.data || null;
+  S.idx = idxR; S.idxComplet = idxR; S.eleve = elR.data || null;
   if (!S.eleve) {
     let { data: prof } = await sb.from('profs').select('id,nom').eq('id', session.user.id).maybeSingle();
     if (!prof && sessionStorage.getItem('pclab_init_prof')) {
@@ -539,6 +549,7 @@ async function demarrer() {
     try { const { data: cl } = await sb.from('classes').select('message,message_le').eq('id', S.eleve.classe_id).maybeSingle(); S.message = cl && cl.message ? cl : null; } catch (e) { }
     const { data: cc } = await sb.from('classe_chapitres').select('chapter_id').eq('classe_id', S.eleve.classe_id).eq('active', true);
     S.ouverts = (cc || []).map(x => +x.chapter_id);
+    try { const { data: pm, error } = await sb.from('classe_parties_masquees').select('slug').eq('classe_id', S.eleve.classe_id); if (!error) masquerParties(new Set((pm || []).map(x => x.slug))); } catch (e) { }
     let from = 0;
     for (;;) {
       const { data, error } = await sb.from('carte_suivi').select('*').eq('eleve_id', S.eleve.id).range(from, from + 999);

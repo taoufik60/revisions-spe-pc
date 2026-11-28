@@ -52,6 +52,10 @@ async function charger(force) {
   const [el, ca, cc] = await Promise.all([
     sb.rpc('prof_eleves', { p_classe: id }), sb.rpc('prof_cartes', { p_classe: id }),
     sb.from('classe_chapitres').select('chapter_id,active').eq('classe_id', id)]);
+  const pm = await sb.from('classe_parties_masquees').select('slug').eq('classe_id', id);
+  P.partiesOK = !pm.error;
+  P.masq = new Set((pm.data || []).map(x => x.slug));
+  masquerParties(P.masq);
   P.el = (el.data || []).filter(e => e.actif);
   P.cartes = {}; (ca.data || []).forEach(r => P.cartes[r.carte_id] = r);
   P.cc = new Set((cc.data || []).filter(x => x.active).map(x => +x.chapter_id));
@@ -389,13 +393,34 @@ async function vProfReglages(sous) {
 
 async function vRegChapitres() {
   attente(); await charger();
-  const rows = S.idx.chapitres.map(c => `<button class="check ${P.cc.has(c.num) ? 'on' : ''}" data-ch="${c.num}"><span class="box">${P.cc.has(c.num) ? ICON.ok : ''}</span><span style="flex:1;display:flex;flex-direction:column"><b style="font-size:15px">Ch. ${c.num} · ${esc(c.titre)}</b><small style="color:var(--muted)">${pluriel(idsChap(c).length, 'carte')}</small></span></button>`).join('');
-  pageProf(head('#/prof/reglages', 'Réglages', 'Chapitres ouverts', 'Ouvrez chaque chapitre quand il a été vu en classe') + `<div class="mx liste-chk">${rows}</div>`, 'reglages');
+  if (!P.regOuv) P.regOuv = new Set();
+  const tout = S.idxComplet || S.idx;
+  const rows = tout.chapitres.map(c => {
+    const ouvert = P.cc.has(c.num), plusieurs = c.parties.length > 1;
+    const vis = c.parties.filter(p => !P.masq.has(p.slug)).length, deplie = P.regOuv.has(c.num);
+    const nbCartes = c.parties.filter(p => !P.masq.has(p.slug)).reduce((n, p) => n + idsPart(p).length, 0);
+    const parties = ouvert && plusieurs ? `<button class="parties-tog ${deplie ? 'deplie' : ''}" data-dep="${c.num}"><span>Parties : <b>${vis} sur ${c.parties.length}</b> visible${vis > 1 ? 's' : ''}</span>${ICON.chev}</button>
+      ${deplie ? `<div class="parties-liste">${c.parties.map((p, k) => { const v = !P.masq.has(p.slug); return `<button class="check mini ${v ? 'on' : ''}" data-part="${p.slug}"><span class="box">${v ? ICON.ok : ''}</span><span style="flex:1;display:flex;flex-direction:column"><b style="font-size:14px">${k + 1}. ${esc(p.titre)}</b><small style="color:var(--muted)">${v ? 'Visible' : 'Masquée'} · ${pluriel(idsPart(p).length, 'carte')}</small></span></button>`; }).join('')}</div>` : ''}` : '';
+    return `<div class="bloc-ch"><button class="check ${ouvert ? 'on' : ''}" data-ch="${c.num}"><span class="box">${ouvert ? ICON.ok : ''}</span><span style="flex:1;display:flex;flex-direction:column"><b style="font-size:15px">Ch. ${c.num} · ${esc(c.titre)}</b><small style="color:var(--muted)">${pluriel(ouvert ? nbCartes : idsChap(c).length, 'carte')}</small></span></button>${parties}</div>`;
+  }).join('');
+  const avert = P.partiesOK ? '' : '<p class="petit mx">Pour pouvoir masquer des parties, collez une fois le script <b>mise_a_jour_3.sql</b> dans Supabase.</p>';
+  pageProf(head('#/prof/reglages', 'Réglages', 'Chapitres ouverts', 'Ouvrez chaque chapitre quand il a été vu en classe') + avert + `<p class="petit mx" style="margin-top:0;margin-bottom:0">Dans un chapitre ouvert, vous pouvez masquer des parties pour le moment : la progression des élèves est conservée.</p><div class="mx liste-chk">${rows}</div>`, 'reglages');
   APP.querySelectorAll('[data-ch]').forEach(b => b.onclick = async () => {
     const n = +b.dataset.ch, on = !P.cc.has(n);
     const { error } = await sb.from('classe_chapitres').upsert({ classe_id: P.classeId, chapter_id: n, active: on, activated_at: on ? new Date().toISOString() : null });
     if (error) return toast('Enregistrement impossible.');
     on ? P.cc.add(n) : P.cc.delete(n); surPlace(vRegChapitres);
+  });
+  APP.querySelectorAll('[data-dep]').forEach(b => b.onclick = () => { const n = +b.dataset.dep; P.regOuv.has(n) ? P.regOuv.delete(n) : P.regOuv.add(n); surPlace(vRegChapitres); });
+  APP.querySelectorAll('[data-part]').forEach(b => b.onclick = async () => {
+    if (!P.partiesOK) return toast('Collez d\'abord le script mise_a_jour_3.sql dans Supabase.');
+    const slug = b.dataset.part, masquer = !P.masq.has(slug);
+    const c = tout.chapitres.find(x => x.parties.some(p => p.slug === slug));
+    if (masquer && c.parties.every(p => p.slug === slug || P.masq.has(p.slug))) return toast('Gardez au moins une partie visible, ou fermez le chapitre.');
+    const q = sb.from('classe_parties_masquees');
+    const { error } = masquer ? await q.insert({ classe_id: P.classeId, slug }) : await q.delete().eq('classe_id', P.classeId).eq('slug', slug);
+    if (error) return toast('Enregistrement impossible.');
+    masquer ? P.masq.add(slug) : P.masq.delete(slug); masquerParties(P.masq); surPlace(vRegChapitres);
   });
 }
 

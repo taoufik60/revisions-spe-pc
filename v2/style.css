@@ -144,6 +144,14 @@ a { color: inherit; }
 .check.on { border-color: var(--gen); background: var(--selbg); }
 .box { width: 26px; height: 26px; border-radius: 8px; border: 2px solid #B8C1D1; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .check.on .box { background: var(--gen); border-color: var(--gen); }
+.bloc-ch { display: flex; flex-direction: column; gap: 6px; }
+.parties-tog { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-left: 24px; padding: 8px 12px; border: none; border-radius: 10px; background: var(--soft2); color: var(--muted); font: inherit; font-size: 14px; text-align: left; }
+.parties-tog b { color: var(--ink); }
+.parties-tog .chev { transition: transform .15s; }
+.parties-tog.deplie .chev { transform: rotate(90deg); }
+.parties-liste { display: flex; flex-direction: column; gap: 6px; margin-left: 24px; }
+.check.mini { min-height: 50px; padding: 8px 12px; border-width: 1.5px; }
+.check.mini .box { width: 22px; height: 22px; border-radius: 7px; }
 .err { color: #A3361C; font-size: 14px; min-height: 20px; margin: 0; }
 .preview { background: #FCF0D6; color: #6B4A06; font-size: 13px; text-align: center; padding: 6px 12px; }
 
